@@ -18,12 +18,16 @@ Cần root bằng KernelSU hoặc Magisk. Root kiểu "magica" không cần unlo
 
 ## Cài đặt
 
-1. Cài `y700_perf_tuner-<version>.zip` trong KernelSU (hoặc Magisk), rồi reboot.
+1. Tải `y700_perf_tuner-<version>.zip` ở trang
+   [Releases](https://github.com/terius395/y700-game-space-boost/releases), cài trong KernelSU
+   (hoặc Magisk), rồi reboot.
 2. Mở module trong KernelSU để vào giao diện chỉnh (WebUI).
 3. Trên máy khác Gen4: chọn mức xung rồi bấm **Lưu & áp dụng** để module sinh cấu hình từ
    file của máy bạn.
 
-Cập nhật module: cài đè zip mới. Cài đặt đang dùng được giữ nguyên.
+Cập nhật: từ v0.4.2, KernelSU/Magisk tự báo khi có bản mới, bấm cập nhật ngay trong danh sách
+module. Bản cũ hơn thì cài đè zip mới một lần. Cài đặt đang dùng luôn được giữ nguyên. Thay đổi
+từng bản ở [CHANGELOG.md](CHANGELOG.md).
 
 ## Dùng
 
@@ -66,7 +70,9 @@ npm run gen      # sinh thử cấu hình từ config/tuning.json và in thay đ
 | `lib/perfgen.js` | Bộ sinh cấu hình, dùng chung cho Node và WebUI |
 | `config/tuning.json` | Cài đặt mặc định đóng vào zip |
 | `stock/` | Cấu hình gốc của Gen4 (firmware 1.1.11.073), dùng để build và test |
-| `tools/` | `build-module.js` (đóng zip), `gen.js` (sinh thử) |
+| `tools/` | `build-module.js` (đóng zip, sinh `update.json`), `gen.js` (sinh thử) |
+| `update.json` | Thông tin bản mới nhất cho KernelSU/Magisk, do `npm run build` sinh ra |
+| `CHANGELOG.md` | Thay đổi từng bản, KernelSU hiện khi báo cập nhật |
 | `tests/` | Test cho `lib/perfgen.js` |
 | `docs/MODULE.md` | Tài liệu kỹ thuật |
 

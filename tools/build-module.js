@@ -5,7 +5,8 @@
  *   + stock/ configs + system/etc/performanceconfig.xml generated from config/tuning.json
  *
  * Usage: node tools/build-module.js [tuning.json]   (or: npm run build)
- * Output: dist/y700_perf_tuner-<version>.zip, version taken from module/module.prop
+ * Output: dist/y700_perf_tuner-<version>.zip, version taken from module/module.prop,
+ *         and update.json (the update feed module.prop's updateJson points at)
  * Needs only Node.js 18+.
  */
 'use strict';
@@ -132,6 +133,32 @@ function zipDir(dir, zipPath) {
   fs.writeFileSync(zipPath, Buffer.concat([...local, centralBuf, end]));
 }
 
+function parseProp(text) {
+  const prop = {};
+  for (const line of text.split(/\r?\n/)) {
+    const i = line.indexOf('=');
+    if (i > 0) prop[line.slice(0, i).trim()] = line.slice(i + 1).trim();
+  }
+  return prop;
+}
+
+// KernelSU/Magisk read this from the repo's raw URL (module.prop updateJson);
+// zipUrl is the asset of the GitHub release tagged with the module version.
+function writeUpdateJson(prop, zipName) {
+  const m = /^https:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)\/update\.json$/.exec(prop.updateJson || '');
+  if (!m) return null;
+  const [, owner, repo, branch] = m;
+  const feed = {
+    version: prop.version,
+    versionCode: Number(prop.versionCode),
+    zipUrl: `https://github.com/${owner}/${repo}/releases/download/${prop.version}/${zipName}`,
+    changelog: `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/CHANGELOG.md`,
+  };
+  const out = path.join(ROOT, 'update.json');
+  fs.writeFileSync(out, JSON.stringify(feed, null, 2) + '\n');
+  return out;
+}
+
 function main() {
   const tuningPath = process.argv[2] || path.join(ROOT, 'config', 'tuning.json');
   const stockPerf = fs.readFileSync(path.join(ROOT, 'stock', 'performanceconfig.xml'), 'utf8');
@@ -158,13 +185,16 @@ function main() {
   fs.writeFileSync(path.join(metaDir, 'update-binary'), UPDATE_BINARY);
   fs.writeFileSync(path.join(metaDir, 'updater-script'), '#MAGISK\n');
 
-  const version = /version=(.+)/.exec(fs.readFileSync(path.join(STAGE, 'module.prop'), 'utf8'))[1].trim();
-  const zipPath = path.join(DIST, `y700_perf_tuner-${version}.zip`);
+  const prop = parseProp(fs.readFileSync(path.join(STAGE, 'module.prop'), 'utf8'));
+  const zipName = `y700_perf_tuner-${prop.version}.zip`;
+  const zipPath = path.join(DIST, zipName);
   fs.rmSync(zipPath, { force: true });
   zipDir(STAGE, zipPath);
+  const feed = writeUpdateJson(prop, zipName);
 
   console.log(`config version ${result.version}, ${result.stats.changed} entries changed`);
   console.log(`built ${path.relative(ROOT, zipPath)}`);
+  if (feed) console.log(`wrote ${path.relative(ROOT, feed)}`);
 }
 
 main();

@@ -227,13 +227,25 @@ Trong log, dòng `TGAME/QcomPerfLock: param : [...]` là danh sách opcode/giá 
 
 ```sh
 npm test         # tests/perfgen.test.js, không cần dependency
-npm run build    # dist/y700_perf_tuner-<version>.zip, version lấy từ module/module.prop
+npm run build    # dist/y700_perf_tuner-<version>.zip + update.json, version lấy từ module/module.prop
 npm run gen      # sinh thử config với config/tuning.json, in thay đổi cho PUBG
 ```
 
 Build chỉ cần Node.js ≥ 18 (tự đóng zip, timestamp cố định). Zip đi kèm `stock/` của Gen4 và một
 config đã sinh từ `config/tuning.json`; `stock.md5` cho `customize.sh` biết config đi kèm có khớp
 firmware của máy không.
+
+### Phát hành bản mới
+
+KernelSU/Magisk đọc `update.json` trên nhánh `main` (URL ở `updateJson` trong `module.prop`), so
+`versionCode` với bản đang cài rồi tải `zipUrl`, là file zip đính kèm GitHub Release có tag trùng
+`version`.
+
+1. Tăng `version` và `versionCode` trong `module/module.prop`, thêm mục vào `CHANGELOG.md`.
+2. `npm test && npm run build`: build ra zip và sinh lại `update.json`.
+3. Commit, push, rồi **tạo ngay** Release tag `<version>` (ví dụ `v0.4.2`) và đính kèm
+   `dist/y700_perf_tuner-<version>.zip`. Tên file phải giữ nguyên vì `zipUrl` trỏ đúng tên đó.
+   Trong lúc push xong mà chưa có Release, máy nào kiểm tra cập nhật sẽ tải lỗi 404.
 
 ## 10. Hỗ trợ thiết bị khác (ví dụ Y700 Gen5)
 
