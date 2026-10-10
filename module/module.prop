@@ -1,7 +1,7 @@
 id=y700_perf_tuner
 name=Y700 Perf Tuner
-version=v0.4.2
-versionCode=9
+version=v0.4.3
+versionCode=10
 author=Terius
 description=Chỉnh xung CPU/GPU cho các chế độ Game Assistant trên Legion Y700.
 updateJson=https://raw.githubusercontent.com/terius395/y700-game-space-boost/main/update.json

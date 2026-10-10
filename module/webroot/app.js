@@ -43,6 +43,7 @@ const state = {
   saved: null, draft: null, mode: 'balance', tempPath: '', busy: false,
   needsSave: false, // the running config came from another firmware and must be regenerated
   minOpen: {}, // per mode: whether "Xung tối thiểu" stays expanded across re-renders
+  refApp: 'default', // game whose Lenovo values are shown next to each field
 };
 
 // ---------- helpers ----------
@@ -115,7 +116,7 @@ function sameTuning(a, b) {
 
 // Lenovo's value for the coolest tier of the reference game, so users can compare.
 function stockValue(modeIndex, type, idx) {
-  const app = state.apps.find((a) => a.pkg === document.getElementById('ref-app').value);
+  const app = state.apps.find((a) => a.pkg === state.refApp);
   const tiers = app && app.modes[modeIndex];
   const pos = state.order.indexOf(type);
   const triple = tiers && tiers[0] && state.limits[type] && state.limits[type][tiers[0].ids[pos]];
@@ -193,6 +194,82 @@ function presetValues(preset) {
   return out;
 }
 
+// ---------- option sheet ----------
+
+// A native <select> in the KernelSU WebView opens Android's own dialog, which ignores the
+// page theme. Options open in a bottom sheet drawn by the page instead.
+let sheetTimer;
+
+function openSheet(title, options, value, onPick) {
+  const root = document.getElementById('sheet');
+  const list = document.getElementById('sheet-list');
+  document.getElementById('sheet-title').textContent = title;
+  list.innerHTML = '';
+  let selected = null;
+  options.forEach((o) => {
+    const isSelected = o.value === value;
+    const row = el('button', {
+      class: 'option', role: 'option', 'aria-selected': String(isSelected),
+      onclick: () => { closeSheet(); onPick(o.value); },
+    }, [
+      el('span', { class: 'o-text' }, [
+        el('span', { class: 'o-label', text: o.label }),
+        o.detail ? el('span', { class: 'o-detail', text: o.detail }) : null,
+      ]),
+      ...(o.tags || []).map((t) => el('span', { class: 'tag', text: t })),
+      el('span', { class: 'o-check', text: isSelected ? '✓' : '' }),
+    ]);
+    row.disabled = !!o.disabled;
+    if (isSelected) selected = row;
+    list.appendChild(row);
+  });
+  clearTimeout(sheetTimer);
+  root.hidden = false;
+  document.body.classList.add('sheet-open');
+  void root.offsetHeight; // start the slide-in from the hidden position
+  root.classList.add('show');
+  list.scrollTop = 0;
+  if (selected) selected.scrollIntoView({ block: 'center' });
+  // the back button closes the sheet instead of leaving the WebUI
+  history.pushState({ sheet: true }, '');
+}
+
+function closeSheet() {
+  const root = document.getElementById('sheet');
+  if (!root.classList.contains('show')) return;
+  root.classList.remove('show');
+  document.body.classList.remove('sheet-open');
+  sheetTimer = setTimeout(() => { root.hidden = true; }, 200);
+  if (history.state && history.state.sheet) history.back();
+}
+
+function pickerButton(title, options, value, onPick) {
+  const current = options.find((o) => o.value === value) || options[0];
+  return el('button', {
+    class: 'picker', type: 'button', 'aria-haspopup': 'listbox', 'aria-label': title + ': ' + current.label,
+    onclick: () => openSheet(title, options, value, onPick),
+  }, [el('span', { class: 'p-label', text: current.label }), el('span', { class: 'chev', 'aria-hidden': 'true' })]);
+}
+
+// "Theo Lenovo" (no override) plus every hardware step, fastest first. stock is
+// Lenovo's value for the reference game; steps above ceiling (the chosen max, when
+// listing minimums) are shown but cannot be picked.
+function freqOptions(type, stock, ceiling) {
+  const gpu = type === 'GPU';
+  const stockFreq = gpu ? state.tables.GPU[stock] : stock;
+  const values = gpu ? state.tables.GPU.slice() : state.tables[type].slice().reverse();
+  return [{ value: '', label: 'Theo Lenovo', detail: 'Giữ mức Lenovo đặt cho từng game' }].concat(values.map((v, i) => {
+    const over = ceiling !== undefined && v > ceiling;
+    return {
+      value: String(v),
+      label: gpu ? v + ' MHz' : ghz(v),
+      detail: over ? 'Cao hơn xung tối đa' : '',
+      tags: [i === 0 && 'tối đa', v === stockFreq && 'Lenovo'].filter(Boolean),
+      disabled: over,
+    };
+  }));
+}
+
 // ---------- rendering ----------
 
 function renderTabs() {
@@ -222,28 +299,40 @@ function renderLiveTiles() {
   live.appendChild(tile('temp', 'Nhiệt độ máy'));
 }
 
-function freqSelect(type, key, modeCfg, onChange) {
-  const select = el('select', { onchange: () => onChange(select.value) });
-  select.add(new Option('Theo Lenovo', ''));
-  const values = type === 'GPU' ? state.tables.GPU.slice() : state.tables[type].slice().reverse();
-  values.forEach((v, i) => {
-    const label = (type === 'GPU' ? v + ' MHz' : ghz(v)) + (i === 0 ? ' · tối đa' : '');
-    select.add(new Option(label, v));
-  });
-  if (modeCfg[key] !== undefined) select.value = String(modeCfg[key]);
-  return select;
-}
-
-function fieldRow(label, type, key, idx, modeIndex, modeCfg) {
-  const select = freqSelect(type, key, modeCfg, (v) => {
-    if (v === '') delete modeCfg[key]; else modeCfg[key] = Number(v);
+// which: 'max' or 'min' field of group g.
+function fieldRow(label, g, which, modeIndex, cfg) {
+  const key = g[which];
+  const stock = stockValue(modeIndex, g.type, which === 'max' ? 0 : 1);
+  const title = g.name + ' · ' + (which === 'max' ? 'Xung tối đa' : 'Xung tối thiểu');
+  const options = freqOptions(g.type, stock, which === 'min' ? cfg[g.max] : undefined);
+  const value = cfg[key] === undefined ? '' : String(cfg[key]);
+  const button = pickerButton(title, options, value, (v) => {
+    if (v === '') delete cfg[key]; else cfg[key] = Number(v);
+    // the generator caps the minimum at the maximum; do it here so the page shows it
+    if (which === 'max' && cfg[g.max] !== undefined && cfg[g.min] > cfg[g.max]) {
+      cfg[g.min] = cfg[g.max];
+      toast('Đã hạ xung tối thiểu (' + g.name + ') xuống bằng xung tối đa.');
+    }
     renderPanel();
   });
-  const stock = stockValue(modeIndex, type, idx);
-  return el('label', { class: 'field' }, [
-    el('span', { text: label }), select,
-    el('span', { class: 'hint', text: 'Lenovo: ' + fmt(type, stock) }),
+  return el('div', { class: 'field' }, [
+    el('span', { text: label }), button,
+    el('span', { class: 'hint', text: 'Lenovo: ' + fmt(g.type, stock) }),
   ]);
+}
+
+function renderRefPicker() {
+  const options = state.apps.map((a) => (a.pkg === 'default'
+    ? { value: a.pkg, label: 'Game khác', detail: 'Không có trong danh sách Lenovo' }
+    : { value: a.pkg, label: a.name, detail: a.pkg }));
+  options.sort((a, b) => (b.value === 'default') - (a.value === 'default'));
+  const slot = document.getElementById('ref-app');
+  slot.innerHTML = '';
+  slot.appendChild(pickerButton('Game để so sánh', options, state.refApp, (v) => {
+    state.refApp = v;
+    renderRefPicker();
+    renderPanel();
+  }));
 }
 
 function toggleRow(title, desc, checked, warning, onChange) {
@@ -290,7 +379,7 @@ function renderPanel() {
   state.groups.forEach((g) => {
     panel.appendChild(el('div', { class: 'group' }, [
       el('div', { class: 'group-head' }, [el('span', { class: 'group-name', text: g.name }), el('span', { class: 'group-sub', text: g.sub })]),
-      fieldRow('Xung tối đa', g.type, g.max, 0, modeIndex, cfg),
+      fieldRow('Xung tối đa', g, 'max', modeIndex, cfg),
     ]));
   });
 
@@ -306,7 +395,7 @@ function renderPanel() {
     text: 'CPU tự chạy trong khoảng tối thiểu – tối đa tùy độ nặng của game. ' +
       'Nâng mức tối thiểu giúp phản hồi nhanh hơn nhưng tốn pin và nóng hơn.',
   }));
-  state.groups.forEach((g) => minor.appendChild(fieldRow(g.name, g.type, g.min, 1, modeIndex, cfg)));
+  state.groups.forEach((g) => minor.appendChild(fieldRow(g.name, g, 'min', modeIndex, cfg)));
   panel.appendChild(minor);
 
   // switches
@@ -504,14 +593,15 @@ async function init() {
   state.saved = normalize(tuning);
   state.draft = normalize(tuning);
 
-  const ref = document.getElementById('ref-app');
-  state.apps.forEach((a) => ref.add(new Option(a.pkg === 'default' ? 'Game khác (không có trong danh sách Lenovo)' : a.name + ' · ' + a.pkg, a.pkg)));
-  ref.value = 'default';
-  ref.addEventListener('change', renderPanel);
+  renderRefPicker();
 
   document.getElementById('apply').addEventListener('click', apply);
   document.getElementById('restore').addEventListener('click', restore);
   document.getElementById('resync').addEventListener('click', resync);
+  document.getElementById('sheet-close').addEventListener('click', closeSheet);
+  document.getElementById('sheet').addEventListener('click', (e) => { if (e.target === e.currentTarget) closeSheet(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
+  window.addEventListener('popstate', closeSheet);
 
   renderTabs();
   renderLiveTiles();

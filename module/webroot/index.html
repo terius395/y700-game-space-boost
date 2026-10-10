@@ -60,7 +60,42 @@
     .field { display: grid; grid-template-columns: 0.8fr 1.5fr; align-items: center; gap: 10px; margin: 6px 0; }
     .field span { font-size: 14px; }
     .field .hint { grid-column: 2; color: var(--muted); font-size: 12px; margin-top: -4px; }
-    select { width: 100%; min-height: 42px; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--text); font: inherit; }
+    .picker {
+      width: 100%; min-height: 44px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--line);
+      background: var(--bg); color: var(--text); font: inherit; text-align: left;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .picker:active { border-color: var(--accent); }
+    .picker .p-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .picker .chev { flex: none; width: 8px; height: 8px; margin: 0 4px 4px 0; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg); }
+
+    body.sheet-open { overflow: hidden; }
+    .sheet-backdrop {
+      position: fixed; inset: 0; z-index: 20; display: flex; align-items: flex-end; justify-content: center;
+      background: rgba(0,0,0,0); transition: background .2s;
+    }
+    .sheet-backdrop[hidden] { display: none; }
+    .sheet-backdrop.show { background: rgba(0,0,0,.45); }
+    .sheet {
+      width: 100%; max-width: 560px; max-height: 72vh; display: flex; flex-direction: column;
+      background: var(--card); border-radius: 20px 20px 0 0; padding-bottom: env(safe-area-inset-bottom);
+      transform: translateY(100%); transition: transform .2s ease-out;
+    }
+    .sheet-backdrop.show .sheet { transform: none; }
+    .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 16px 8px; font-weight: 600; }
+    .sheet-close { flex: none; width: 34px; height: 34px; border: 0; border-radius: 50%; background: var(--chip); color: var(--text); font: inherit; }
+    .sheet-list { overflow-y: auto; overscroll-behavior: contain; padding: 0 8px 12px; }
+    .option {
+      width: 100%; min-height: 48px; display: flex; align-items: center; gap: 8px; padding: 10px 12px;
+      border: 0; border-radius: 12px; background: transparent; color: var(--text); font: inherit; text-align: left;
+    }
+    .option[aria-selected="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+    .option:disabled { opacity: .4; }
+    .option .o-text { flex: 1; min-width: 0; }
+    .option .o-label { display: block; font-variant-numeric: tabular-nums; }
+    .option .o-detail { display: block; color: var(--muted); font-size: 12px; font-weight: 400; }
+    .option .o-check { flex: none; width: 18px; text-align: center; }
+    .tag { flex: none; padding: 2px 8px; border-radius: 999px; background: var(--chip); color: var(--muted); font-size: 11px; font-weight: 600; }
 
     details.minor { border-top: 1px solid var(--line); padding-top: 10px; margin-top: 4px; }
     details summary { cursor: pointer; color: var(--accent); font-weight: 600; font-size: 14px; padding: 4px 0; list-style: none; }
@@ -97,7 +132,7 @@
     .toast {
       position: fixed; left: 16px; right: 16px; bottom: calc(84px + env(safe-area-inset-bottom));
       background: var(--text); color: var(--bg); padding: 12px 14px; border-radius: 12px; font-size: 14px;
-      opacity: 0; transform: translateY(8px); transition: .25s; pointer-events: none;
+      opacity: 0; transform: translateY(8px); transition: .25s; pointer-events: none; z-index: 30;
     }
     .toast.show { opacity: 1; transform: none; }
     .toast.error { background: var(--danger); color: #fff; }
@@ -131,9 +166,19 @@
     <summary>Tùy chọn nâng cao</summary>
     <div class="adv-row">
       <span class="muted">Hiển thị giá trị Mặc định Lenovo theo game</span>
-      <select id="ref-app"></select>
+      <div id="ref-app"></div>
     </div>
   </details>
+
+  <div class="sheet-backdrop" id="sheet" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+      <div class="sheet-head">
+        <span id="sheet-title"></span>
+        <button class="sheet-close" id="sheet-close" aria-label="Đóng">✕</button>
+      </div>
+      <div class="sheet-list" role="listbox" id="sheet-list"></div>
+    </div>
+  </div>
 
   <div class="bar">
     <button class="ghost" id="restore">Khôi phục gốc</button>
