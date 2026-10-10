@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Y700 Perf Tuner</title>
+  <style>
+    :root {
+      --bg: #f3f4f7; --card: #ffffff; --text: #15181d; --muted: #6b7280; --line: #e5e7eb;
+      --accent: #2563eb; --accent-soft: #e0e9ff; --ok: #15803d; --ok-soft: #dcfce7;
+      --warn: #b45309; --warn-soft: #fef3c7; --danger: #b91c1c; --chip: #eef0f4;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0e1014; --card: #171a20; --text: #e8eaee; --muted: #9aa3b2; --line: #272b33;
+        --accent: #6ea0ff; --accent-soft: #1d2a45; --ok: #4ade80; --ok-soft: #14301f;
+        --warn: #fbbf24; --warn-soft: #3a2c0c; --danger: #f87171; --chip: #232731;
+      }
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      padding: max(16px, env(safe-area-inset-top)) 16px calc(96px + env(safe-area-inset-bottom));
+    }
+    h1 { font-size: 20px; margin: 0; }
+    .title-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+    .ver { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+    .sub { color: var(--muted); margin: 2px 0 12px; font-size: 13px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
+    .muted { color: var(--muted); font-size: 13px; margin: 6px 0 0; }
+    .note { color: var(--muted); font-size: 12px; margin: 10px 0 0; border-top: 1px solid var(--line); padding-top: 10px; }
+
+    .status-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .badge { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; padding: 6px 12px; border-radius: 999px; background: var(--chip); }
+    .badge.ok { background: var(--ok-soft); color: var(--ok); }
+    .badge.warn { background: var(--warn-soft); color: var(--warn); }
+
+    .model-warn { background: var(--warn-soft); color: var(--warn); font-size: 13px; padding: 10px 12px; border-radius: 12px; margin: 0 0 12px; }
+    .live { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .stat .label { display: block; color: var(--muted); font-size: 12px; }
+    .stat .value { display: block; font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .stat .range { display: block; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+
+    .tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; background: var(--chip); padding: 4px; border-radius: 14px; margin-bottom: 12px; }
+    .tab { border: 0; background: transparent; color: var(--muted); padding: 10px 4px; border-radius: 10px; font: inherit; font-weight: 600; line-height: 1.2; }
+    .tab small { display: block; font-weight: 400; font-size: 11px; }
+    .tab[aria-selected="true"] { background: var(--card); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+
+    .mode-desc { margin: 0 0 12px; color: var(--muted); font-size: 13px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+    .chip { border: 1px solid var(--line); background: var(--chip); color: var(--text); padding: 8px 14px; border-radius: 999px; font: inherit; font-size: 14px; }
+    .chip.active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+    .chip.custom { cursor: default; }
+
+    .group { padding: 12px 0; border-top: 1px solid var(--line); }
+    .group-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 8px; }
+    .group-name { font-weight: 600; }
+    .group-sub { color: var(--muted); font-size: 12px; }
+    .field { display: grid; grid-template-columns: 0.8fr 1.5fr; align-items: center; gap: 10px; margin: 6px 0; }
+    .field span { font-size: 14px; }
+    .field .hint { grid-column: 2; color: var(--muted); font-size: 12px; margin-top: -4px; }
+    select { width: 100%; min-height: 42px; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--text); font: inherit; }
+
+    details.minor { border-top: 1px solid var(--line); padding-top: 10px; margin-top: 4px; }
+    details summary { cursor: pointer; color: var(--accent); font-weight: 600; font-size: 14px; padding: 4px 0; list-style: none; }
+    details summary::-webkit-details-marker { display: none; }
+    details summary::after { content: " ▾"; }
+    details[open] summary::after { content: " ▴"; }
+
+    .toggle { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; padding: 12px 0; border-top: 1px solid var(--line); }
+    .toggle .t-title { font-weight: 600; }
+    .toggle .t-desc { grid-column: 1; color: var(--muted); font-size: 12px; }
+    .toggle .warn-text { grid-column: 1 / -1; background: var(--warn-soft); color: var(--warn); font-size: 12px; padding: 8px 10px; border-radius: 10px; }
+    .switch { position: relative; width: 50px; height: 30px; grid-row: 1 / span 2; grid-column: 2; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .switch .slider { position: absolute; inset: 0; background: var(--line); border-radius: 999px; transition: .2s; }
+    .switch .slider::before { content: ""; position: absolute; width: 24px; height: 24px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: .2s; box-shadow: 0 1px 2px rgba(0,0,0,.3); }
+    .switch input:checked + .slider { background: var(--accent); }
+    .switch input:checked + .slider::before { transform: translateX(20px); }
+
+    .adv-row { display: grid; gap: 6px; margin-top: 12px; }
+
+    .bar {
+      position: fixed; left: 0; right: 0; bottom: 0; display: flex; gap: 10px;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: var(--bg);
+      background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px);
+      border-top: 1px solid var(--line);
+    }
+    .bar button { min-height: 48px; border-radius: 12px; font: inherit; font-weight: 600; border: 0; white-space: nowrap; padding: 0 12px; }
+    .primary { flex: 1.6; background: var(--accent); color: #fff; }
+    .primary:disabled { background: var(--chip); color: var(--muted); }
+    .ghost { flex: 1; background: transparent; color: var(--danger); border: 1px solid var(--line) !important; }
+    .link { background: none; border: 0; color: var(--accent); font: inherit; font-weight: 600; padding: 6px 0; }
+
+    .toast {
+      position: fixed; left: 16px; right: 16px; bottom: calc(84px + env(safe-area-inset-bottom));
+      background: var(--text); color: var(--bg); padding: 12px 14px; border-radius: 12px; font-size: 14px;
+      opacity: 0; transform: translateY(8px); transition: .25s; pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: none; }
+    .toast.error { background: var(--danger); color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="title-row">
+    <h1>Y700 Perf Tuner</h1>
+    <span class="ver" id="module-meta"></span>
+  </div>
+  <p class="sub">Tùy chỉnh xung cho các chế độ của Game Assistant</p>
+
+  <section class="card">
+    <div class="status-row">
+      <span class="badge" id="status-badge">Đang kiểm tra…</span>
+      <button class="link" id="resync" hidden>Áp dụng lại</button>
+    </div>
+    <p class="muted" id="status-text"></p>
+    <p class="note">Cài đặt được lưu và tự áp dụng lại mỗi khi khởi động máy, không cần bấm gì thêm.
+      Chọn chế độ trong thanh bên Game Assistant như bình thường.</p>
+  </section>
+
+  <p class="model-warn" id="model-warn" hidden></p>
+
+  <section class="card live" id="live"></section>
+
+  <nav class="tabs" role="tablist" id="tabs"></nav>
+  <section class="card" id="mode-panel"></section>
+
+  <details class="card">
+    <summary>Tùy chọn nâng cao</summary>
+    <div class="adv-row">
+      <span class="muted">Hiển thị giá trị Mặc định Lenovo theo game</span>
+      <select id="ref-app"></select>
+    </div>
+  </details>
+
+  <div class="bar">
+    <button class="ghost" id="restore">Khôi phục gốc</button>
+    <button class="primary" id="apply" disabled>Đã lưu</button>
+  </div>
+  <div class="toast" id="toast"></div>
+
+  <script src="perfgen.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

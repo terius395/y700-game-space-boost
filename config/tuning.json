@@ -1,0 +1,12 @@
+{
+  "version": "auto",
+  "scaleHotTiers": true,
+  "modes": {
+    "balance": {
+      "bigMax": 3072000,
+      "megaMax": 3513600
+    },
+    "powersave": {},
+    "beast": {}
+  }
+}

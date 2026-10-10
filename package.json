@@ -1,0 +1,14 @@
+{
+  "name": "y700-perf-tuner",
+  "private": true,
+  "description": "KernelSU/Magisk module that tunes CPU/GPU limits of Lenovo Game Assistant performance modes. Module version lives in module/module.prop.",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "node tools/build-module.js",
+    "test": "node tests/perfgen.test.js",
+    "gen": "node tools/gen.js stock/performanceconfig.xml stock/game_policy.xml config/tuning.json dist/performanceconfig.xml com.tencent.ig"
+  }
+}

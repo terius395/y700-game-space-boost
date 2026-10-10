@@ -1,0 +1,22 @@
+# build output (npm run build / npm run gen)
+dist/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# editors / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# local captures and scratch files
+*.log
+*.tmp
+out/
+
+# portable Go toolchain + garble (installed by the build setup)
+.tools/

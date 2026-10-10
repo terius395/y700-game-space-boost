@@ -1,0 +1,8 @@
+# Module files run on Android: keep LF everywhere, whatever core.autocrlf says.
+* text=auto eol=lf
+
+# Lenovo stock configs must stay byte-identical (stock.md5 is checked on install).
+stock/*.xml -text
+
+*.png binary
+*.zip binary

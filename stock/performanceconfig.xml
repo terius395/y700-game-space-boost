@@ -1,0 +1,3791 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PerformanceConfig model="Kirby-PRC" version="20241022">
+    <!-- 需要监控的状态节点定义。
+         状态节点文件目录不固定，需要通过扫描指定目录，根据标记文件内容，找到节点所在目录
+         name : 节点名称
+         rootpath : 节点搜索的根目录
+         statefilename : 状态节点文件名
+         typefilename : 标记类型的文件名
+         typevalue : 标记字符串
+         maxdeepth : 最大搜索子目录深度 -->
+    <StateFile name = "thermal.backthermal_zone"
+        rootpath = "/sys/class/thermal"
+        statefilename = "temp"
+        typefilename="type"
+        typevalue="user_front_temp"
+        maxdeepth="1">
+    </StateFile>
+    <StateFile name = "thermal.thermal_zone"
+        rootpath = "/sys/class/thermal"
+        statefilename = "temp"
+        typefilename="type"
+        typevalue="user_front_temp"
+        maxdeepth="1">
+    </StateFile>
+
+    <!--需要设置策略的节点定义。
+        default表示设备默认值，
+        optimize表示需要策略生效时写入的值-->
+    <NodeFile type = "mpctl"
+        name = "mpctl"
+        rootpath = "/sys/devices/system/cpu/cpu0/rq-stats"
+        default = "0">
+    </NodeFile>
+    <NodeFile type = "schctl"
+        name = "schctl"
+        rootpath = "/sys/devices/system/cpu/cpu0/rq-stats"
+        default = "000">
+    </NodeFile>
+    <NodeFile type = "governor"
+        name = "cpu0freq_governor"
+        rootpath = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor"
+        default = "walt"
+        optimize = "performance">
+    </NodeFile>
+    <NodeFile type = "governor"
+        name = "cpu2freq_governor"
+        rootpath = "/sys/devices/system/cpu/cpu2/cpufreq/scaling_governor"
+        default = "walt"
+        optimize = "performance">
+    </NodeFile>
+    <NodeFile type = "governor"
+        name = "cpu5freq_governor"
+        rootpath = "/sys/devices/system/cpu/cpu5/cpufreq/scaling_governor"
+        default = "walt"
+        optimize = "performance">
+    </NodeFile>
+    <NodeFile type = "governor"
+        name = "cpu7freq_governor"
+        rootpath = "/sys/devices/system/cpu/cpu7/cpufreq/scaling_governor"
+        default = "walt"
+        optimize = "performance">
+    </NodeFile>
+
+    <!--NodeFile type = "memory"
+        name = "ddr_boost"
+        rootpath = "/sys/devices/system/cpu/bus_dcvs/DDR/boost_freq"
+        default = "547000"
+        optimize = "4224000">
+    </NodeFile>
+    <NodeFile type = "memory"
+        name = "ddr_soc:qcom,memlat:ddr:gold-compute"
+        rootpath = "/sys/devices/system/cpu/bus_dcvs/DDR/soc:qcom,memlat:ddr:gold-compute/min_freq"
+        default = "547000"
+        optimize = "2092000">
+    </NodeFile-->
+<!-- MPCTLV3_BUS_DCVS_DDR_GOLD_COMPUTE_MAX_FREQ 0x4346C000-->
+<!-- MPCTLV3_BUS_DCVS_DDR_LAT_MINFREQ_GOLD 0x43488000-->
+
+    <!--NodeFile type = "memory"
+        name = "ddr_soc:qcom,memlat:ddr:prime"
+        rootpath = "/sys/devices/system/cpu/bus_dcvs/DDR/soc:qcom,memlat:ddr:prime/min_freq"
+        default = "547000"
+        optimize = "4224000">
+    </NodeFile>
+    <NodeFile type = "memory"
+        name = "ddr_soc:qcom,memlat:ddr:prime-latfloor"
+        rootpath = "/sys/devices/system/cpu/bus_dcvs/DDR/soc:qcom,memlat:ddr:prime-latfloor/min_freq"
+        default = "547000"
+        optimize = "4224000">
+    </NodeFile>
+    <NodeFile type = "memory"
+        name = "ddr_soc:qcom,memlat:ddr:silver"
+        rootpath = "/sys/devices/system/cpu/bus_dcvs/DDR/soc:qcom,memlat:ddr:silver/min_freq"
+        default = "547000"
+        optimize = "1555000">
+    </NodeFile>
+    <NodeFile type = "memory"
+        name = "l3_boost"
+        rootpath = "/sys/devices/system/cpu/bus_dcvs/L3/boost_freq"
+        default = "364800"
+        optimize = "2035200">
+    </NodeFile>
+    <NodeFile type = "memory"
+        name = "l3_soc:qcom,memlat:l3:gold"
+        rootpath = "/sys/devices/system/cpu/bus_dcvs/L3/soc:qcom,memlat:l3:gold/min_freq"
+        default = "307200"
+        optimize = "2035200">
+    </NodeFile-->
+<!--MPCTLV3_BUS_DCVS_L3_MEMLAT_MIN_FREQ_GOLD 0x43480000-->
+    <!--NodeFile type = "memory"
+        name = "l3_soc:qcom,memlat:l3:silver"
+        rootpath = "/sys/devices/system/cpu/bus_dcvs/L3/soc:qcom,memlat:l3:silver/min_freq"
+        default = "307200"
+        optimize = "2035200">
+    </NodeFile>
+    <NodeFile type = "memory"
+        name = "l3_soc:qcom,memlat:l3:prime"
+        rootpath = "/sys/devices/system/cpu/bus_dcvs/L3/soc:qcom,memlat:l3:prime/min_freq"
+        default = "307200"
+        optimize = "2035200">
+    </NodeFile-->
+<!--MPCTLV3_BUS_DCVS_L3_MEMLAT_MIN_FREQ_PRIME 0x43458000-->
+    <!--NodeFile type = "memory"
+        name = "l3_soc:qcom,memlat:l3:prime-compute"
+        rootpath = "/sys/devices/system/cpu/bus_dcvs/L3/soc:qcom,memlat:l3:prime-compute/min_freq"
+        default = "307200"
+        optimize = "2035200">
+    </NodeFile>
+    <NodeFile type = "memory"
+        name = "llcc_boost"
+        rootpath = "/sys/devices/system/cpu/bus_dcvs/LLCC/boost_freq"
+        default = "300000"
+        optimize = "1066000">
+    </NodeFile>
+    <NodeFile type = "memory"
+        name = "llcc_240b7400.qcom,bwmon-llcc"
+        rootpath = "/sys/devices/system/cpu/bus_dcvs/LLCC/240b7400.qcom,bwmon-llcc/min_freq"
+        default = "300000"
+        optimize = "806000">
+    </NodeFile>
+    <NodeFile type = "memory"
+        name = "llcc_soc:qcom,memlat:llcc:gold"
+        rootpath = "/sys/devices/system/cpu/bus_dcvs/LLCC/soc:qcom,memlat:llcc:gold/min_freq"
+        default = "300000"
+        optimize = "1066000">
+    </NodeFile-->
+<!--MPCTLV3_BUS_DCVS_LLCC_MEMLAT_MIN_FREQ_GOLD 0x4348C000-->
+    <!--NodeFile type = "memory"
+        name = "llcc_soc:qcom,memlat:llcc:silver"
+        rootpath = " "
+        default = "300000"
+        optimize = "600000">
+    </NodeFile-->
+<!--MPCTLV3_BUS_DCVS_LLCC_MEMLAT_MIN_FREQ_SILVER 0x4345C000-->
+    <!--NodeFile type = "memory"
+        name = "llcc_soc:qcom,memlat:llcc:gold-compute"
+        rootpath = "/sys/devices/system/cpu/bus_dcvs/LLCC/soc:qcom,memlat:llcc:gold-compute/min_freq"
+        default = "300000"
+        optimize = "600000">
+    </NodeFile-->
+<!--MPCTLV3_BUS_DCVS_LLCC_GOLD_COMPUTE_MAX_FREQ 0x43470000-->
+    <!--NodeFile type = "memory"
+        name = "ubwcp_boost"
+        rootpath = "/sys/devices/system/cpu/bus_dcvs/UBWCP/boost_freq"
+        default = "547000"
+        optimize = "4224000">
+    </NodeFile>
+    <NodeFile type = "memory"
+        name = "ubwcp_240b5300.qcom,bwmon-ubwcp"
+        rootpath = "/sys/devices/system/cpu/bus_dcvs/UBWCP/240b5300.qcom,bwmon-ubwcp/min_freq"
+        default = "547000"
+        optimize = "710000">
+    </NodeFile-->
+
+    <AvailableCPUCoreMask>
+        <CoreMask value = "0x07" type = "LIGHT"/>
+        <CoreMask value = "0xf8" type = "HEAVY"/>
+    </AvailableCPUCoreMask>
+
+    <AvailableRefreshRateListForSettings>
+    <!-- old project, please contact zhaozh9 for patch -->
+    <!--RefreshRate value = "144" str = "144"/--><!-- 固定144Hz, 显示144Hz-->
+    <!--RefreshRate value = "120" str = "120"/--><!-- 固定120Hz, 显示120Hz-->
+    <!--RefreshRate value = "90" str = "90"/--><!-- 固定90Hz, 显示90Hz-->
+    <!--RefreshRate value = "60" str = "60"/--><!-- 固定60Hz, 显示60Hz-->
+    <!--RefreshRate value = "-1" str = "auto"/--><!-- 旧版智能刷新率, 显示智能刷新率-->
+
+    <!-- new project, no fixed refeshrate-->
+    <RefreshRate value = "120" str = "medium" show = "165"/><!-- 普通情况下 top 120, 显示智能高刷-->
+    <RefreshRate value = "144" str = "high" show = "165"/><!-- 普通情况下 top 144, 显示极致高刷-->
+    <RefreshRate value = "60" str = "low" show = "60"/><!-- 普通情况下 top 60，显示普通刷新率-->
+    </AvailableRefreshRateListForSettings>
+
+    <!-- settings below this rate, does not support high refresh -->
+    <SupportHighRefreshLowestRate>120</SupportHighRefreshLowestRate>
+    <!-- high refresh apps apply this refresh rate -->
+    <HighRefreshRateForUserSettingWhiteList>165</HighRefreshRateForUserSettingWhiteList>
+
+    <!-- when user set this for settings rate, some competitive games apply high refresh rate -->
+    <SupportHighRefreshGameSettingsRate>144</SupportHighRefreshGameSettingsRate>
+    <!-- some competitive games apply this rate when supportHignRefreshGameSettingsRate is on -->
+    <HighRefreshRateForCompetitiveGames>165</HighRefreshRateForCompetitiveGames>
+    <!-- white list of competitive games which apply high refresh rate -->
+    <CompetitiveGameList>
+        <Game pkg = "com.tencent.tmgp.pubgmhd"/><!--和平精英-->
+        <Game pkg = "com.miHoYo.Yuanshen"/><!--原神-->
+        <Game pkg = "com.tencent.jkchess"/><!--金铲铲之战-->
+        <Game pkg = "com.tencent.tmgp.sgame"/><!--王者荣耀-->
+        <Game pkg = "com.tencent.ig"/><!--PUBG Mobile-->
+        <Game pkg = "com.tencent.tmgp.cod"/><!--使命召唤-->
+        <Game pkg = "com.tencent.tmgp.gnyx"/><!--高能英雄-->
+        <Game pkg = "com.tencent.lolm"/><!--英雄联盟-->
+        <Game pkg = "com.tencent.tmgp.cf"/><!--穿越火线-->
+        <Game pkg = "XXXX"/><!--LOL-->
+    </CompetitiveGameList>
+
+    <AvailableRefreshRateList>
+        <RefreshRate value = "165"/>
+        <RefreshRate value = "144"/>
+        <RefreshRate value = "90"/>
+        <RefreshRate value = "120"/>
+        <RefreshRate value = "60"/>
+    </AvailableRefreshRateList>
+
+    <PowerSaveLowRefreshRate>30</PowerSaveLowRefreshRate>
+
+    <PerformanceTypeList>
+        <Item name = "Full">
+            <PerfLockConfig code = "0x40800100" param = "2265600"/><!--minLittleCore-->
+            <PerfLockConfig code = "0x40800000" param = "3532800"/><!--minBigCore-->
+            <PerfLockConfig code = "0x40800300" param = "2956800"/><!--minTitanCore-->
+            <PerfLockConfig code = "0x40800200" param = "4320000"/><!--minMegaCore-->
+            <PerfLockConfig code = "0x4280C000" param = "1100000"/><!--minGPUFreq-->
+            <PerfLockConfig code = "0x42804000" param = "0"/><!--minPowerLevel-->
+
+            <PerfLockConfig code = "0x43458000" param = "2035200"/><!--MPCTLV3_BUS_DCVS_L3_MEMLAT_MIN_FREQ_PRIME-->
+            <PerfLockConfig code = "0x43480000" param = "2035200"/><!--MPCTLV3_BUS_DCVS_L3_MEMLAT_MIN_FREQ_GOLD-->
+            <PerfLockConfig code = "0x4346C000" param = "2092000"/><!--MPCTLV3_BUS_DCVS_DDR_GOLD_COMPUTE_MAX_FREQ-->
+
+            <PerfLockConfig code = "0x4345C000" param = "600000"/><!--MPCTLV3_BUS_DCVS_LLCC_MEMLAT_MIN_FREQ_SILVER-->
+            <PerfLockConfig code = "0x4348C000" param = "1066000"/><!--MPCTLV3_BUS_DCVS_LLCC_MEMLAT_MIN_FREQ_GOLD-->
+            <!--PerfLockConfig code = "0x43460000" param = "1066000"/--><!--MPCTLV3_BUS_DCVS_LLCC_DDR_LAT_MINFREQ_SILVER-->
+            <!--PerfLockConfig code = "0x43484000" param = "1066000"/--><!--MPCTLV3_BUS_DCVS_LLCC_DDR_LAT_MINFREQ_PRIME-->
+
+            <PerfLockConfig code = "0x43488000" param = "2092000"/><!--MPCTLV3_BUS_DCVS_DDR_LAT_MINFREQ_GOLD-->
+            <PerfLockConfig code = "0x43470000" param = "600000"/> <!--MPCTLV3_BUS_DCVS_LLCC_GOLD_COMPUTE_MAX_FREQ-->
+            <!--PerfLockConfig code = "0x43448000" param = "806000"/--><!--MPCTLV3_CPU_CPU_DDR_LATFLOOR_MINFREQ-->
+
+            <PerfLockConfig code = "0x40C00000" param = "1"/><!--SCHEDBOOST(cgroup boost)-->
+            <PerfLockConfig code = "0x40CAC000" param = "100"/><!--MPCTLV3_SCHED_UCLAMP_BOOST -->
+            <!--/dev/cpuctl/topapp/cpu.uclamp.min-->
+            <!--PerfLockConfig code = "0x40CB0000" param = "TASK_BOOST_STRICT_MAX"/--><!--MPCTLV3_SCHED_ENABLE_TASK_BOOST_RENDERTHREAD-->
+            <!-- /proc/%d/sched_boost-->
+            <!--PerfLockConfig code = "0x40C84000" param = "1000"/--><!--sched_user_hint-->
+            <!-- /proc/sys/kernel/sched_user_hint -->
+        </Item>
+        <Item name = "LowPower">
+            <PerfLockConfig code = "0x40804100" param = "1459200"/><!--maxLittleCore-->
+            <PerfLockConfig code = "0x40804000" param = "1497600"/><!--maxBigCore-->
+            <PerfLockConfig code = "0x40804300" param = "1497600"/><!--maxTitanCore-->
+            <PerfLockConfig code = "0x40804200" param = "1478400"/><!--maxMegaCore-->
+        </Item>
+        <Item name = "CPUTest">
+            <PerfLockConfig code = "0x40800100" param = "2265600"/><!--minLittleCore-->
+            <PerfLockConfig code = "0x40800000" param = "3532800"/><!--minBigCore-->
+            <PerfLockConfig code = "0x40800300" param = "2956800"/><!--minTitanCore-->
+            <PerfLockConfig code = "0x40800200" param = "4320000"/><!--minMegaCore-->
+
+            <PerfLockConfig code = "0x43458000" param = "2035200"/><!--MPCTLV3_BUS_DCVS_L3_MEMLAT_MIN_FREQ_PRIME-->
+            <PerfLockConfig code = "0x43480000" param = "2035200"/><!--MPCTLV3_BUS_DCVS_L3_MEMLAT_MIN_FREQ_GOLD-->
+            <PerfLockConfig code = "0x4346C000" param = "2092000"/><!--MPCTLV3_BUS_DCVS_DDR_GOLD_COMPUTE_MAX_FREQ-->
+
+            <PerfLockConfig code = "0x4345C000" param = "600000"/><!--MPCTLV3_BUS_DCVS_LLCC_MEMLAT_MIN_FREQ_SILVER-->
+            <PerfLockConfig code = "0x4348C000" param = "1066000"/><!--MPCTLV3_BUS_DCVS_LLCC_MEMLAT_MIN_FREQ_GOLD-->
+            <!--PerfLockConfig code = "0x43460000" param = "1066000"/--><!--MPCTLV3_BUS_DCVS_LLCC_DDR_LAT_MINFREQ_SILVER-->
+            <!--PerfLockConfig code = "0x43484000" param = "1066000"/--><!--MPCTLV3_BUS_DCVS_LLCC_DDR_LAT_MINFREQ_PRIME-->
+
+            <PerfLockConfig code = "0x43488000" param = "2092000"/><!--MPCTLV3_BUS_DCVS_DDR_LAT_MINFREQ_GOLD-->
+            <PerfLockConfig code = "0x43470000" param = "600000"/> <!--MPCTLV3_BUS_DCVS_LLCC_GOLD_COMPUTE_MAX_FREQ-->
+            <!--PerfLockConfig code = "0x43448000" param = "806000"/--><!--MPCTLV3_CPU_CPU_DDR_LATFLOOR_MINFREQ-->
+
+            <PerfLockConfig code = "0x40C00000" param = "1"/><!--SCHEDBOOST(cgroup boost)-->
+            <PerfLockConfig code = "0x40CAC000" param = "100"/><!--MPCTLV3_SCHED_UCLAMP_BOOST -->
+            <!--/dev/cpuctl/topapp/cpu.uclamp.min-->
+            <!--PerfLockConfig code = "0x40CB0000" param = "TASK_BOOST_STRICT_MAX"/--><!--MPCTLV3_SCHED_ENABLE_TASK_BOOST_RENDERTHREAD-->
+            <!-- /proc/%d/sched_boost-->
+            <!--PerfLockConfig code = "0x40C84000" param = "1000"/--><!--sched_user_hint-->
+            <!-- /proc/sys/kernel/sched_user_hint -->
+        </Item>
+        <Item name = "GPUTest">
+            <PerfLockConfig code = "0x4280C000" param = "1100000"/><!--minGPUFreq-->
+            <PerfLockConfig code = "0x42804000" param = "0"/><!--minPowerLevel-->
+
+            <PerfLockConfig code = "0x40C00000" param = "0"/><!--SCHEDBOOST(cgroup boost)-->
+            <!--/dev/cpuctl/topapp/cpu.uclamp.min-->
+            <!--PerfLockConfig code = "0x40CB0000" param = "TASK_BOOST_STRICT_MAX"/--><!--MPCTLV3_SCHED_ENABLE_TASK_BOOST_RENDERTHREAD-->
+            <!-- /proc/%d/sched_boost-->
+            <!--PerfLockConfig code = "0x40C84000" param = "1000"/--><!--sched_user_hint-->
+            <!-- /proc/sys/kernel/sched_user_hint -->
+        </Item>
+    </PerformanceTypeList>
+
+    <PerformanceSpecialList>
+        <Item name = "SavageBoost">
+            <PerfLockConfig code = "0x40CAC000" param = "100"/><!--schedboost-->
+        </Item>
+        <Item name = "SavageBoostV1">
+            <PerfLockConfig code = "0x40CAC000" param = "100"/><!--schedboost-->
+        </Item>
+        <Item name = "SavageBoostV2">
+            <PerfLockConfig code = "0x40CAC000" param = "100"/><!--schedboost-->
+        </Item>
+        <Item name = "GameBoost">
+            <PerfLockConfig code = "0x40CAC000" param = "50"/><!--schedboost-->
+        </Item>
+        <Item name = "GameBoostV1">
+            <PerfLockConfig code = "0x40CAC000" param = "50"/><!--schedboost-->
+        </Item>
+        <Item name = "GameBoostV2">
+            <PerfLockConfig code = "0x40CAC000" param = "50"/><!--schedboost-->
+        </Item>
+    </PerformanceSpecialList>
+
+    <!-- available freq -->
+    <!-- little cpu0 ~ cpu5 :  384000 556800 748800 960000 1152000 1363200 1555200 1785600 1996800 2227200 2400000 2745600 2918400 3072000 3321600 3532800 -->
+    <!-- big    cpu6 ~ cpu7 :  1017600 1209600 1401600 1689600 1958400 2246400 2438400 2649600 2841600 3072000 3283200 3513600 3801600 4089600 4204800 4320000 -->
+
+    <!-- available freq -->
+    <!-- gpu : 1100000000 1050000000 967000000 900000000 832000000 734000000 660000000 607000000 525000000 443000000 389000000 342000000 222000000 160000000 -->
+
+    <GameLimitConfig>
+        <Type name = "TempLevel">
+            <Temp level ="-1000">default</Temp>
+            <!-- Othergame DefaultMode yhy -->
+            <Temp level ="-1001">38</Temp>
+            <Temp level ="-1002">47</Temp>
+            <!-- Othergame PowerSaveMode yhy -->
+            <Temp level ="-1004">36</Temp>
+            <Temp level ="-1005">44</Temp>
+            <!-- Othergame SavageMode yhy -->
+            <Temp level ="-1007">42</Temp>
+            <Temp level ="-1008">48</Temp>
+            <!-- Game level for yhy -->
+            <Temp level = "1">35</Temp>
+            <Temp level = "2">36</Temp>
+            <Temp level = "3">37</Temp>
+            <Temp level = "4">38</Temp>
+            <Temp level = "5">39</Temp>
+            <Temp level = "6">40</Temp>
+            <Temp level = "7">41</Temp>
+            <Temp level = "8">42</Temp>
+            <Temp level = "9">43</Temp>
+            <Temp level = "10">44</Temp>
+            <Temp level = "11">45</Temp>
+            <Temp level = "12">46</Temp>
+            <Temp level = "13">47</Temp>
+            <Temp level = "14">48</Temp>
+            <Temp level = "15">49</Temp>
+            <Temp level = "16">50</Temp>
+            <Temp level = "-32">32</Temp>
+        </Type>
+        <Type name = "LittleCore">
+            <!-- device default yhy -->
+            <Freq level = "0">-1_-1_-1</Freq>
+            <!-- Othergame DefaultMode yhy -->
+            <Freq level = "-323">-1_-1_-1</Freq>
+            <Freq level = "-324">-1_-1_-1</Freq>
+            <Freq level = "-325">-1_-1_-1</Freq>
+            <Freq level = "-326">-1_-1_-1</Freq>
+            <!-- Othergame PowerSaveMode yhy -->
+            <Freq level = "-327">-1_-1_-1</Freq>
+            <Freq level = "-328">-1_-1_-1</Freq>
+            <Freq level = "-329">-1_-1_-1</Freq>
+            <Freq level = "-330">-1_-1_-1</Freq>
+            <!-- Othergame SavageMode yhy -->
+            <Freq level = "-331">-1_-1_-1</Freq>
+            <Freq level = "-332">-1_-1_-1</Freq>
+            <Freq level = "-333">-1_-1_-1</Freq>
+            <Freq level = "-334">-1_-1_-1</Freq>
+            <!-- lol DefaultMode yhy -->
+            <Freq level = "11">-1_-1_-1</Freq>
+            <Freq level = "12">-1_-1_-1</Freq>
+            <Freq level = "13">-1_-1_-1</Freq>
+            <Freq level = "1001">-1_-1_-1</Freq>
+            <!-- lol PowerSaveMode -->
+            <Freq level = "14">-1_-1_-1</Freq>
+            <Freq level = "15">-1_-1_-1</Freq>
+            <Freq level = "16">-1_-1_-1</Freq>
+            <Freq level = "1002">-1_-1_-1</Freq>
+            <!-- lol SavageMode yhy -->
+            <Freq level = "17">-1_-1_-1</Freq>
+            <Freq level = "18">-1_-1_-1</Freq>
+            <Freq level = "19">-1_-1_-1</Freq>
+            <Freq level = "1003">-1_-1_-1</Freq>
+            <!-- tmgp DefaultMode yhy-->
+            <Freq level = "20">-1_-1_-1</Freq>
+            <Freq level = "21">-1_-1_-1</Freq>
+            <Freq level = "22">-1_-1_-1</Freq>
+            <!-- tmgp PowerSaveMode yhy-->
+            <Freq level = "23">-1_-1_-1</Freq>
+            <Freq level = "24">-1_-1_-1</Freq>
+            <Freq level = "25">-1_-1_-1</Freq>
+            <!-- tmgp SavageMode yhy-->
+            <Freq level = "26">-1_-1_-1</Freq>
+            <Freq level = "27">-1_-1_-1</Freq>
+            <Freq level = "28">-1_-1_-1</Freq>
+            <!-- cf DefaultMode yhy-->
+            <Freq level = "29">-1_-1_-1</Freq>
+            <Freq level = "30">-1_-1_-1</Freq>
+            <Freq level = "31">-1_-1_-1</Freq>
+            <Freq level = "32">-1_-1_-1</Freq>
+            <!-- cf PowerSaveMode yhy-->
+            <Freq level = "33">-1_-1_-1</Freq>
+            <Freq level = "34">-1_-1_-1</Freq>
+            <Freq level = "35">-1_-1_-1</Freq>
+            <Freq level = "36">-1_-1_-1</Freq>
+            <!-- cf SavageMode yhy-->
+            <Freq level = "37">-1_-1_-1</Freq>
+            <Freq level = "38">-1_-1_-1</Freq>
+            <Freq level = "39">-1_-1_-1</Freq>
+            <Freq level = "40">-1_-1_-1</Freq>
+            <!-- cod DefaultMode yhy-->
+            <Freq level = "41">-1_-1_-1</Freq>
+            <Freq level = "42">-1_-1_-1</Freq>
+            <Freq level = "43">-1_-1_-1</Freq>
+            <Freq level = "44">-1_-1_-1</Freq>
+            <!-- cod PowerSaveMode yhy-->
+            <Freq level = "45">-1_-1_-1</Freq>
+            <Freq level = "46">-1_-1_-1</Freq>
+            <Freq level = "47">-1_-1_-1</Freq>
+            <Freq level = "48">-1_-1_-1</Freq>
+            <!-- cod SavageMode yhy-->
+            <Freq level = "49">-1_-1_-1</Freq>
+            <Freq level = "50">-1_-1_-1</Freq>
+            <Freq level = "51">-1_-1_-1</Freq>
+            <Freq level = "52">-1_-1_-1</Freq>
+            <!-- sgame DefaultMode yhy -->
+            <Freq level = "613">-1_-1_-1</Freq>
+            <Freq level = "614">-1_-1_-1</Freq>
+            <Freq level = "615">-1_-1_-1</Freq>
+            <Freq level = "616">-1_-1_-1</Freq>
+            <!-- sgame PowerSaveMode yhy -->
+            <Freq level = "617">-1_-1_-1</Freq>
+            <Freq level = "618">-1_-1_-1</Freq>
+            <Freq level = "619">-1_-1_-1</Freq>
+            <Freq level = "620">-1_-1_-1</Freq>
+            <!-- sgame SavageMode yhy -->
+            <Freq level = "621">-1_-1_-1</Freq>
+            <Freq level = "622">-1_-1_-1</Freq>
+            <Freq level = "623">-1_-1_-1</Freq>
+            <Freq level = "624">-1_-1_-1</Freq>
+            <!-- jinchanchan DefaultMode yhy-->
+            <Freq level = "62">-1_-1_-1</Freq>
+            <Freq level = "63">-1_-1_-1</Freq>
+            <Freq level = "64">-1_-1_-1</Freq>
+            <Freq level = "65">-1_-1_-1</Freq>
+            <!-- jinchanchan PowerSaveMode yhy-->
+            <Freq level = "66">-1_-1_-1</Freq>
+            <Freq level = "67">-1_-1_-1</Freq>
+            <Freq level = "68">-1_-1_-1</Freq>
+            <Freq level = "69">-1_-1_-1</Freq>
+            <!-- jinchanchan SavageMode yhy-->
+            <Freq level = "70">-1_-1_-1</Freq>
+            <Freq level = "71">-1_-1_-1</Freq>
+            <Freq level = "72">-1_-1_-1</Freq>
+            <Freq level = "73">-1_-1_-1</Freq>
+            <!-- tmgptyf DefaultMode yhy-->
+            <Freq level = "83">-1_-1_-1</Freq>
+            <Freq level = "84">-1_-1_-1</Freq>
+            <Freq level = "85">-1_-1_-1</Freq>
+            <!-- tmgptyf PowerSaveMode yhy-->
+            <Freq level = "86">-1_-1_-1</Freq>
+            <Freq level = "87">-1_-1_-1</Freq>
+            <Freq level = "88">-1_-1_-1</Freq>
+            <!-- tmgptyf SavageMode yhy-->
+            <Freq level = "89">-1_-1_-1</Freq>
+            <Freq level = "90">-1_-1_-1</Freq>
+            <Freq level = "91">-1_-1_-1</Freq>
+            <!-- pubg DefaultMode yhy-->
+            <Freq level = "92">-1_-1_-1</Freq>
+            <Freq level = "93">-1_-1_-1</Freq>
+            <Freq level = "94">-1_-1_-1</Freq>
+            <Freq level = "95">-1_-1_-1</Freq>
+            <!-- pubg PowerSaveMode yhy-->
+            <Freq level = "96">-1_-1_-1</Freq>
+            <Freq level = "97">-1_-1_-1</Freq>
+            <Freq level = "98">-1_-1_-1</Freq>
+            <Freq level = "99">-1_-1_-1</Freq>
+            <!-- pubg SavageMode yhy-->
+            <Freq level = "100">-1_-1_-1</Freq>
+            <Freq level = "101">-1_-1_-1</Freq>
+            <Freq level = "102">-1_-1_-1</Freq>
+            <Freq level = "103">-1_-1_-1</Freq>
+            <!-- qqcar DefaultMode yhy-->
+            <Freq level = "290">-1_-1_-1</Freq>
+            <Freq level = "291">-1_-1_-1</Freq>
+            <Freq level = "292">-1_-1_-1</Freq>
+            <Freq level = "293">-1_-1_-1</Freq>
+            <!-- qqcar PowerSaveMode yhy-->
+            <Freq level = "294">-1_-1_-1</Freq>
+            <Freq level = "295">-1_-1_-1</Freq>
+            <Freq level = "296">-1_-1_-1</Freq>
+            <Freq level = "297">-1_-1_-1</Freq>
+            <!-- qqcar SavageMode yhy-->
+            <Freq level = "298">-1_-1_-1</Freq>
+            <Freq level = "299">-1_-1_-1</Freq>
+            <Freq level = "300">-1_-1_-1</Freq>
+            <Freq level = "301">-1_-1_-1</Freq>
+            <!-- anqu DefaultMode yhy -->
+            <Freq level = "649">-1_-1_-1</Freq>
+            <Freq level = "650">-1_-1_-1</Freq>
+            <Freq level = "651">-1_-1_-1</Freq>
+            <Freq level = "652">-1_-1_-1</Freq>
+            <!-- anqu PowerSaveMode yhy -->
+            <Freq level = "653">-1_-1_-1</Freq>
+            <Freq level = "654">-1_-1_-1</Freq>
+            <Freq level = "655">-1_-1_-1</Freq>
+            <Freq level = "656">-1_-1_-1</Freq>
+            <!-- anqu SavageMode yhy -->
+            <Freq level = "657">-1_-1_-1</Freq>
+            <Freq level = "658">-1_-1_-1</Freq>
+            <Freq level = "659">-1_-1_-1</Freq>
+            <Freq level = "660">-1_-1_-1</Freq>
+            <!-- huoying DefaultMode yhy-->
+            <Freq level = "260">-1_-1_-1</Freq>
+            <Freq level = "261">-1_-1_-1</Freq>
+            <Freq level = "262">-1_-1_-1</Freq>
+            <Freq level = "263">-1_-1_-1</Freq>
+            <!-- huoying PowerSaveMode yhy-->
+            <Freq level = "264">-1_-1_-1</Freq>
+            <Freq level = "265">-1_-1_-1</Freq>
+            <Freq level = "266">-1_-1_-1</Freq>
+            <Freq level = "267">-1_-1_-1</Freq>
+            <!-- huoying SavageMode yhy-->
+            <Freq level = "268">-1_-1_-1</Freq>
+            <Freq level = "269">-1_-1_-1</Freq>
+            <Freq level = "270">-1_-1_-1</Freq>
+            <Freq level = "271">-1_-1_-1</Freq>
+            <!-- nishuihan DefaultMode yhy-->
+            <Freq level = "500">-1_-1_-1</Freq>
+            <Freq level = "501">-1_-1_-1</Freq>
+            <Freq level = "502">-1_-1_-1</Freq>
+            <Freq level = "503">-1_-1_-1</Freq>
+            <!-- nishuihan PowerSaveMode yhy-->
+            <Freq level = "504">-1_-1_-1</Freq>
+            <Freq level = "505">-1_-1_-1</Freq>
+            <Freq level = "506">-1_-1_-1</Freq>
+            <Freq level = "507">-1_-1_-1</Freq>
+            <!-- nishuihan SavageMode yhy-->
+            <Freq level = "508">-1_-1_-1</Freq>
+            <Freq level = "509">-1_-1_-1</Freq>
+            <Freq level = "510">-1_-1_-1</Freq>
+            <Freq level = "511">-1_-1_-1</Freq>
+            <!-- Universal DefaultMode yhy>
+            <Freq level = "151">-1_-1_-1</Freq>
+            <Freq level = "152">-1_-1_-1</Freq>
+            <Freq level = "153">-1_-1_-1</Freq>
+            <Freq level = "154">-1_-1_-1</Freq>
+            < Universal PowerSaveMode yhy>
+            <Freq level = "155">-1_-1_-1</Freq>
+            <Freq level = "156">-1_-1_-1</Freq>
+            <Freq level = "157">-1_-1_-1</Freq>
+            <Freq level = "158">-1_-1_-1</Freq>
+            < Universal SavageMode yhy>
+            <Freq level = "159">-1_-1_-1</Freq>
+            <Freq level = "160">-1_-1_-1</Freq>
+            <Freq level = "161">-1_-1_-1</Freq>
+            <Freq level = "162">-1_-1_-1</Freq-->
+            <!-- huanta DefaultMode yhy-->
+            <Freq level = "709">-1_-1_-1</Freq>
+            <Freq level = "710">-1_-1_-1</Freq>
+            <Freq level = "711">-1_-1_-1</Freq>
+            <Freq level = "712">-1_-1_-1</Freq>
+            <!-- huanta PowerSaveMode yhy-->
+            <Freq level = "713">-1_-1_-1</Freq>
+            <Freq level = "714">-1_-1_-1</Freq>
+            <Freq level = "715">-1_-1_-1</Freq>
+            <Freq level = "716">-1_-1_-1</Freq>
+            <!-- huanta SavageMode yhy-->
+            <Freq level = "717">-1_-1_-1</Freq>
+            <Freq level = "718">-1_-1_-1</Freq>
+            <Freq level = "719">-1_-1_-1</Freq>
+            <Freq level = "720">-1_-1_-1</Freq>
+            <!-- paopaocar DefaultMode yhy-->
+            <Freq level = "175">-1_-1_-1</Freq>
+            <Freq level = "176">-1_-1_-1</Freq>
+            <Freq level = "177">-1_-1_-1</Freq>
+            <Freq level = "178">-1_-1_-1</Freq>
+            <!-- paopaocar PowerSaveMode yhy-->
+            <Freq level = "179">-1_-1_-1</Freq>
+            <Freq level = "180">-1_-1_-1</Freq>
+            <Freq level = "181">-1_-1_-1</Freq>
+            <Freq level = "182">-1_-1_-1</Freq>
+            <!-- paopaocar SavageMode yhy-->
+            <Freq level = "183">-1_-1_-1</Freq>
+            <Freq level = "184">-1_-1_-1</Freq>
+            <Freq level = "185">-1_-1_-1</Freq>
+            <Freq level = "186">-1_-1_-1</Freq>
+            <!-- yuanshen DefaultMode yhy-->
+            <Freq level = "187">-1_-1_-1</Freq>
+            <Freq level = "188">-1_-1_-1</Freq>
+            <Freq level = "189">-1_-1_-1</Freq>
+            <Freq level = "190">-1_-1_-1</Freq>
+            <!-- yuanshen PowerSaveMode yhy-->
+            <Freq level = "191">-1_-1_-1</Freq>
+            <Freq level = "192">-1_-1_-1</Freq>
+            <Freq level = "193">-1_-1_-1</Freq>
+            <Freq level = "194">-1_-1_-1</Freq>
+            <!-- yuanshen SavageMode yhy-->
+            <Freq level = "195">-1_-1_-1</Freq>
+            <Freq level = "196">-1_-1_-1</Freq>
+            <Freq level = "197">-1_-1_-1</Freq>
+            <Freq level = "198">-1_-1_-1</Freq>
+            <!-- myworld DefaultMode yhy-->
+            <Freq level = "199">-1_-1_-1</Freq>
+            <Freq level = "200">-1_-1_-1</Freq>
+            <Freq level = "201">-1_-1_-1</Freq>
+            <Freq level = "202">-1_-1_-1</Freq>
+            <!-- myworld PowerSaveMode yhy-->
+            <Freq level = "203">-1_-1_-1</Freq>
+            <Freq level = "204">-1_-1_-1</Freq>
+            <Freq level = "205">-1_-1_-1</Freq>
+            <Freq level = "206">-1_-1_-1</Freq>
+            <!-- myworld SavageMode yhy-->
+            <Freq level = "207">-1_-1_-1</Freq>
+            <Freq level = "208">-1_-1_-1</Freq>
+            <Freq level = "209">-1_-1_-1</Freq>
+            <Freq level = "210">-1_-1_-1</Freq>
+            <!-- miniworld DefaultMode yhy-->
+            <Freq level = "211">-1_-1_-1</Freq>
+            <Freq level = "212">-1_-1_-1</Freq>
+            <Freq level = "213">-1_-1_-1</Freq>
+            <Freq level = "214">-1_-1_-1</Freq>
+            <!-- miniworld PowerSaveMode yhy-->
+            <Freq level = "215">-1_-1_-1</Freq>
+            <Freq level = "216">-1_-1_-1</Freq>
+            <Freq level = "217">-1_-1_-1</Freq>
+            <Freq level = "218">-1_-1_-1</Freq>
+            <!-- miniworld SavageMode yhy-->
+            <Freq level = "219">-1_-1_-1</Freq>
+            <Freq level = "220">-1_-1_-1</Freq>
+            <Freq level = "221">-1_-1_-1</Freq>
+            <Freq level = "222">-1_-1_-1</Freq>
+            <!-- ZZZ DefaultMode yhy -->
+            <Freq level = "359">-1_-1_-1</Freq>
+            <Freq level = "360">-1_-1_-1</Freq>
+            <Freq level = "361">-1_-1_-1</Freq>
+            <Freq level = "362">-1_-1_-1</Freq>
+            <!-- ZZZ PowerSaveMode yhy -->
+            <Freq level = "363">-1_-1_-1</Freq>
+            <Freq level = "364">-1_-1_-1</Freq>
+            <Freq level = "365">-1_-1_-1</Freq>
+            <Freq level = "366">-1_-1_-1</Freq>
+            <!-- ZZZ SavageMode yhy -->
+            <Freq level = "367">-1_-1_-1</Freq>
+            <Freq level = "368">-1_-1_-1</Freq>
+            <Freq level = "369">-1_-1_-1</Freq>
+            <Freq level = "370">-1_-1_-1</Freq>
+            <!-- party DefaultMode yhy -->
+            <Freq level = "601">-1_-1_-1</Freq>
+            <Freq level = "602">-1_-1_-1</Freq>
+            <Freq level = "603">-1_-1_-1</Freq>
+            <Freq level = "604">-1_-1_-1</Freq>
+            <!-- party PowerSaveMode yhy -->
+            <Freq level = "605">-1_-1_-1</Freq>
+            <Freq level = "606">-1_-1_-1</Freq>
+            <Freq level = "607">-1_-1_-1</Freq>
+            <Freq level = "608">-1_-1_-1</Freq>
+            <!-- party SavageMode yhy -->
+            <Freq level = "609">-1_-1_-1</Freq>
+            <Freq level = "610">-1_-1_-1</Freq>
+            <Freq level = "611">-1_-1_-1</Freq>
+            <Freq level = "612">-1_-1_-1</Freq>
+            <!-- dnf DefaultMode yhy -->
+            <Freq level = "625">-1_-1_-1</Freq>
+            <Freq level = "626">-1_-1_-1</Freq>
+            <Freq level = "627">-1_-1_-1</Freq>
+            <!-- dnf PowerSaveMode yhy -->
+            <Freq level = "629">-1_-1_-1</Freq>
+            <Freq level = "630">-1_-1_-1</Freq>
+            <Freq level = "631">-1_-1_-1</Freq>
+            <!-- dnf SavageMode yhy -->
+            <Freq level = "633">-1_-1_-1</Freq>
+            <Freq level = "634">-1_-1_-1</Freq>
+            <Freq level = "635">-1_-1_-1</Freq>
+            <!-- mingchao DefaultMode yhy -->
+            <Freq level = "637">-1_-1_-1</Freq>
+            <Freq level = "638">-1_-1_-1</Freq>
+            <Freq level = "639">-1_-1_-1</Freq>
+            <Freq level = "640">-1_-1_-1</Freq>
+            <!-- mingchao PowerSaveMode yhy -->
+            <Freq level = "641">-1_-1_-1</Freq>
+            <Freq level = "642">-1_-1_-1</Freq>
+            <Freq level = "643">-1_-1_-1</Freq>
+            <Freq level = "644">-1_-1_-1</Freq>
+            <!-- mingchao SavageMode yhy -->
+            <Freq level = "645">-1_-1_-1</Freq>
+            <Freq level = "646">-1_-1_-1</Freq>
+            <Freq level = "647">-1_-1_-1</Freq>
+            <Freq level = "648">-1_-1_-1</Freq>
+            <!-- yuanmeng DefaultMode yhy -->
+            <Freq level = "402">-1_-1_-1</Freq>
+            <Freq level = "403">-1_-1_-1</Freq>
+            <Freq level = "404">-1_-1_-1</Freq>
+            <Freq level = "405">-1_-1_-1</Freq>
+            <!-- yuanmeng PowerSaveMode yhy -->
+            <Freq level = "406">-1_-1_-1</Freq>
+            <Freq level = "407">-1_-1_-1</Freq>
+            <Freq level = "408">-1_-1_-1</Freq>
+            <Freq level = "409">-1_-1_-1</Freq>
+            <!-- yuanmeng SavageMode yhy -->
+            <Freq level = "410">-1_-1_-1</Freq>
+            <Freq level = "411">-1_-1_-1</Freq>
+            <Freq level = "412">-1_-1_-1</Freq>
+            <Freq level = "413">-1_-1_-1</Freq>
+            <!-- subway DefaultMode yhy -->
+            <Freq level = "901">-1_-1_-1</Freq>
+            <Freq level = "902">-1_-1_-1</Freq>
+            <Freq level = "903">-1_-1_-1</Freq>
+            <Freq level = "904">-1_-1_-1</Freq>
+            <!-- subway PowerSaveMode yhy -->
+            <Freq level = "905">-1_-1_-1</Freq>
+            <Freq level = "906">-1_-1_-1</Freq>
+            <Freq level = "907">-1_-1_-1</Freq>
+            <Freq level = "908">-1_-1_-1</Freq>
+            <!-- subway SavageMode yhy -->
+            <Freq level = "909">-1_-1_-1</Freq>
+            <Freq level = "910">-1_-1_-1</Freq>
+            <Freq level = "911">-1_-1_-1</Freq>
+            <Freq level = "912">-1_-1_-1</Freq>
+            <!-- netease DefaultMode yhy -->
+            <Freq level = "275">-1_-1_-1</Freq>
+            <Freq level = "276">-1_-1_-1</Freq>
+            <Freq level = "277">-1_-1_-1</Freq>
+            <Freq level = "278">-1_-1_-1</Freq>
+            <!-- netease PowerSaveMode yhy -->
+            <Freq level = "279">-1_-1_-1</Freq>
+            <Freq level = "280">-1_-1_-1</Freq>
+            <Freq level = "281">-1_-1_-1</Freq>
+            <Freq level = "282">-1_-1_-1</Freq>
+            <!-- netease SavageMode yhy -->
+            <Freq level = "283">-1_-1_-1</Freq>
+            <Freq level = "284">-1_-1_-1</Freq>
+            <Freq level = "285">-1_-1_-1</Freq>
+            <Freq level = "286">-1_-1_-1</Freq>
+            <!-- benghuai DefaultMode yhy -->
+            <Freq level = "512">-1_-1_-1</Freq>
+            <Freq level = "513">-1_-1_-1</Freq>
+            <Freq level = "514">-1_-1_-1</Freq>
+            <Freq level = "515">-1_-1_-1</Freq>
+            <!-- benghuai PowerSaveMode yhy -->
+            <Freq level = "516">-1_-1_-1</Freq>
+            <Freq level = "517">-1_-1_-1</Freq>
+            <Freq level = "518">-1_-1_-1</Freq>
+            <Freq level = "519">-1_-1_-1</Freq>
+            <!-- benghuai SavageMode yhy -->
+            <Freq level = "520">-1_-1_-1</Freq>
+            <Freq level = "521">-1_-1_-1</Freq>
+            <Freq level = "522">-1_-1_-1</Freq>
+            <Freq level = "523">-1_-1_-1</Freq>
+            <!-- pvz2 DefaultMode yhy -->
+            <Freq level = "661">-1_-1_-1</Freq>
+            <Freq level = "662">-1_-1_-1</Freq>
+            <Freq level = "663">-1_-1_-1</Freq>
+            <Freq level = "664">-1_-1_-1</Freq>
+            <!-- pvz2 PowerSaveMode yhy -->
+            <Freq level = "665">-1_-1_-1</Freq>
+            <Freq level = "666">-1_-1_-1</Freq>
+            <Freq level = "667">-1_-1_-1</Freq>
+            <Freq level = "668">-1_-1_-1</Freq>
+            <!-- pvz2 SavageMode yhy -->
+            <Freq level = "669">-1_-1_-1</Freq>
+            <Freq level = "670">-1_-1_-1</Freq>
+            <Freq level = "671">-1_-1_-1</Freq>
+            <Freq level = "672">-1_-1_-1</Freq>
+            <!-- yhtj DefaultMode yhy -->
+            <Freq level = "311">-1_-1_-1</Freq>
+            <Freq level = "312">-1_-1_-1</Freq>
+            <Freq level = "313">-1_-1_-1</Freq>
+            <Freq level = "314">-1_-1_-1</Freq>
+            <!-- yhtj PowerSaveMode yhy-->
+            <Freq level = "315">-1_-1_-1</Freq>
+            <Freq level = "316">-1_-1_-1</Freq>
+            <Freq level = "317">-1_-1_-1</Freq>
+            <Freq level = "318">-1_-1_-1</Freq>
+            <!-- yhtj SavageMode yhy-->
+            <Freq level = "319">-1_-1_-1</Freq>
+            <Freq level = "320">-1_-1_-1</Freq>
+            <Freq level = "321">-1_-1_-1</Freq>
+            <Freq level = "322">-1_-1_-1</Freq>
+            <!-- xiangchang DefaultMode yhy -->
+            <Freq level = "673">-1_-1_-1</Freq>
+            <Freq level = "674">-1_-1_-1</Freq>
+            <Freq level = "675">-1_-1_-1</Freq>
+            <Freq level = "676">-1_-1_-1</Freq>
+            <!-- xiangchang PowerSaveMode yhy -->
+            <Freq level = "677">-1_-1_-1</Freq>
+            <Freq level = "678">-1_-1_-1</Freq>
+            <Freq level = "679">-1_-1_-1</Freq>
+            <Freq level = "680">-1_-1_-1</Freq>
+            <!-- xiangchang SavageMode yhy -->
+            <Freq level = "681">-1_-1_-1</Freq>
+            <Freq level = "682">-1_-1_-1</Freq>
+            <Freq level = "683">-1_-1_-1</Freq>
+            <Freq level = "684">-1_-1_-1</Freq>
+            <!-- huangyeluandou DefaultMode yhy -->
+            <Freq level = "685">-1_-1_-1</Freq>
+            <Freq level = "686">-1_-1_-1</Freq>
+            <Freq level = "687">-1_-1_-1</Freq>
+            <Freq level = "688">-1_-1_-1</Freq>
+            <!-- huangyeluandou PowerSaveMode yhy -->
+            <Freq level = "689">-1_-1_-1</Freq>
+            <Freq level = "690">-1_-1_-1</Freq>
+            <Freq level = "691">-1_-1_-1</Freq>
+            <Freq level = "692">-1_-1_-1</Freq>
+            <!-- huangyeluandou SavageMode yhy -->
+            <Freq level = "693">-1_-1_-1</Freq>
+            <Freq level = "694">-1_-1_-1</Freq>
+            <Freq level = "695">-1_-1_-1</Freq>
+            <Freq level = "696">-1_-1_-1</Freq>
+            <!-- gaonengyingxiong DefaultMode yhy-->
+            <Freq level = "536">-1_-1_-1</Freq>
+            <Freq level = "537">-1_-1_-1</Freq>
+            <Freq level = "538">-1_-1_-1</Freq>
+            <Freq level = "539">-1_-1_-1</Freq>
+            <!-- gaonengyingxiong PowerSaveMode yhy-->
+            <Freq level = "540">-1_-1_-1</Freq>
+            <Freq level = "541">-1_-1_-1</Freq>
+            <Freq level = "542">-1_-1_-1</Freq>
+            <Freq level = "543">-1_-1_-1</Freq>
+            <!-- gaonengyingxiong SavageMode yhy-->
+            <Freq level = "544">-1_-1_-1</Freq>
+            <Freq level = "545">-1_-1_-1</Freq>
+            <Freq level = "546">-1_-1_-1</Freq>
+            <Freq level = "547">-1_-1_-1</Freq>
+            <!-- Phigros DefaultMode yhy -->
+            <Freq level = "3000">-1_-1_-1</Freq>
+            <Freq level = "3001">-1_-1_-1</Freq>
+            <Freq level = "3002">-1_-1_-1</Freq>
+            <Freq level = "3003">-1_-1_-1</Freq>
+            <!-- Phigros PowerSaveMode yhy-->
+            <Freq level = "3004">-1_-1_-1</Freq>
+            <Freq level = "3005">-1_-1_-1</Freq>
+            <Freq level = "3006">-1_-1_-1</Freq>
+            <Freq level = "3007">-1_-1_-1</Freq>
+            <!-- Phigros SavageMode yhy-->
+            <Freq level = "3008">-1_-1_-1</Freq>
+            <Freq level = "3009">-1_-1_-1</Freq>
+            <Freq level = "3010">-1_-1_-1</Freq>
+            <Freq level = "3011">-1_-1_-1</Freq>
+            <!-- tianyu DefaultMode yhy-->
+            <Freq level = "524">-1_-1_-1</Freq>
+            <Freq level = "525">-1_-1_-1</Freq>
+            <Freq level = "526">-1_-1_-1</Freq>
+            <Freq level = "527">-1_-1_-1</Freq>
+            <!-- tianyu PowerSaveMode yhy-->
+            <Freq level = "528">-1_-1_-1</Freq>
+            <Freq level = "529">-1_-1_-1</Freq>
+            <Freq level = "530">-1_-1_-1</Freq>
+            <Freq level = "531">-1_-1_-1</Freq>
+            <!-- tianyu SavageMode yhy-->
+            <Freq level = "532">-1_-1_-1</Freq>
+            <Freq level = "533">-1_-1_-1</Freq>
+            <Freq level = "534">-1_-1_-1</Freq>
+            <Freq level = "535">-1_-1_-1</Freq>
+            <!-- sanjiao DefaultMode yhy-->
+            <Freq level = "548">-1_-1_-1</Freq>
+            <Freq level = "549">-1_-1_-1</Freq>
+            <Freq level = "550">-1_-1_-1</Freq>
+            <Freq level = "551">-1_-1_-1</Freq>
+            <!-- sanjiao PowerSaveMode yhy-->
+            <Freq level = "552">-1_-1_-1</Freq>
+            <Freq level = "553">-1_-1_-1</Freq>
+            <Freq level = "554">-1_-1_-1</Freq>
+            <Freq level = "555">-1_-1_-1</Freq>
+            <!-- sanjiao SavageMode yhy-->
+            <Freq level = "556">-1_-1_-1</Freq>
+            <Freq level = "557">-1_-1_-1</Freq>
+            <Freq level = "558">-1_-1_-1</Freq>
+            <Freq level = "559">-1_-1_-1</Freq>
+            <!-- quanmingxing DefaultMode yhy-->
+            <Freq level = "560">-1_-1_-1</Freq>
+            <Freq level = "561">-1_-1_-1</Freq>
+            <Freq level = "562">-1_-1_-1</Freq>
+            <Freq level = "563">-1_-1_-1</Freq>
+            <!--quanmingxing PowerSaveMode yhy-->
+            <Freq level = "564">-1_-1_-1</Freq>
+            <Freq level = "565">-1_-1_-1</Freq>
+            <Freq level = "566">-1_-1_-1</Freq>
+            <Freq level = "567">-1_-1_-1</Freq>
+            <!--quanmingxing SavageMode yhy-->
+            <Freq level = "568">-1_-1_-1</Freq>
+            <Freq level = "569">-1_-1_-1</Freq>
+            <Freq level = "570">-1_-1_-1</Freq>
+            <Freq level = "571">-1_-1_-1</Freq>
+            <!--guangyu DefaultMode yhy-->
+            <Freq level = "572">-1_-1_-1</Freq>
+            <Freq level = "573">-1_-1_-1</Freq>
+            <Freq level = "574">-1_-1_-1</Freq>
+            <Freq level = "575">-1_-1_-1</Freq>
+            <!--guangyu PowerSaveMode yhy-->
+            <Freq level = "576">-1_-1_-1</Freq>
+            <Freq level = "577">-1_-1_-1</Freq>
+            <Freq level = "578">-1_-1_-1</Freq>
+            <Freq level = "579">-1_-1_-1</Freq>
+            <!--guangyu SavageMode yhy-->
+            <Freq level = "580">-1_-1_-1</Freq>
+            <Freq level = "581">-1_-1_-1</Freq>
+            <Freq level = "582">-1_-1_-1</Freq>
+            <Freq level = "583">-1_-1_-1</Freq>
+            <!--yinyangshi DefaultMode yhy-->
+            <Freq level = "584">-1_-1_-1</Freq>
+            <Freq level = "585">-1_-1_-1</Freq>
+            <Freq level = "586">-1_-1_-1</Freq>
+            <Freq level = "587">-1_-1_-1</Freq>
+            <!--yinyangshi PowerSaveMode yhy-->
+            <Freq level = "588">-1_-1_-1</Freq>
+            <Freq level = "589">-1_-1_-1</Freq>
+            <Freq level = "590">-1_-1_-1</Freq>
+            <Freq level = "591">-1_-1_-1</Freq>
+            <!--yinyangshi SavageMode yhy-->
+            <Freq level = "592">-1_-1_-1</Freq>
+            <Freq level = "593">-1_-1_-1</Freq>
+            <Freq level = "594">-1_-1_-1</Freq>
+            <Freq level = "595">-1_-1_-1</Freq>
+            <!--benghuaisan DefaultMode yhy-->
+            <Freq level = "414">-1_-1_-1</Freq>
+            <Freq level = "415">-1_-1_-1</Freq>
+            <Freq level = "416">-1_-1_-1</Freq>
+            <Freq level = "417">-1_-1_-1</Freq>
+            <!--benghuaisan PowerSaveMode yhy-->
+            <Freq level = "418">-1_-1_-1</Freq>
+            <Freq level = "419">-1_-1_-1</Freq>
+            <Freq level = "420">-1_-1_-1</Freq>
+            <Freq level = "421">-1_-1_-1</Freq>
+            <!--benghuaisan SavageMode yhy-->
+            <Freq level = "422">-1_-1_-1</Freq>
+            <Freq level = "423">-1_-1_-1</Freq>
+            <Freq level = "424">-1_-1_-1</Freq>
+            <Freq level = "425">-1_-1_-1</Freq>
+            <!--lushi DefaultMode yhy-->
+            <Freq level = "426">-1_-1_-1</Freq>
+            <Freq level = "427">-1_-1_-1</Freq>
+            <Freq level = "428">-1_-1_-1</Freq>
+            <Freq level = "429">-1_-1_-1</Freq>
+            <!--lushi PowerSaveMode yhy-->
+            <Freq level = "430">-1_-1_-1</Freq>
+            <Freq level = "431">-1_-1_-1</Freq>
+            <Freq level = "432">-1_-1_-1</Freq>
+            <Freq level = "433">-1_-1_-1</Freq>
+            <!--lushi SavageMode yhy-->
+            <Freq level = "434">-1_-1_-1</Freq>
+            <Freq level = "435">-1_-1_-1</Freq>
+            <Freq level = "436">-1_-1_-1</Freq>
+            <Freq level = "437">-1_-1_-1</Freq>
+            <!--diwurenge DefaultMode yhy-->
+            <Freq level = "438">-1_-1_-1</Freq>
+            <Freq level = "439">-1_-1_-1</Freq>
+            <Freq level = "440">-1_-1_-1</Freq>
+            <Freq level = "441">-1_-1_-1</Freq>
+            <!--diwurenge PowerSaveMode yhy-->
+            <Freq level = "442">-1_-1_-1</Freq>
+            <Freq level = "443">-1_-1_-1</Freq>
+            <Freq level = "444">-1_-1_-1</Freq>
+            <Freq level = "445">-1_-1_-1</Freq>
+            <!--diwurenge SavageMode yhy-->
+            <Freq level = "446">-1_-1_-1</Freq>
+            <Freq level = "447">-1_-1_-1</Freq>
+            <Freq level = "448">-1_-1_-1</Freq>
+            <Freq level = "449">-1_-1_-1</Freq>
+            <!--menghuan DefaultMode yhy-->
+            <Freq level = "450">-1_-1_-1</Freq>
+            <Freq level = "451">-1_-1_-1</Freq>
+            <Freq level = "452">-1_-1_-1</Freq>
+            <Freq level = "453">-1_-1_-1</Freq>
+            <!--menghuan PowerSaveMode yhy-->
+            <Freq level = "454">-1_-1_-1</Freq>
+            <Freq level = "455">-1_-1_-1</Freq>
+            <Freq level = "456">-1_-1_-1</Freq>
+            <Freq level = "457">-1_-1_-1</Freq>
+            <!--menghuan SavageMode yhy-->
+            <Freq level = "458">-1_-1_-1</Freq>
+            <Freq level = "459">-1_-1_-1</Freq>
+            <Freq level = "460">-1_-1_-1</Freq>
+            <Freq level = "461">-1_-1_-1</Freq>
+            <!--jipinfeiche DefaultMode yhy-->
+            <Freq level = "462">-1_-1_-1</Freq>
+            <Freq level = "463">-1_-1_-1</Freq>
+            <Freq level = "464">-1_-1_-1</Freq>
+            <Freq level = "465">-1_-1_-1</Freq>
+            <!--jipinfeiche PowerSaveMode yhy-->
+            <Freq level = "466">-1_-1_-1</Freq>
+            <Freq level = "467">-1_-1_-1</Freq>
+            <Freq level = "468">-1_-1_-1</Freq>
+            <Freq level = "469">-1_-1_-1</Freq>
+            <!--jipinfeiche SavageMode yhy-->
+            <Freq level = "470">-1_-1_-1</Freq>
+            <Freq level = "471">-1_-1_-1</Freq>
+            <Freq level = "472">-1_-1_-1</Freq>
+            <Freq level = "473">-1_-1_-1</Freq>
+            <!--yanyun DefaultMode yhy-->
+            <Freq level = "474">-1_-1_-1</Freq>
+            <Freq level = "475">-1_-1_-1</Freq>
+            <Freq level = "476">-1_-1_-1</Freq>
+            <Freq level = "477">-1_-1_-1</Freq>
+            <!--yanyun PowerSaveMode yhy-->
+            <Freq level = "478">-1_-1_-1</Freq>
+            <Freq level = "479">-1_-1_-1</Freq>
+            <Freq level = "480">-1_-1_-1</Freq>
+            <Freq level = "481">-1_-1_-1</Freq>
+            <!--yanyun SavageMode yhy-->
+            <Freq level = "482">-1_-1_-1</Freq>
+            <Freq level = "483">-1_-1_-1</Freq>
+            <Freq level = "484">-1_-1_-1</Freq>
+            <Freq level = "485">-1_-1_-1</Freq>
+            <!--mingrifangzhou DefaultMode yhy-->
+            <Freq level = "486">-1_-1_-1</Freq>
+            <Freq level = "487">-1_-1_-1</Freq>
+            <Freq level = "488">-1_-1_-1</Freq>
+            <Freq level = "489">-1_-1_-1</Freq>
+            <!--mingrifangzhou PowerSaveMode yhy-->
+            <Freq level = "490">-1_-1_-1</Freq>
+            <Freq level = "491">-1_-1_-1</Freq>
+            <Freq level = "492">-1_-1_-1</Freq>
+            <Freq level = "493">-1_-1_-1</Freq>
+            <!--mingrifangzhou SavageMode yhy-->
+            <Freq level = "494">-1_-1_-1</Freq>
+            <Freq level = "495">-1_-1_-1</Freq>
+            <Freq level = "496">-1_-1_-1</Freq>
+            <Freq level = "497">-1_-1_-1</Freq>
+        </Type>
+        <Type name = "BigCore">
+            <!-- device default yhy -->
+            <Freq level = "0">-1_-1_-1</Freq>
+            <!-- Othergame DefaultMode yhy -->
+            <Freq level = "-323">1996800_748800_-1</Freq>
+            <Freq level = "-324">1996800_748800_-1</Freq>
+            <Freq level = "-325">1785600_556800_-1</Freq>
+            <Freq level = "-326">1555200_556800_-1</Freq>
+            <!-- Othergame PowerSaveMode yhy -->
+            <Freq level = "-327">1363200_556800_-1</Freq>
+            <Freq level = "-328">1363200_556800_-1</Freq>
+            <Freq level = "-329">1152000_556800_-1</Freq>
+            <Freq level = "-330">1152000_556800_-1</Freq>
+            <!-- Othergame SavageMode yhy -->
+            <Freq level = "-331">2400000_748800_-1</Freq>
+            <Freq level = "-332">2227200_748800_-1</Freq>
+            <Freq level = "-333">2227200_748800_-1</Freq>
+            <Freq level = "-334">1996800_556800_-1</Freq>
+            <!-- lol DefaultMode yhy -->
+            <Freq level = "11">2227200_960000_-1</Freq>
+            <Freq level = "12">1996800_960000_-1</Freq>
+            <Freq level = "13">1996800_960000_-1</Freq>
+            <Freq level = "1001">1785600_748800_-1</Freq>
+            <!-- lol PowerSaveMode yhy -->
+            <Freq level = "14">1555200_556800_-1</Freq>
+            <Freq level = "15">1363200_556800_-1</Freq>
+            <Freq level = "16">1363200_556800_-1</Freq>
+            <Freq level = "1002">1363200_556800_-1</Freq>
+            <!-- lol SavageMode yhy -->
+            <Freq level = "17">3532800_1363200_-1</Freq>
+            <Freq level = "18">2745600_1363200_-1</Freq>
+            <Freq level = "19">2745600_1363200_-1</Freq>
+            <Freq level = "1003">2745600_1363200_-1</Freq>
+            <!-- tmgp DefaultMode yhy-->
+            <Freq level = "20">2918400_1785600_2918400</Freq>
+            <Freq level = "21">2400000_960000_2400000</Freq>
+            <Freq level = "22">2227200_960000_2227200</Freq>
+            <!-- tmgp PowerSaveMode yhy-->
+            <Freq level = "23">2400000_960000_-1</Freq>
+            <Freq level = "24">2227200_960000_-1</Freq>
+            <Freq level = "25">1996800_960000_-1</Freq>
+            <!-- tmgp SavageMode yhy-->
+            <Freq level = "26">3532800_2918400_-1</Freq>
+            <Freq level = "27">3532800_2745600_-1</Freq>
+            <Freq level = "28">3072000_2745600_-1</Freq>
+            <!-- cf DefaultMode yhy-->
+            <Freq level = "29">2745600_960000_-1</Freq>
+            <Freq level = "30">2745600_960000_-1</Freq>
+            <Freq level = "31">2400000_960000_-1</Freq>
+            <Freq level = "32">2227200_960000_-1</Freq>
+            <!-- cf PowerSaveMode yhy-->
+            <Freq level = "33">2745600_960000_-1</Freq>
+            <Freq level = "34">2745600_960000_-1</Freq>
+            <Freq level = "35">2400000_960000_-1</Freq>
+            <Freq level = "36">2227200_960000_-1</Freq>
+            <!-- cf SavageMode yhy-->
+            <Freq level = "37">3532800_748800_-1</Freq>
+            <Freq level = "38">2918400_748800_-1</Freq>
+            <Freq level = "39">2918400_748800_-1</Freq>
+            <Freq level = "40">2918400_748800_-1</Freq>
+            <!-- cod DefaultMode yhy-->
+            <Freq level = "41">2745600_384000_-1</Freq>
+            <Freq level = "42">2745600_384000_-1</Freq>
+            <Freq level = "43">2400000_384000_-1</Freq>
+            <Freq level = "44">1363200_384000_-1</Freq>
+            <!-- cod PowerSaveMode yhy-->
+            <Freq level = "45">2400000_1152000_-1</Freq>
+            <Freq level = "46">2227200_1152000_-1</Freq>
+            <Freq level = "47">2227200_1152000_-1</Freq>
+            <Freq level = "48">1363200_1152000_-1</Freq>
+            <!-- cod SavageMode yhy-->
+            <Freq level = "49">3532800_384000_-1</Freq>
+            <Freq level = "50">2400000_384000_-1</Freq>
+            <Freq level = "51">2400000_384000_-1</Freq>
+            <Freq level = "52">1363200_384000_-1</Freq>
+            <!-- sgame DefaultMode yhy -->
+            <Freq level = "613">1363200_748800_-1</Freq>
+            <Freq level = "614">1363200_748800_-1</Freq>
+            <Freq level = "615">1363200_748800_-1</Freq>
+            <Freq level = "616">1363200_748800_-1</Freq>
+            <!-- sgame PowerSaveMode yhy -->
+            <Freq level = "617">1152000_556800_-1</Freq>
+            <Freq level = "618">1152000_556800_-1</Freq>
+            <Freq level = "619">1152000_556800_-1</Freq>
+            <Freq level = "620">960000_556800_-1</Freq>
+            <!-- sgame SavageMode yhy -->
+            <Freq level = "621">2745600_1152000_-1</Freq>
+            <Freq level = "622">2745600_1152000_-1</Freq>
+            <Freq level = "623">2745600_1152000_-1</Freq>
+            <Freq level = "624">2745600_1152000_-1</Freq>
+            <!-- mingchao DefaultMode yhy -->
+            <Freq level = "637">2227200_748800_2227200</Freq>
+            <Freq level = "638">1785600_556800_1785600</Freq>
+            <Freq level = "639">1555200_384000_1555200</Freq>
+            <Freq level = "640">1363200_384000_1363200</Freq>
+            <!-- mingchao PowerSaveMode yhy -->
+            <Freq level = "641">2745600_748800_2745600</Freq>
+            <Freq level = "642">2400000_556800_2400000</Freq>
+            <Freq level = "643">2227200_556800_2227200</Freq>
+            <Freq level = "644">1996800_384000_1996800</Freq>
+            <!-- mingchao SavageMode yhy -->
+            <Freq level = "645">3532800_748800_3532800</Freq>
+            <Freq level = "646">2918400_748800_2918400</Freq>
+            <Freq level = "647">2227200_748800_2227200</Freq>
+            <Freq level = "648">1785600_556800_1785600</Freq>
+            <!-- jinchanchan DefaultMode yhy-->
+            <Freq level = "62">1996800_556800_-1</Freq>
+            <Freq level = "63">2400000_556800_-1</Freq>
+            <Freq level = "64">2400000_556800_-1</Freq>
+            <Freq level = "65">2246400_556800_-1</Freq>
+            <!-- jinchanchan PowerSaveMode yhy-->
+            <Freq level = "66">556800_384000_-1</Freq>
+            <Freq level = "67">748800_384000_-1</Freq>
+            <Freq level = "68">960000_384000_-1</Freq>
+            <Freq level = "69">1152000_384000_-1</Freq>
+            <!-- jinchanchan SavageMode yhy-->
+            <Freq level = "70">2745600_1555200_-1</Freq>
+            <Freq level = "71">2918400_1555200_-1</Freq>
+            <Freq level = "72">3072000_1555200_-1</Freq>
+            <Freq level = "73">3072000_1555200_-1</Freq>
+            <!-- tmgptyf DefaultMode yhy-->
+            <Freq level = "83">-1_-1_-1</Freq>
+            <Freq level = "84">-1_-1_-1</Freq>
+            <Freq level = "85">-1_-1_-1</Freq>
+            <!-- tmgptyf PowerSaveMode yhy-->
+            <Freq level = "86">-1_-1_-1</Freq>
+            <Freq level = "87">-1_-1_-1</Freq>
+            <Freq level = "88">-1_-1_-1</Freq>
+            <!-- tmgptyf SavageMode yhy-->
+            <Freq level = "89">-1_-1_-1</Freq>
+            <Freq level = "90">-1_-1_-1</Freq>
+            <Freq level = "91">-1_-1_-1</Freq>
+            <!-- pubg DefaultMode yhy-->
+            <Freq level = "92">2400000_1555200_2400000</Freq>
+            <Freq level = "93">2400000_1152000_2400000</Freq>
+            <Freq level = "94">2227200_1152000_2227200</Freq>
+            <Freq level = "95">2227200_1152000_2227200</Freq>
+            <!-- pubg PowerSaveMode yhy-->
+            <Freq level = "96">2400000_960000_-1</Freq>
+            <Freq level = "97">2227200_960000_-1</Freq>
+            <Freq level = "98">1996800_960000_-1</Freq>
+            <Freq level = "99">1996800_960000_-1</Freq>
+            <!-- pubg SavageMode yhy-->
+            <Freq level = "100">3532800_2918400_-1</Freq>
+            <Freq level = "101">3532800_2745600_-1</Freq>
+            <Freq level = "102">3072000_2745600_-1</Freq>
+            <Freq level = "103">3072000_2745600_-1</Freq>
+            <!-- qqcar DefaultMode yhy-->
+            <Freq level = "290">1152000_384000_-1</Freq>
+            <Freq level = "291">1152000_384000_-1</Freq>
+            <Freq level = "292">1152000_384000_-1</Freq>
+            <Freq level = "293">960000_384000_-1</Freq>
+            <!-- qqcar PowerSaveMode yhy-->
+            <Freq level = "294">960000_384000_-1</Freq>
+            <Freq level = "295">960000_384000_-1</Freq>
+            <Freq level = "296">960000_384000_-1</Freq>
+            <Freq level = "297">748800_384000_-1</Freq>
+            <!-- qqcar SavageMode yhy-->
+            <Freq level = "298">3321600_384000_-1</Freq>
+            <Freq level = "299">2400000_384000_-1</Freq>
+            <Freq level = "300">2400000_384000_-1</Freq>
+            <Freq level = "301">2227200_384000_-1</Freq>
+            <!-- anqu DefaultMode yhy -->
+            <Freq level = "649">2400000_384000_-1</Freq>
+            <Freq level = "650">2227200_384000_-1</Freq>
+            <Freq level = "651">1996800_384000_-1</Freq>
+            <Freq level = "652">1996800_384000_-1</Freq>
+            <!-- anqu PowerSaveMode yhy -->
+            <Freq level = "653">1996800_384000_-1</Freq>
+            <Freq level = "654">1996800_384000_-1</Freq>
+            <Freq level = "655">1996800_384000_-1</Freq>
+            <Freq level = "656">1785600_384000_-1</Freq>
+            <!-- anqu SavageMode yhy -->
+            <Freq level = "657">3532800_1996800_-1</Freq>
+            <Freq level = "658">2400000_1996800_-1</Freq>
+            <Freq level = "659">2227200_1996800_-1</Freq>
+            <Freq level = "660">2227200_1363200_-1</Freq>
+            <!-- huoying DefaultMode yhy-->
+            <Freq level = "260">2745600_1152000_-1</Freq>
+            <Freq level = "261">2745600_1152000_-1</Freq>
+            <Freq level = "262">2400000_1152000_-1</Freq>
+            <Freq level = "263">2227200_1152000_-1</Freq>
+            <!-- huoying PowerSaveMode yhy-->
+            <Freq level = "264">2227200_748800_-1</Freq>
+            <Freq level = "265">2227200_748800_-1</Freq>
+            <Freq level = "266">1996800_748800_-1</Freq>
+            <Freq level = "267">1996800_748800_-1</Freq>
+            <!-- huoying SavageMode yhy-->
+            <Freq level = "268">2918400_1363200_-1</Freq>
+            <Freq level = "269">2745600_1363200_-1</Freq>
+            <Freq level = "270">2400000_1363200_-1</Freq>
+            <Freq level = "271">2227200_1363200_-1</Freq>
+            <!-- nishuihan DefaultMode yhy-->
+            <Freq level = "500">1555200_384000_-1</Freq>
+            <Freq level = "501">1363200_384000_-1</Freq>
+            <Freq level = "502">1363200_384000_-1</Freq>
+            <Freq level = "503">1152000_384000_-1</Freq>
+            <!-- nishuihan PowerSaveMode yhy-->
+            <Freq level = "504">748800_384000_-1</Freq>
+            <Freq level = "505">556800_384000_-1</Freq>
+            <Freq level = "506">556800_384000_-1</Freq>
+            <Freq level = "507">556800_384000_-1</Freq>
+            <!-- nishuihan SavageMode yhy-->
+            <Freq level = "508">3532800_1555200_-1</Freq>
+            <Freq level = "509">2745600_1555200_-1</Freq>
+            <Freq level = "510">2745600_1555200_-1</Freq>
+            <Freq level = "511">2400000_1555200_-1</Freq>
+            <!-- Universal DefaultMode yhy>
+            <Freq level = "151">-1_-1_-1</Freq>
+            <Freq level = "152">-1_-1_-1</Freq>
+            <Freq level = "153">-1_-1_-1</Freq>
+            <Freq level = "154">-1_-1_-1</Freq>
+            < Universal PowerSaveMode yhy>
+            <Freq level = "155">-1_-1_-1</Freq>
+            <Freq level = "156">-1_-1_-1</Freq>
+            <Freq level = "157">-1_-1_-1</Freq>
+            <Freq level = "158">-1_-1_-1</Freq>
+            < Universal SavageMode yhy>
+            <Freq level = "159">-1_-1_-1</Freq>
+            <Freq level = "160">-1_-1_-1</Freq>
+            <Freq level = "161">-1_-1_-1</Freq>
+            <Freq level = "162">-1_-1_-1</Freq-->
+            <!-- huanta DefaultMode yhy-->
+            <Freq level = "709">2227200_556800_-1</Freq>
+            <Freq level = "710">2227200_556800_-1</Freq>
+            <Freq level = "711">2227200_556800_-1</Freq>
+            <Freq level = "712">1996800_556800_-1</Freq>
+            <!-- huanta PowerSaveMode yhy-->
+            <Freq level = "713">2745600_556800_-1</Freq>
+            <Freq level = "714">2227200_556800_-1</Freq>
+            <Freq level = "715">2227200_556800_-1</Freq>
+            <Freq level = "716">1996800_556800_-1</Freq>
+            <!-- huanta SavageMode yhy-->
+            <Freq level = "717">2400000_748800_-1</Freq>
+            <Freq level = "718">2227200_748800_-1</Freq>
+            <Freq level = "719">2227200_748800_-1</Freq>
+            <Freq level = "720">2227200_556800_-1</Freq>
+            <!-- paopaocar DefaultMode yhy-->
+            <Freq level = "175">-1_-1_-1</Freq>
+            <Freq level = "176">-1_-1_-1</Freq>
+            <Freq level = "177">-1_-1_-1</Freq>
+            <Freq level = "178">-1_-1_-1</Freq>
+            <!-- paopaocar PowerSaveMode yhy-->
+            <Freq level = "179">-1_-1_-1</Freq>
+            <Freq level = "180">-1_-1_-1</Freq>
+            <Freq level = "181">-1_-1_-1</Freq>
+            <Freq level = "182">-1_-1_-1</Freq>
+            <!-- paopaocar SavageMode yhy-->
+            <Freq level = "183">-1_-1_-1</Freq>
+            <Freq level = "184">-1_-1_-1</Freq>
+            <Freq level = "185">-1_-1_-1</Freq>
+            <Freq level = "186">-1_-1_-1</Freq>
+            <!-- yuanshen DefaultMode yhy-->
+            <Freq level = "187">1996800_748800_-1</Freq>
+            <Freq level = "188">1996800_748800_-1</Freq>
+            <Freq level = "189">1785600_556800_-1</Freq>
+            <Freq level = "190">1555200_556800_-1</Freq>
+            <!-- yuanshen PowerSaveMode yhy-->
+            <Freq level = "191">1363200_556800_-1</Freq>
+            <Freq level = "192">1363200_556800_-1</Freq>
+            <Freq level = "193">1152000_556800_-1</Freq>
+            <Freq level = "194">1152000_556800_-1</Freq>
+            <!-- yuanshen SavageMode yhy-->
+            <Freq level = "195">2400000_748800_-1</Freq>
+            <Freq level = "196">2227200_748800_-1</Freq>
+            <Freq level = "197">2227200_748800_-1</Freq>
+            <Freq level = "198">1996800_556800_-1</Freq>
+            <!-- myworld DefaultMode yhy-->
+            <Freq level = "199">1996800_1363200_-1</Freq>
+            <Freq level = "200">1996800_1363200_-1</Freq>
+            <Freq level = "201">1996800_1152000_-1</Freq>
+            <Freq level = "202">1996800_960000_-1</Freq>
+            <!-- myworld PowerSaveMode yhy-->
+            <Freq level = "203">1785600_1363200_-1</Freq>
+            <Freq level = "204">1785600_1363200_-1</Freq>
+            <Freq level = "205">1785600_960000_-1</Freq>
+            <Freq level = "206">1785600_960000_-1</Freq>
+            <!-- myworld SavageMode yhy-->
+            <Freq level = "207">3072000_1497600_-1</Freq>
+            <Freq level = "208">2918400_1497600_-1</Freq>
+            <Freq level = "209">2745600_1497600_-1</Freq>
+            <Freq level = "210">2400000_1497600_-1</Freq>
+            <!-- miniworld DefaultMode yhy-->
+            <Freq level = "211">-1_-1_-1</Freq>
+            <Freq level = "212">-1_-1_-1</Freq>
+            <Freq level = "213">-1_-1_-1</Freq>
+            <Freq level = "214">-1_-1_-1</Freq>
+            <!-- miniworld PowerSaveMode yhy-->
+            <Freq level = "215">-1_-1_-1</Freq>
+            <Freq level = "216">-1_-1_-1</Freq>
+            <Freq level = "217">-1_-1_-1</Freq>
+            <Freq level = "218">-1_-1_-1</Freq>
+            <!-- miniworld SavageMode yhy-->
+            <Freq level = "219">-1_-1_-1</Freq>
+            <Freq level = "220">-1_-1_-1</Freq>
+            <Freq level = "221">-1_-1_-1</Freq>
+            <Freq level = "222">-1_-1_-1</Freq>
+            <!-- ZZZ DefaultMode yhy -->
+            <Freq level = "359">1555200_384000_-1</Freq>
+            <Freq level = "360">1363200_384000_-1</Freq>
+            <Freq level = "361">1363200_384000_-1</Freq>
+            <Freq level = "362">1152000_384000_-1</Freq>
+            <!-- ZZZ PowerSaveMode yhy -->
+            <Freq level = "363">1363200_384000_-1</Freq>
+            <Freq level = "364">1363200_384000_-1</Freq>
+            <Freq level = "365">1152000_384000_-1</Freq>
+            <Freq level = "366">1152000_384000_-1</Freq>
+            <!-- ZZZ SavageMode yhy -->
+            <Freq level = "367">3532800_384000_-1</Freq>
+            <Freq level = "368">1555200_384000_-1</Freq>
+            <Freq level = "369">1555200_384000_-1</Freq>
+            <Freq level = "370">1363200_384000_-1</Freq>
+            <!-- party DefaultMode yhy -->
+            <Freq level = "601">1785600_748800_-1</Freq>
+            <Freq level = "602">1785600_748800_-1</Freq>
+            <Freq level = "603">1555200_748800_-1</Freq>
+            <Freq level = "604">1363200_748800_-1</Freq>
+            <!-- party PowerSaveMode yhy -->
+            <Freq level = "605">748800_384000_-1</Freq>
+            <Freq level = "606">748800_384000_-1</Freq>
+            <Freq level = "607">556800_384000_-1</Freq>
+            <Freq level = "608">556800_384000_-1</Freq>
+            <!-- party SavageMode yhy -->
+            <Freq level = "609">3532800_1152000_-1</Freq>
+            <Freq level = "610">3532800_1152000_-1</Freq>
+            <Freq level = "611">3072000_1152000_-1</Freq>
+            <Freq level = "612">2918400_1152000_-1</Freq>
+            <!-- dnf DefaultMode yhy -->
+            <Freq level = "625">1785600_384000_-1</Freq>
+            <Freq level = "626">1785600_384000_-1</Freq>
+            <Freq level = "627">1363200_384000_-1</Freq>
+            <!-- dnf PowerSaveMode yhy -->
+            <Freq level = "629">384000_384000_-1</Freq>
+            <Freq level = "630">384000_384000_-1</Freq>
+            <Freq level = "631">384000_384000_-1</Freq>
+            <!-- dnf SavageMode yhy -->
+            <Freq level = "633">3532800_1785600_-1</Freq>
+            <Freq level = "634">3532800_1785600_-1</Freq>
+            <Freq level = "635">3072000_384000_-1</Freq>
+            <!-- yuanmeng DefaultMode yhy -->
+            <Freq level = "402">2400000_384000_-1</Freq>
+            <Freq level = "403">2400000_384000_-1</Freq>
+            <Freq level = "404">2227200_384000_-1</Freq>
+            <Freq level = "405">1996800_384000_-1</Freq>
+            <!-- yuanmeng PowerSaveMode yhy -->
+            <Freq level = "406">2227200_384000_-1</Freq>
+            <Freq level = "407">2227200_384000_-1</Freq>
+            <Freq level = "408">1996800_384000_-1</Freq>
+            <Freq level = "409">1785600_384000_-1</Freq>
+            <!-- yuanmeng SavageMode yhy -->
+            <Freq level = "410">3072000_384000_-1</Freq>
+            <Freq level = "411">2745600_384000_-1</Freq>
+            <Freq level = "412">2400000_384000_-1</Freq>
+            <Freq level = "413">2227200_384000_-1</Freq>
+            <!-- subway DefaultMode yhy -->
+            <Freq level = "901">-1_-1_-1</Freq>
+            <Freq level = "902">-1_-1_-1</Freq>
+            <Freq level = "903">-1_-1_-1</Freq>
+            <Freq level = "904">-1_-1_-1</Freq>
+            <!-- subway PowerSaveMode yhy -->
+            <Freq level = "905">-1_-1_-1</Freq>
+            <Freq level = "906">-1_-1_-1</Freq>
+            <Freq level = "907">-1_-1_-1</Freq>
+            <Freq level = "908">-1_-1_-1</Freq>
+            <!-- subway SavageMode yhy -->
+            <Freq level = "909">-1_-1_-1</Freq>
+            <Freq level = "910">-1_-1_-1</Freq>
+            <Freq level = "911">-1_-1_-1</Freq>
+            <Freq level = "912">-1_-1_-1</Freq>
+            <!-- netease DefaultMode yhy -->
+            <Freq level = "275">1785600_384000_-1</Freq>
+            <Freq level = "276">1785600_384000_-1</Freq>
+            <Freq level = "277">1555200_384000_-1</Freq>
+            <Freq level = "278">1555200_384000_-1</Freq>
+            <!-- netease PowerSaveMode yhy -->
+            <Freq level = "279">1785600_384000_-1</Freq>
+            <Freq level = "280">1555200_384000_-1</Freq>
+            <Freq level = "281">1363200_384000_-1</Freq>
+            <Freq level = "282">1152000_384000_-1</Freq>
+            <!-- netease SavageMode yhy -->
+            <Freq level = "283">3532800_1785600_-1</Freq>
+            <Freq level = "284">2400000_1555200_-1</Freq>
+            <Freq level = "285">1996800_1363200_-1</Freq>
+            <Freq level = "286">1785600_1152000_-1</Freq>
+            <!-- benghuai DefaultMode yhy -->
+            <Freq level = "512">1555200_556800_-1</Freq>
+            <Freq level = "513">1363200_556800_-1</Freq>
+            <Freq level = "514">1152000_556800_-1</Freq>
+            <Freq level = "515">1152000_556800_-1</Freq>
+            <!-- benghuai PowerSaveMode yhy -->
+            <Freq level = "516">1785600_748800_-1</Freq>
+            <Freq level = "517">1555200_748800_-1</Freq>
+            <Freq level = "518">1555200_556800_-1</Freq>
+            <Freq level = "519">1363200_556800_-1</Freq>
+            <!-- benghuai SavageMode yhy -->
+            <Freq level = "520">3532800_1996800_-1</Freq>
+            <Freq level = "521">2745600_1785600_-1</Freq>
+            <Freq level = "522">2400000_1785600_-1</Freq>
+            <Freq level = "523">2227200_1785600_-1</Freq>
+            <!-- pvz2 DefaultMode yhy -->
+            <Freq level = "661">-1_-1_-1</Freq>
+            <Freq level = "662">-1_-1_-1</Freq>
+            <Freq level = "663">-1_-1_-1</Freq>
+            <Freq level = "664">-1_-1_-1</Freq>
+            <!-- pvz2 PowerSaveMode yhy -->
+            <Freq level = "665">-1_-1_-1</Freq>
+            <Freq level = "666">-1_-1_-1</Freq>
+            <Freq level = "667">-1_-1_-1</Freq>
+            <Freq level = "668">-1_-1_-1</Freq>
+            <!-- pvz2 SavageMode yhy -->
+            <Freq level = "669">-1_-1_-1</Freq>
+            <Freq level = "670">-1_-1_-1</Freq>
+            <Freq level = "671">-1_-1_-1</Freq>
+            <Freq level = "672">-1_-1_-1</Freq>
+            <!-- yhtj DefaultMode yhy-->
+            <Freq level = "311">1785600_384000_-1</Freq>
+            <Freq level = "312">1555200_384000_-1</Freq>
+            <Freq level = "313">1555200_384000_-1</Freq>
+            <Freq level = "314">1555200_384000_-1</Freq>
+            <!-- yhtj PowerSaveMode yhy-->
+            <Freq level = "315">1785600_384000_-1</Freq>
+            <Freq level = "316">1785600_384000_-1</Freq>
+            <Freq level = "317">1785600_384000_-1</Freq>
+            <Freq level = "318">1785600_384000_-1</Freq>
+            <!-- yhtj SavageMode yhy-->
+            <Freq level = "319">2745600_384000_-1</Freq>
+            <Freq level = "320">2400000_384000_-1</Freq>
+            <Freq level = "321">2400000_384000_-1</Freq>
+            <Freq level = "322">2227200_384000_-1</Freq>
+            <!-- xiangchang DefaultMode yhy -->
+            <Freq level = "673">1555200_748800_-1</Freq>
+            <Freq level = "674">1555200_748800_-1</Freq>
+            <Freq level = "675">1363200_748800_-1</Freq>
+            <Freq level = "676">1152000_556800_-1</Freq>
+            <!-- xiangchang PowerSaveMode yhy -->
+            <Freq level = "677">1363200_556800_-1</Freq>
+            <Freq level = "678">1363200_556800_-1</Freq>
+            <Freq level = "679">1363200_556800_-1</Freq>
+            <Freq level = "680">1152000_556800_-1</Freq>
+            <!-- xiangchang SavageMode yhy -->
+            <Freq level = "681">3532800_1785600_-1</Freq>
+            <Freq level = "682">2400000_1785600_-1</Freq>
+            <Freq level = "683">2400000_1785600_-1</Freq>
+            <Freq level = "684">2227200_1555200_-1</Freq>
+            <!-- huangyeluandou DefaultMode yhy -->
+            <Freq level = "685">-1_-1_-1</Freq>
+            <Freq level = "686">-1_-1_-1</Freq>
+            <Freq level = "687">-1_-1_-1</Freq>
+            <Freq level = "688">-1_-1_-1</Freq>
+            <!-- huangyeluandou PowerSaveMode yhy -->
+            <Freq level = "689">-1_-1_-1</Freq>
+            <Freq level = "690">-1_-1_-1</Freq>
+            <Freq level = "691">-1_-1_-1</Freq>
+            <Freq level = "692">-1_-1_-1</Freq>
+            <!-- huangyeluandou SavageMode yhy -->
+            <Freq level = "693">-1_-1_-1</Freq>
+            <Freq level = "694">-1_-1_-1</Freq>
+            <Freq level = "695">-1_-1_-1</Freq>
+            <Freq level = "696">-1_-1_-1</Freq>
+            <!-- gaonengyingxiong DefaultMode yhy-->
+            <Freq level = "536">1363200_384000_-1</Freq>
+            <Freq level = "537">1363200_384000_-1</Freq>
+            <Freq level = "538">1152000_384000_-1</Freq>
+            <Freq level = "539">1152000_384000_-1</Freq>
+            <!-- gaonengyingxiong PowerSaveMode yhy-->
+            <Freq level = "540">960000_384000_-1</Freq>
+            <Freq level = "541">960000_384000_-1</Freq>
+            <Freq level = "542">748800_384000_-1</Freq>
+            <Freq level = "543">748800_384000_-1</Freq>
+            <!-- gaonengyingxiong SavageMode yhy-->
+            <Freq level = "544">3532800_1152000_-1</Freq>
+            <Freq level = "545">2745600_1152000_-1</Freq>
+            <Freq level = "546">2227200_556800_-1</Freq>
+            <Freq level = "547">1996800_556800_-1</Freq>
+            <!-- Phigros DefaultMode yhy-->
+            <Freq level = "3000">-1_-1_-1</Freq>
+            <Freq level = "3001">-1_-1_-1</Freq>
+            <Freq level = "3002">-1_-1_-1</Freq>
+            <Freq level = "3003">-1_-1_-1</Freq>
+            <!-- Phigros PowerSaveMode yhy-->
+            <Freq level = "3004">-1_-1_-1</Freq>
+            <Freq level = "3005">-1_-1_-1</Freq>
+            <Freq level = "3006">-1_-1_-1</Freq>
+            <Freq level = "3007">-1_-1_-1</Freq>
+            <!-- Phigros SavageMode yhy-->
+            <Freq level = "3008">-1_-1_-1</Freq>
+            <Freq level = "3009">-1_-1_-1</Freq>
+            <Freq level = "3010">-1_-1_-1</Freq>
+            <Freq level = "3011">-1_-1_-1</Freq>
+            <!-- tianyu DefaultMode yhy-->
+            <Freq level = "524">-1_-1_-1</Freq>
+            <Freq level = "525">-1_-1_-1</Freq>
+            <Freq level = "526">-1_-1_-1</Freq>
+            <Freq level = "527">-1_-1_-1</Freq>
+            <!-- tianyu PowerSaveMode yhy-->
+            <Freq level = "528">-1_-1_-1</Freq>
+            <Freq level = "529">-1_-1_-1</Freq>
+            <Freq level = "530">-1_-1_-1</Freq>
+            <Freq level = "531">-1_-1_-1</Freq>
+            <!-- tianyu SavageMode yhy-->
+            <Freq level = "532">-1_-1_-1</Freq>
+            <Freq level = "533">-1_-1_-1</Freq>
+            <Freq level = "534">-1_-1_-1</Freq>
+            <Freq level = "535">-1_-1_-1</Freq>
+            <!-- sanjiao DefaultMode yhy-->
+            <Freq level = "548">1555200_384000_-1</Freq>
+            <Freq level = "549">1363200_384000_-1</Freq>
+            <Freq level = "550">1363200_384000_-1</Freq>
+            <Freq level = "551">1152000_384000_-1</Freq>
+            <!-- sanjiao PowerSaveMode yhy-->
+            <Freq level = "552">1785600_384000_-1</Freq>
+            <Freq level = "553">1785600_384000_-1</Freq>
+            <Freq level = "554">1785600_384000_-1</Freq>
+            <Freq level = "555">1555200_384000_-1</Freq>
+            <!-- sanjiao SavageMode yhy-->
+            <Freq level = "556">3532800_1785600_-1</Freq>
+            <Freq level = "557">3072000_1363200_-1</Freq>
+            <Freq level = "558">2918400_1152000_-1</Freq>
+            <Freq level = "559">2745600_384000_-1</Freq>
+            <!-- quanmingxing DefaultMode yhy-->
+            <Freq level = "560">1555200_384000_-1</Freq>
+            <Freq level = "561">1363200_384000_-1</Freq>
+            <Freq level = "562">1363200_384000_-1</Freq>
+            <Freq level = "563">1152000_384000_-1</Freq>
+            <!-- quanmingxing PowerSaveMode yhy-->
+            <Freq level = "564">556800_384000_-1</Freq>
+            <Freq level = "565">556800_384000_-1</Freq>
+            <Freq level = "566">556800_384000_-1</Freq>
+            <Freq level = "567">384000_384000_-1</Freq>
+            <!--quanmingxing SavageMode yhy-->
+            <Freq level = "568">3532800_1152000_-1</Freq>
+            <Freq level = "569">3072000_1152000_-1</Freq>
+            <Freq level = "570">2745600_1152000_-1</Freq>
+            <Freq level = "571">2227200_1152000_-1</Freq>
+            <!--guangyu DefaultMode yhy-->
+            <Freq level = "572">960000_384000_-1</Freq>
+            <Freq level = "573">748800_384000_-1</Freq>
+            <Freq level = "574">748800_384000_-1</Freq>
+            <Freq level = "575">556800_384000_-1</Freq>
+            <!--guangyu PowerSaveMode yhy-->
+            <Freq level = "576">748800_384000_-1</Freq>
+            <Freq level = "577">556800_384000_-1</Freq>
+            <Freq level = "578">556800_384000_-1</Freq>
+            <Freq level = "579">556800_384000_-1</Freq>
+            <!--guangyu SavageMode yhy-->
+            <Freq level = "580">3532800_2227200_-1</Freq>
+            <Freq level = "581">3321600_2227200_-1</Freq>
+            <Freq level = "582">3072000_2227200_-1</Freq>
+            <Freq level = "583">2918400_1555200_-1</Freq>
+            <!--yinyangshi DefaultMode yhy-->
+            <Freq level = "584">1152000_384000_-1</Freq>
+            <Freq level = "585">960000_384000_-1</Freq>
+            <Freq level = "586">960000_384000_-1</Freq>
+            <Freq level = "587">748800_384000_-1</Freq>
+            <!--yinyangshi PowerSaveMode yhy-->
+            <Freq level = "588">960000_384000_-1</Freq>
+            <Freq level = "589">960000_384000_-1</Freq>
+            <Freq level = "590">748800_384000_-1</Freq>
+            <Freq level = "591">748800_384000_-1</Freq>
+            <!--yinyangshi SavageMode yhy-->
+            <Freq level = "592">3532800_384000_-1</Freq>
+            <Freq level = "593">3072000_384000_-1</Freq>
+            <Freq level = "594">2400000_384000_-1</Freq>
+            <Freq level = "595">1996800_384000_-1</Freq>
+            <!--benghuaisan DefaultMode yhy-->
+            <Freq level = "414">1996800_556800_-1</Freq>
+            <Freq level = "415">1996800_556800_-1</Freq>
+            <Freq level = "416">1785600_556800_-1</Freq>
+            <Freq level = "417">1785600_556800_-1</Freq>
+            <!--benghuaisan PowerSaveMode yhy-->
+            <Freq level = "418">1785600_556800_-1</Freq>
+            <Freq level = "419">1785600_556800_-1</Freq>
+            <Freq level = "420">1555200_556800_-1</Freq>
+            <Freq level = "421">1555200_556800_-1</Freq>
+            <!--benghuaisan SavageMode yhy-->
+            <Freq level = "422">2400000_556800_-1</Freq>
+            <Freq level = "423">2227200_556800_-1</Freq>
+            <Freq level = "424">2227200_556800_-1</Freq>
+            <Freq level = "425">1996800_556800_-1</Freq>
+            <!--lushi DefaultMode yhy-->
+            <Freq level = "426">1996800_748800_-1</Freq>
+            <Freq level = "427">1785600_748800_-1</Freq>
+            <Freq level = "428">1785600_556800_-1</Freq>
+            <Freq level = "429">1555200_384000_-1</Freq>
+            <!--lushi PowerSaveMode yhy-->
+            <Freq level = "430">2745600_748800_-1</Freq>
+            <Freq level = "431">2400000_748800_-1</Freq>
+            <Freq level = "432">2227200_556800_-1</Freq>
+            <Freq level = "433">1996800_384000_-1</Freq>
+            <!--lushi SavageMode yhy-->
+            <Freq level = "434">1785600_748800_-1</Freq>
+            <Freq level = "435">1555200_748800_-1</Freq>
+            <Freq level = "436">1555200_556800_-1</Freq>
+            <Freq level = "437">1363200_384000_-1</Freq>
+            <!--diwurenge DefaultMode yhy-->
+            <Freq level = "438">3321600_1555200_-1</Freq>
+            <Freq level = "439">3072000_1555200_-1</Freq>
+            <Freq level = "440">3072000_1555200_-1</Freq>
+            <Freq level = "441">3072000_1555200_-1</Freq>
+            <!--diwurenge PowerSaveMode yhy-->
+            <Freq level = "442">1555200_384000_-1</Freq>
+            <Freq level = "443">1363200_384000_-1</Freq>
+            <Freq level = "444">1152000_384000_-1</Freq>
+            <Freq level = "445">748800_384000_-1</Freq>
+            <!--diwurenge SavageMode yhy-->
+            <Freq level = "446">3532800_2918400_-1</Freq>
+            <Freq level = "447">3321600_2745600_-1</Freq>
+            <Freq level = "448">3321600_2745600_-1</Freq>
+            <Freq level = "449">3321600_2745600_-1</Freq>
+            <!--menghuan DefaultMode yhy-->
+            <Freq level = "450">960000_384000_-1</Freq>
+            <Freq level = "451">748800_384000_-1</Freq>
+            <Freq level = "452">748800_384000_-1</Freq>
+            <Freq level = "453">556800_384000_-1</Freq>
+            <!--menghuan PowerSaveMode yhy-->
+            <Freq level = "454">1996800_384000_-1</Freq>
+            <Freq level = "455">1996800_384000_-1</Freq>
+            <Freq level = "456">1996800_384000_-1</Freq>
+            <Freq level = "457">1785600_384000_-1</Freq>
+            <!--menghuan SavageMode yhy-->
+            <Freq level = "458">3532800_1363200_-1</Freq>
+            <Freq level = "459">2400000_1363200_-1</Freq>
+            <Freq level = "460">2400000_1363200_-1</Freq>
+            <Freq level = "461">1996800_1152000_-1</Freq>
+            <!--jipinfeiche DefaultMode yhy-->
+            <Freq level = "462">960000_384000_-1</Freq>
+            <Freq level = "463">748800_384000_-1</Freq>
+            <Freq level = "464">748800_384000_-1</Freq>
+            <Freq level = "465">556800_384000_-1</Freq>
+            <!--jipinfeiche PowerSaveMode yhy-->
+            <Freq level = "466">1555200_384000_-1</Freq>
+            <Freq level = "467">1363200_384000_-1</Freq>
+            <Freq level = "468">1363200_384000_-1</Freq>
+            <Freq level = "469">1152000_384000_-1</Freq>
+            <!--jipinfeiche SavageMode yhy-->
+            <Freq level = "470">3532800_384000_-1</Freq>
+            <Freq level = "471">2400000_556800_-1</Freq>
+            <Freq level = "472">2400000_556800_-1</Freq>
+            <Freq level = "473">1996800_556800_-1</Freq>
+            <!--yanyun DefaultMode yhy-->
+            <Freq level = "474">1785600_384000_-1</Freq>
+            <Freq level = "475">1555200_384000_-1</Freq>
+            <Freq level = "476">1555200_384000_-1</Freq>
+            <Freq level = "477">1363200_384000_-1</Freq>
+            <!--yanyun PowerSaveMode yhy-->
+            <Freq level = "478">1555200_384000_-1</Freq>
+            <Freq level = "479">1555200_384000_-1</Freq>
+            <Freq level = "480">1555200_384000_-1</Freq>
+            <Freq level = "481">1363200_384000_-1</Freq>
+            <!--yanyun SavageMode yhy-->
+            <Freq level = "482">3532800_1152000_-1</Freq>
+            <Freq level = "483">2400000_1152000_-1</Freq>
+            <Freq level = "484">2400000_1152000_-1</Freq>
+            <Freq level = "485">2227200_960000_-1</Freq>
+            <!--mingrifangzhou DefaultMode yhy-->
+            <Freq level = "486">1555200_556800_-1</Freq>
+            <Freq level = "487">1555200_556800_-1</Freq>
+            <Freq level = "488">1363200_556800_-1</Freq>
+            <Freq level = "489">1363200_556800_-1</Freq>
+            <!--mingrifangzhou PowerSaveMode yhy-->
+            <Freq level = "490">1363200_384000_-1</Freq>
+            <Freq level = "491">1363200_384000_-1</Freq>
+            <Freq level = "492">1152000_384000_-1</Freq>
+            <Freq level = "493">1152000_384000_-1</Freq>
+            <!--mingrifangzhou SavageMode yhy-->
+            <Freq level = "494">3532800_1996800_-1</Freq>
+            <Freq level = "495">3321600_1996800_-1</Freq>
+            <Freq level = "496">3072000_1996800_-1</Freq>
+            <Freq level = "497">2918400_1996800_-1</Freq>
+        </Type>
+        <Type name = "TitanCore">
+            <!-- device default yhy -->
+            <Freq level = "0">-1_-1_-1</Freq>
+            <!-- Othergame DefaultMode yhy -->
+            <Freq level = "-323">-1_-1_-1</Freq>
+            <Freq level = "-324">-1_-1_-1</Freq>
+            <Freq level = "-325">-1_-1_-1</Freq>
+            <Freq level = "-326">-1_-1_-1</Freq>
+            <!-- Othergame PowerSaveMode yhy -->
+            <Freq level = "-327">-1_-1_-1</Freq>
+            <Freq level = "-328">-1_-1_-1</Freq>
+            <Freq level = "-329">-1_-1_-1</Freq>
+            <Freq level = "-330">-1_-1_-1</Freq>
+            <!-- Othergame SavageMode yhy -->
+            <Freq level = "-331">-1_-1_-1</Freq>
+            <Freq level = "-332">-1_-1_-1</Freq>
+            <Freq level = "-333">-1_-1_-1</Freq>
+            <Freq level = "-334">-1_-1_-1</Freq>
+            <!-- lol DefaultMode yhy-->
+            <Freq level = "11">-1_-1_-1</Freq>
+            <Freq level = "12">-1_-1_-1</Freq>
+            <Freq level = "13">-1_-1_-1</Freq>
+            <Freq level = "1001">-1_-1_-1</Freq>
+            <!-- lol PowerSaveMode yhy -->
+            <Freq level = "14">-1_-1_-1</Freq>
+            <Freq level = "15">-1_-1_-1</Freq>
+            <Freq level = "16">-1_-1_-1</Freq>
+            <Freq level = "1002">-1_-1_-1</Freq>
+            <!-- lol SavageMode yhy -->
+            <Freq level = "17">-1_-1_-1</Freq>
+            <Freq level = "18">-1_-1_-1</Freq>
+            <Freq level = "19">-1_-1_-1</Freq>
+            <Freq level = "1003">-1_-1_-1</Freq>
+            <!-- tmgp DefaultMode yhy-->
+            <Freq level = "20">-1_-1_-1</Freq>
+            <Freq level = "21">-1_-1_-1</Freq>
+            <Freq level = "22">-1_-1_-1</Freq>
+            <!-- tmgp PowerSaveMode yhy-->
+            <Freq level = "23">-1_-1_-1</Freq>
+            <Freq level = "24">-1_-1_-1</Freq>
+            <Freq level = "25">-1_-1_-1</Freq>
+            <!-- tmgp SavageMode yhy-->
+            <Freq level = "26">-1_-1_-1</Freq>
+            <Freq level = "27">-1_-1_-1</Freq>
+            <Freq level = "28">-1_-1_-1</Freq>
+            <!-- cf DefaultMode yhy-->
+            <Freq level = "29">-1_-1_-1</Freq>
+            <Freq level = "30">-1_-1_-1</Freq>
+            <Freq level = "31">-1_-1_-1</Freq>
+            <Freq level = "32">-1_-1_-1</Freq>
+            <!-- cf PowerSaveMode yhy-->
+            <Freq level = "33">-1_-1_-1</Freq>
+            <Freq level = "34">-1_-1_-1</Freq>
+            <Freq level = "35">-1_-1_-1</Freq>
+            <Freq level = "36">-1_-1_-1</Freq>
+            <!-- cf SavageMode yhy-->
+            <Freq level = "37">-1_-1_-1</Freq>
+            <Freq level = "38">-1_-1_-1</Freq>
+            <Freq level = "39">-1_-1_-1</Freq>
+            <Freq level = "40">-1_-1_-1</Freq>
+            <!-- cod DefaultMode yhy-->
+            <Freq level = "41">-1_-1_-1</Freq>
+            <Freq level = "42">-1_-1_-1</Freq>
+            <Freq level = "43">-1_-1_-1</Freq>
+            <Freq level = "44">-1_-1_-1</Freq>
+            <!-- cod PowerSaveMode yhy-->
+            <Freq level = "45">-1_-1_-1</Freq>
+            <Freq level = "46">-1_-1_-1</Freq>
+            <Freq level = "47">-1_-1_-1</Freq>
+            <Freq level = "48">-1_-1_-1</Freq>
+            <!-- cod SavageMode yhy-->
+            <Freq level = "49">-1_-1_-1</Freq>
+            <Freq level = "50">-1_-1_-1</Freq>
+            <Freq level = "51">-1_-1_-1</Freq>
+            <Freq level = "52">-1_-1_-1</Freq>
+            <!-- sgame DefaultMode yhy -->
+            <Freq level = "613">-1_-1_-1</Freq>
+            <Freq level = "614">-1_-1_-1</Freq>
+            <Freq level = "615">-1_-1_-1</Freq>
+            <Freq level = "616">-1_-1_-1</Freq>
+            <!-- sgame PowerSaveMode yhy -->
+            <Freq level = "617">-1_-1_-1</Freq>
+            <Freq level = "618">-1_-1_-1</Freq>
+            <Freq level = "619">-1_-1_-1</Freq>
+            <Freq level = "620">-1_-1_-1</Freq>
+            <!-- sgame SavageMode yhy -->
+            <Freq level = "621">-1_-1_-1</Freq>
+            <Freq level = "622">-1_-1_-1</Freq>
+            <Freq level = "623">-1_-1_-1</Freq>
+            <Freq level = "624">-1_-1_-1</Freq>
+            <!-- mingchao DefaultMode yhy -->
+            <Freq level = "637">-1_-1_-1</Freq>
+            <Freq level = "638">-1_-1_-1</Freq>
+            <Freq level = "639">-1_-1_-1</Freq>
+            <Freq level = "640">-1_-1_-1</Freq>
+            <!-- mingchao PowerSaveMode yhy -->
+            <Freq level = "641">-1_-1_-1</Freq>
+            <Freq level = "642">-1_-1_-1</Freq>
+            <Freq level = "643">-1_-1_-1</Freq>
+            <Freq level = "644">-1_-1_-1</Freq>
+            <!-- mingchao SavageMode yhy -->
+            <Freq level = "645">-1_-1_-1</Freq>
+            <Freq level = "646">-1_-1_-1</Freq>
+            <Freq level = "647">-1_-1_-1</Freq>
+            <Freq level = "648">-1_-1_-1</Freq>
+            <!-- jinchanchan DefaultMode yhy-->
+            <Freq level = "62">-1_-1_-1</Freq>
+            <Freq level = "63">-1_-1_-1</Freq>
+            <Freq level = "64">-1_-1_-1</Freq>
+            <Freq level = "65">-1_-1_-1</Freq>
+            <!-- jinchanchan PowerSaveMode yhy-->
+            <Freq level = "66">-1_-1_-1</Freq>
+            <Freq level = "67">-1_-1_-1</Freq>
+            <Freq level = "68">-1_-1_-1</Freq>
+            <Freq level = "69">-1_-1_-1</Freq>
+            <!-- jinchanchan SavageMode yhy-->
+            <Freq level = "70">-1_-1_-1</Freq>
+            <Freq level = "71">-1_-1_-1</Freq>
+            <Freq level = "72">-1_-1_-1</Freq>
+            <Freq level = "73">-1_-1_-1</Freq>
+            <!-- tmgptyf DefaultMode yhy-->
+            <Freq level = "83">-1_-1_-1</Freq>
+            <Freq level = "84">-1_-1_-1</Freq>
+            <Freq level = "85">-1_-1_-1</Freq>
+            <!-- tmgptyf PowerSaveMode yhy-->
+            <Freq level = "86">-1_-1_-1</Freq>
+            <Freq level = "87">-1_-1_-1</Freq>
+            <Freq level = "88">-1_-1_-1</Freq>
+            <!-- tmgptyf SavageMode yhy-->
+            <Freq level = "89">-1_-1_-1</Freq>
+            <Freq level = "90">-1_-1_-1</Freq>
+            <Freq level = "91">-1_-1_-1</Freq>
+            <!-- pubg DefaultMode yhy-->
+            <Freq level = "92">-1_-1_-1</Freq>
+            <Freq level = "93">-1_-1_-1</Freq>
+            <Freq level = "94">-1_-1_-1</Freq>
+            <Freq level = "95">-1_-1_-1</Freq>
+            <!-- pubg PowerSaveMode yhy-->
+            <Freq level = "96">-1_-1_-1</Freq>
+            <Freq level = "97">-1_-1_-1</Freq>
+            <Freq level = "98">-1_-1_-1</Freq>
+            <Freq level = "99">-1_-1_-1</Freq>
+            <!-- pubg SavageMode yhy-->
+            <Freq level = "100">-1_-1_-1</Freq>
+            <Freq level = "101">-1_-1_-1</Freq>
+            <Freq level = "102">-1_-1_-1</Freq>
+            <Freq level = "103">-1_-1_-1</Freq>
+            <!-- qqcar DefaultMode yhy-->
+            <Freq level = "290">-1_-1_-1</Freq>
+            <Freq level = "291">-1_-1_-1</Freq>
+            <Freq level = "292">-1_-1_-1</Freq>
+            <Freq level = "293">-1_-1_-1</Freq>
+            <!-- qqcar PowerSaveMode yhy-->
+            <Freq level = "294">-1_-1_-1</Freq>
+            <Freq level = "295">-1_-1_-1</Freq>
+            <Freq level = "296">-1_-1_-1</Freq>
+            <Freq level = "297">-1_-1_-1</Freq>
+            <!-- qqcar SavageMode yhy-->
+            <Freq level = "298">-1_-1_-1</Freq>
+            <Freq level = "299">-1_-1_-1</Freq>
+            <Freq level = "300">-1_-1_-1</Freq>
+            <Freq level = "301">-1_-1_-1</Freq>
+            <!-- anqu DefaultMode yhy -->
+            <Freq level = "649">-1_-1_-1</Freq>
+            <Freq level = "650">-1_-1_-1</Freq>
+            <Freq level = "651">-1_-1_-1</Freq>
+            <Freq level = "652">-1_-1_-1</Freq>
+            <!-- anqu PowerSaveMode yhy -->
+            <Freq level = "653">-1_-1_-1</Freq>
+            <Freq level = "654">-1_-1_-1</Freq>
+            <Freq level = "655">-1_-1_-1</Freq>
+            <Freq level = "656">-1_-1_-1</Freq>
+            <!-- anqu SavageMode yhy -->
+            <Freq level = "657">-1_-1_-1</Freq>
+            <Freq level = "658">-1_-1_-1</Freq>
+            <Freq level = "659">-1_-1_-1</Freq>
+            <Freq level = "660">-1_-1_-1</Freq>
+            <!-- huoying DefaultMode yhy-->
+            <Freq level = "260">-1_-1_-1</Freq>
+            <Freq level = "261">-1_-1_-1</Freq>
+            <Freq level = "262">-1_-1_-1</Freq>
+            <Freq level = "263">-1_-1_-1</Freq>
+            <!-- huoying PowerSaveMode yhy-->
+            <Freq level = "264">-1_-1_-1</Freq>
+            <Freq level = "265">-1_-1_-1</Freq>
+            <Freq level = "266">-1_-1_-1</Freq>
+            <Freq level = "267">-1_-1_-1</Freq>
+            <!-- huoying SavageMode yhy-->
+            <Freq level = "268">-1_-1_-1</Freq>
+            <Freq level = "269">-1_-1_-1</Freq>
+            <Freq level = "270">-1_-1_-1</Freq>
+            <Freq level = "271">-1_-1_-1</Freq>
+            <!-- nishuihan DefaultMode yhy-->
+            <Freq level = "500">-1_-1_-1</Freq>
+            <Freq level = "501">-1_-1_-1</Freq>
+            <Freq level = "502">-1_-1_-1</Freq>
+            <Freq level = "503">-1_-1_-1</Freq>
+            <!-- nishuihan PowerSaveMode yhy-->
+            <Freq level = "504">-1_-1_-1</Freq>
+            <Freq level = "505">-1_-1_-1</Freq>
+            <Freq level = "506">-1_-1_-1</Freq>
+            <Freq level = "507">-1_-1_-1</Freq>
+            <!-- nishuihan SavageMode yhy-->
+            <Freq level = "508">-1_-1_-1</Freq>
+            <Freq level = "509">-1_-1_-1</Freq>
+            <Freq level = "510">-1_-1_-1</Freq>
+            <Freq level = "511">-1_-1_-1</Freq>
+            <!-- Universal DefaultMode yhy>
+            <Freq level = "151">-1_-1_-1</Freq>
+            <Freq level = "152">-1_-1_-1</Freq>
+            <Freq level = "153">-1_-1_-1</Freq>
+            <Freq level = "154">-1_-1_-1</Freq>
+            < Universal PowerSaveMode yhy>
+            <Freq level = "155">-1_-1_-1</Freq>
+            <Freq level = "156">-1_-1_-1</Freq>
+            <Freq level = "157">-1_-1_-1</Freq>
+            <Freq level = "158">-1_-1_-1</Freq>
+            < Universal SavageMode yhy>
+            <Freq level = "159">-1_-1_-1</Freq>
+            <Freq level = "160">-1_-1_-1</Freq>
+            <Freq level = "161">-1_-1_-1</Freq>
+            <Freq level = "162">-1_-1_-1</Freq-->
+            <!-- huanta DefaultMode yhy-->
+            <Freq level = "709">-1_-1_-1</Freq>
+            <Freq level = "710">-1_-1_-1</Freq>
+            <Freq level = "711">-1_-1_-1</Freq>
+            <Freq level = "712">-1_-1_-1</Freq>
+            <!-- huanta PowerSaveMode yhy-->
+            <Freq level = "713">-1_-1_-1</Freq>
+            <Freq level = "714">-1_-1_-1</Freq>
+            <Freq level = "715">-1_-1_-1</Freq>
+            <Freq level = "716">-1_-1_-1</Freq>
+            <!-- huanta SavageMode yhy-->
+            <Freq level = "717">-1_-1_-1</Freq>
+            <Freq level = "718">-1_-1_-1</Freq>
+            <Freq level = "719">-1_-1_-1</Freq>
+            <Freq level = "720">-1_-1_-1</Freq>
+            <!-- paopaocar DefaultMode yhy-->
+            <Freq level = "175">-1_-1_-1</Freq>
+            <Freq level = "176">-1_-1_-1</Freq>
+            <Freq level = "177">-1_-1_-1</Freq>
+            <Freq level = "178">-1_-1_-1</Freq>
+            <!-- paopaocar PowerSaveMode yhy-->
+            <Freq level = "179">-1_-1_-1</Freq>
+            <Freq level = "180">-1_-1_-1</Freq>
+            <Freq level = "181">-1_-1_-1</Freq>
+            <Freq level = "182">-1_-1_-1</Freq>
+            <!-- paopaocar SavageMode yhy-->
+            <Freq level = "183">-1_-1_-1</Freq>
+            <Freq level = "184">-1_-1_-1</Freq>
+            <Freq level = "185">-1_-1_-1</Freq>
+            <Freq level = "186">-1_-1_-1</Freq>
+            <!-- yuanshen DefaultMode yhy-->
+            <Freq level = "187">-1_-1_-1</Freq>
+            <Freq level = "188">-1_-1_-1</Freq>
+            <Freq level = "189">-1_-1_-1</Freq>
+            <Freq level = "190">-1_-1_-1</Freq>
+            <!-- yuanshen PowerSaveMode yhy-->
+            <Freq level = "191">-1_-1_-1</Freq>
+            <Freq level = "192">-1_-1_-1</Freq>
+            <Freq level = "193">-1_-1_-1</Freq>
+            <Freq level = "194">-1_-1_-1</Freq>
+            <!-- yuanshen SavageMode yhy-->
+            <Freq level = "195">-1_-1_-1</Freq>
+            <Freq level = "196">-1_-1_-1</Freq>
+            <Freq level = "197">-1_-1_-1</Freq>
+            <Freq level = "198">-1_-1_-1</Freq>
+            <!-- myworld DefaultMode yhy-->
+            <Freq level = "199">-1_-1_-1</Freq>
+            <Freq level = "200">-1_-1_-1</Freq>
+            <Freq level = "201">-1_-1_-1</Freq>
+            <Freq level = "202">-1_-1_-1</Freq>
+            <!-- myworld PowerSaveMode yhy-->
+            <Freq level = "203">-1_-1_-1</Freq>
+            <Freq level = "204">-1_-1_-1</Freq>
+            <Freq level = "205">-1_-1_-1</Freq>
+            <Freq level = "206">-1_-1_-1</Freq>
+            <!-- myworld SavageMode yhy-->
+            <Freq level = "207">-1_-1_-1</Freq>
+            <Freq level = "208">-1_-1_-1</Freq>
+            <Freq level = "209">-1_-1_-1</Freq>
+            <Freq level = "210">-1_-1_-1</Freq>
+            <!-- miniworld DefaultMode yhy-->
+            <Freq level = "211">-1_-1_-1</Freq>
+            <Freq level = "212">-1_-1_-1</Freq>
+            <Freq level = "213">-1_-1_-1</Freq>
+            <Freq level = "214">-1_-1_-1</Freq>
+            <!-- miniworld PowerSaveMode yhy-->
+            <Freq level = "215">-1_-1_-1</Freq>
+            <Freq level = "216">-1_-1_-1</Freq>
+            <Freq level = "217">-1_-1_-1</Freq>
+            <Freq level = "218">-1_-1_-1</Freq>
+            <!-- miniworld SavageMode yhy-->
+            <Freq level = "219">-1_-1_-1</Freq>
+            <Freq level = "220">-1_-1_-1</Freq>
+            <Freq level = "221">-1_-1_-1</Freq>
+            <Freq level = "222">-1_-1_-1</Freq>
+            <!-- ZZZ DefaultMode yhy -->
+            <Freq level = "359">-1_-1_-1</Freq>
+            <Freq level = "360">-1_-1_-1</Freq>
+            <Freq level = "361">-1_-1_-1</Freq>
+            <Freq level = "362">-1_-1_-1</Freq>
+            <!-- ZZZ PowerSaveMode yhy -->
+            <Freq level = "363">-1_-1_-1</Freq>
+            <Freq level = "364">-1_-1_-1</Freq>
+            <Freq level = "365">-1_-1_-1</Freq>
+            <Freq level = "366">-1_-1_-1</Freq>
+            <!-- ZZZ SavageMode yhy -->
+            <Freq level = "367">-1_-1_-1</Freq>
+            <Freq level = "368">-1_-1_-1</Freq>
+            <Freq level = "369">-1_-1_-1</Freq>
+            <Freq level = "370">-1_-1_-1</Freq>
+            <!-- party DefaultMode yhy -->
+            <Freq level = "601">-1_-1_-1</Freq>
+            <Freq level = "602">-1_-1_-1</Freq>
+            <Freq level = "603">-1_-1_-1</Freq>
+            <Freq level = "604">-1_-1_-1</Freq>
+            <!-- party PowerSaveMode yhy -->
+            <Freq level = "605">-1_-1_-1</Freq>
+            <Freq level = "606">-1_-1_-1</Freq>
+            <Freq level = "607">-1_-1_-1</Freq>
+            <Freq level = "608">-1_-1_-1</Freq>
+            <!-- party SavageMode yhy -->
+            <Freq level = "609">-1_-1_-1</Freq>
+            <Freq level = "610">-1_-1_-1</Freq>
+            <Freq level = "611">-1_-1_-1</Freq>
+            <Freq level = "612">-1_-1_-1</Freq>
+            <!-- dnf DefaultMode yhy -->
+            <Freq level = "625">-1_-1_-1</Freq>
+            <Freq level = "626">-1_-1_-1</Freq>
+            <Freq level = "627">-1_-1_-1</Freq>
+            <!-- dnf PowerSaveMode yhy -->
+            <Freq level = "629">-1_-1_-1</Freq>
+            <Freq level = "630">-1_-1_-1</Freq>
+            <Freq level = "631">-1_-1_-1</Freq>
+            <!-- dnf SavageMode yhy -->
+            <Freq level = "633">-1_-1_-1</Freq>
+            <Freq level = "634">-1_-1_-1</Freq>
+            <Freq level = "635">-1_-1_-1</Freq>
+            <!-- yuanmeng DefaultMode yhy -->
+            <Freq level = "402">-1_-1_-1</Freq>
+            <Freq level = "403">-1_-1_-1</Freq>
+            <Freq level = "404">-1_-1_-1</Freq>
+            <Freq level = "405">-1_-1_-1</Freq>
+            <!-- yuanmeng PowerSaveMode yhy -->
+            <Freq level = "406">-1_-1_-1</Freq>
+            <Freq level = "407">-1_-1_-1</Freq>
+            <Freq level = "408">-1_-1_-1</Freq>
+            <Freq level = "409">-1_-1_-1</Freq>
+            <!-- yuanmeng SavageMode yhy -->
+            <Freq level = "410">-1_-1_-1</Freq>
+            <Freq level = "411">-1_-1_-1</Freq>
+            <Freq level = "412">-1_-1_-1</Freq>
+            <Freq level = "413">-1_-1_-1</Freq>
+            <!-- subway DefaultMode yhy -->
+            <Freq level = "901">-1_-1_-1</Freq>
+            <Freq level = "902">-1_-1_-1</Freq>
+            <Freq level = "903">-1_-1_-1</Freq>
+            <Freq level = "904">-1_-1_-1</Freq>
+            <!-- subway PowerSaveMode yhy -->
+            <Freq level = "905">-1_-1_-1</Freq>
+            <Freq level = "906">-1_-1_-1</Freq>
+            <Freq level = "907">-1_-1_-1</Freq>
+            <Freq level = "908">-1_-1_-1</Freq>
+            <!-- subway SavageMode yhy -->
+            <Freq level = "909">-1_-1_-1</Freq>
+            <Freq level = "910">-1_-1_-1</Freq>
+            <Freq level = "911">-1_-1_-1</Freq>
+            <Freq level = "912">-1_-1_-1</Freq>
+            <!-- netease DefaultMode yhy -->
+            <Freq level = "275">-1_-1_-1</Freq>
+            <Freq level = "276">-1_-1_-1</Freq>
+            <Freq level = "277">-1_-1_-1</Freq>
+            <Freq level = "278">-1_-1_-1</Freq>
+            <!-- netease PowerSaveMode yhy -->
+            <Freq level = "279">-1_-1_-1</Freq>
+            <Freq level = "280">-1_-1_-1</Freq>
+            <Freq level = "281">-1_-1_-1</Freq>
+            <Freq level = "282">-1_-1_-1</Freq>
+            <!-- netease SavageMode yhy -->
+            <Freq level = "283">-1_-1_-1</Freq>
+            <Freq level = "284">-1_-1_-1</Freq>
+            <Freq level = "285">-1_-1_-1</Freq>
+            <Freq level = "286">-1_-1_-1</Freq>
+            <!-- benghuai DefaultMode yhy -->
+            <Freq level = "512">-1_-1_-1</Freq>
+            <Freq level = "513">-1_-1_-1</Freq>
+            <Freq level = "514">-1_-1_-1</Freq>
+            <Freq level = "515">-1_-1_-1</Freq>
+            <!-- benghuai PowerSaveMode yhy -->
+            <Freq level = "516">-1_-1_-1</Freq>
+            <Freq level = "517">-1_-1_-1</Freq>
+            <Freq level = "518">-1_-1_-1</Freq>
+            <Freq level = "519">-1_-1_-1</Freq>
+            <!-- benghuai SavageMode yhy -->
+            <Freq level = "520">-1_-1_-1</Freq>
+            <Freq level = "521">-1_-1_-1</Freq>
+            <Freq level = "522">-1_-1_-1</Freq>
+            <Freq level = "523">-1_-1_-1</Freq>
+            <!-- pvz2 DefaultMode yhy -->
+            <Freq level = "661">-1_-1_-1</Freq>
+            <Freq level = "662">-1_-1_-1</Freq>
+            <Freq level = "663">-1_-1_-1</Freq>
+            <Freq level = "664">-1_-1_-1</Freq>
+            <!-- pvz2 PowerSaveMode yhy -->
+            <Freq level = "665">-1_-1_-1</Freq>
+            <Freq level = "666">-1_-1_-1</Freq>
+            <Freq level = "667">-1_-1_-1</Freq>
+            <Freq level = "668">-1_-1_-1</Freq>
+            <!-- pvz2 SavageMode yhy -->
+            <Freq level = "669">-1_-1_-1</Freq>
+            <Freq level = "670">-1_-1_-1</Freq>
+            <Freq level = "671">-1_-1_-1</Freq>
+            <Freq level = "672">-1_-1_-1</Freq>
+            <!-- yhtj DefaultMode yhy-->
+            <Freq level = "311">-1_-1_-1</Freq>
+            <Freq level = "312">-1_-1_-1</Freq>
+            <Freq level = "313">-1_-1_-1</Freq>
+            <Freq level = "314">-1_-1_-1</Freq>
+            <!-- yhtj PowerSaveMode yhy-->
+            <Freq level = "315">-1_-1_-1</Freq>
+            <Freq level = "316">-1_-1_-1</Freq>
+            <Freq level = "317">-1_-1_-1</Freq>
+            <Freq level = "318">-1_-1_-1</Freq>
+            <!-- yhtj SavageMode yhy-->
+            <Freq level = "319">-1_-1_-1</Freq>
+            <Freq level = "320">-1_-1_-1</Freq>
+            <Freq level = "321">-1_-1_-1</Freq>
+            <Freq level = "322">-1_-1_-1</Freq>
+            <!-- xiangchang DefaultMode yhy -->
+            <Freq level = "673">-1_-1_-1</Freq>
+            <Freq level = "674">-1_-1_-1</Freq>
+            <Freq level = "675">-1_-1_-1</Freq>
+            <Freq level = "676">-1_-1_-1</Freq>
+            <!-- xiangchang PowerSaveMode yhy -->
+            <Freq level = "677">-1_-1_-1</Freq>
+            <Freq level = "678">-1_-1_-1</Freq>
+            <Freq level = "679">-1_-1_-1</Freq>
+            <Freq level = "680">-1_-1_-1</Freq>
+            <!-- xiangchang SavageMode yhy -->
+            <Freq level = "681">-1_-1_-1</Freq>
+            <Freq level = "682">-1_-1_-1</Freq>
+            <Freq level = "683">-1_-1_-1</Freq>
+            <Freq level = "684">-1_-1_-1</Freq>
+            <!-- huangyeluandou DefaultMode yhy -->
+            <Freq level = "685">-1_-1_-1</Freq>
+            <Freq level = "686">-1_-1_-1</Freq>
+            <Freq level = "687">-1_-1_-1</Freq>
+            <Freq level = "688">-1_-1_-1</Freq>
+            <!-- huangyeluandou PowerSaveMode yhy -->
+            <Freq level = "689">-1_-1_-1</Freq>
+            <Freq level = "690">-1_-1_-1</Freq>
+            <Freq level = "691">-1_-1_-1</Freq>
+            <Freq level = "692">-1_-1_-1</Freq>
+            <!-- huangyeluandou SavageMode yhy -->
+            <Freq level = "693">-1_-1_-1</Freq>
+            <Freq level = "694">-1_-1_-1</Freq>
+            <Freq level = "695">-1_-1_-1</Freq>
+            <Freq level = "696">-1_-1_-1</Freq>
+            <!-- gaonengyingxiong DefaultMode yhy-->
+            <Freq level = "536">-1_-1_-1</Freq>
+            <Freq level = "537">-1_-1_-1</Freq>
+            <Freq level = "538">-1_-1_-1</Freq>
+            <Freq level = "539">-1_-1_-1</Freq>
+            <!-- gaonengyingxiong PowerSaveMode yhy-->
+            <Freq level = "540">-1_-1_-1</Freq>
+            <Freq level = "541">-1_-1_-1</Freq>
+            <Freq level = "542">-1_-1_-1</Freq>
+            <Freq level = "543">-1_-1_-1</Freq>
+            <!-- gaonengyingxiong SavageMode yhy-->
+            <Freq level = "544">-1_-1_-1</Freq>
+            <Freq level = "545">-1_-1_-1</Freq>
+            <Freq level = "546">-1_-1_-1</Freq>
+            <Freq level = "547">-1_-1_-1</Freq>
+            <!-- Phigros DefaultMode yhy-->
+            <Freq level = "3000">-1_-1_-1</Freq>
+            <Freq level = "3001">-1_-1_-1</Freq>
+            <Freq level = "3002">-1_-1_-1</Freq>
+            <Freq level = "3003">-1_-1_-1</Freq>
+            <!-- Phigros PowerSaveMode yhy-->
+            <Freq level = "3004">-1_-1_-1</Freq>
+            <Freq level = "3005">-1_-1_-1</Freq>
+            <Freq level = "3006">-1_-1_-1</Freq>
+            <Freq level = "3007">-1_-1_-1</Freq>
+            <!-- Phigros SavageMode yhy-->
+            <Freq level = "3008">-1_-1_-1</Freq>
+            <Freq level = "3009">-1_-1_-1</Freq>
+            <Freq level = "3010">-1_-1_-1</Freq>
+            <Freq level = "3011">-1_-1_-1</Freq>
+            <!-- tianyu DefaultMode yhy-->
+            <Freq level = "524">-1_-1_-1</Freq>
+            <Freq level = "525">-1_-1_-1</Freq>
+            <Freq level = "526">-1_-1_-1</Freq>
+            <Freq level = "527">-1_-1_-1</Freq>
+            <!-- tianyu PowerSaveMode yhy-->
+            <Freq level = "528">-1_-1_-1</Freq>
+            <Freq level = "529">-1_-1_-1</Freq>
+            <Freq level = "530">-1_-1_-1</Freq>
+            <Freq level = "531">-1_-1_-1</Freq>
+            <!-- tianyu SavageMode yhy-->
+            <Freq level = "532">-1_-1_-1</Freq>
+            <Freq level = "533">-1_-1_-1</Freq>
+            <Freq level = "534">-1_-1_-1</Freq>
+            <Freq level = "535">-1_-1_-1</Freq>
+            <!-- sanjiao DefaultMode yhy-->
+            <Freq level = "548">-1_-1_-1</Freq>
+            <Freq level = "549">-1_-1_-1</Freq>
+            <Freq level = "550">-1_-1_-1</Freq>
+            <Freq level = "551">-1_-1_-1</Freq>
+            <!-- sanjiao PowerSaveMode yhy-->
+            <Freq level = "552">-1_-1_-1</Freq>
+            <Freq level = "553">-1_-1_-1</Freq>
+            <Freq level = "554">-1_-1_-1</Freq>
+            <Freq level = "555">-1_-1_-1</Freq>
+            <!-- sanjiao SavageMode yhy-->
+            <Freq level = "556">-1_-1_-1</Freq>
+            <Freq level = "557">-1_-1_-1</Freq>
+            <Freq level = "558">-1_-1_-1</Freq>
+            <Freq level = "559">-1_-1_-1</Freq>
+            <!-- quanmingxing DefaultMode yhy-->
+            <Freq level = "560">-1_-1_-1</Freq>
+            <Freq level = "561">-1_-1_-1</Freq>
+            <Freq level = "562">-1_-1_-1</Freq>
+            <Freq level = "563">-1_-1_-1</Freq>
+            <!-- quanmingxing PowerSaveMode yhy-->
+            <Freq level = "564">-1_-1_-1</Freq>
+            <Freq level = "565">-1_-1_-1</Freq>
+            <Freq level = "566">-1_-1_-1</Freq>
+            <Freq level = "567">-1_-1_-1</Freq>
+            <!--quanmingxing SavageMode yhy-->
+            <Freq level = "568">-1_-1_-1</Freq>
+            <Freq level = "569">-1_-1_-1</Freq>
+            <Freq level = "570">-1_-1_-1</Freq>
+            <Freq level = "571">-1_-1_-1</Freq>
+            <!--guangyu DefaultMode yhy-->
+            <Freq level = "572">-1_-1_-1</Freq>
+            <Freq level = "573">-1_-1_-1</Freq>
+            <Freq level = "574">-1_-1_-1</Freq>
+            <Freq level = "575">-1_-1_-1</Freq>
+            <!--guangyu PowerSaveMode yhy-->
+            <Freq level = "576">-1_-1_-1</Freq>
+            <Freq level = "577">-1_-1_-1</Freq>
+            <Freq level = "578">-1_-1_-1</Freq>
+            <Freq level = "579">-1_-1_-1</Freq>
+            <!--guangyu SavageMode yhy-->
+            <Freq level = "580">-1_-1_-1</Freq>
+            <Freq level = "581">-1_-1_-1</Freq>
+            <Freq level = "582">-1_-1_-1</Freq>
+            <Freq level = "583">-1_-1_-1</Freq>
+            <!--yinyangshi DefaultMode yhy-->
+            <Freq level = "584">-1_-1_-1</Freq>
+            <Freq level = "585">-1_-1_-1</Freq>
+            <Freq level = "586">-1_-1_-1</Freq>
+            <Freq level = "587">-1_-1_-1</Freq>
+            <!--yinyangshi PowerSaveMode yhy-->
+            <Freq level = "588">-1_-1_-1</Freq>
+            <Freq level = "589">-1_-1_-1</Freq>
+            <Freq level = "590">-1_-1_-1</Freq>
+            <Freq level = "591">-1_-1_-1</Freq>
+            <!--yinyangshi SavageMode yhy-->
+            <Freq level = "592">-1_-1_-1</Freq>
+            <Freq level = "593">-1_-1_-1</Freq>
+            <Freq level = "594">-1_-1_-1</Freq>
+            <Freq level = "595">-1_-1_-1</Freq>
+            <!--benghuaisan DefaultMode yhy-->
+            <Freq level = "414">-1_-1_-1</Freq>
+            <Freq level = "415">-1_-1_-1</Freq>
+            <Freq level = "416">-1_-1_-1</Freq>
+            <Freq level = "417">-1_-1_-1</Freq>
+            <!--benghuaisan PowerSaveMode yhy-->
+            <Freq level = "418">-1_-1_-1</Freq>
+            <Freq level = "419">-1_-1_-1</Freq>
+            <Freq level = "420">-1_-1_-1</Freq>
+            <Freq level = "421">-1_-1_-1</Freq>
+            <!--benghuaisan SavageMode yhy-->
+            <Freq level = "422">-1_-1_-1</Freq>
+            <Freq level = "423">-1_-1_-1</Freq>
+            <Freq level = "424">-1_-1_-1</Freq>
+            <Freq level = "425">-1_-1_-1</Freq>
+            <!--lushi DefaultMode yhy-->
+            <Freq level = "426">-1_-1_-1</Freq>
+            <Freq level = "427">-1_-1_-1</Freq>
+            <Freq level = "428">-1_-1_-1</Freq>
+            <Freq level = "429">-1_-1_-1</Freq>
+            <!--lushi PowerSaveMode yhy-->
+            <Freq level = "430">-1_-1_-1</Freq>
+            <Freq level = "431">-1_-1_-1</Freq>
+            <Freq level = "432">-1_-1_-1</Freq>
+            <Freq level = "433">-1_-1_-1</Freq>
+            <!--lushi SavageMode yhy-->
+            <Freq level = "434">-1_-1_-1</Freq>
+            <Freq level = "435">-1_-1_-1</Freq>
+            <Freq level = "436">-1_-1_-1</Freq>
+            <Freq level = "437">-1_-1_-1</Freq>
+            <!--diwurenge DefaultMode yhy-->
+            <Freq level = "438">-1_-1_-1</Freq>
+            <Freq level = "439">-1_-1_-1</Freq>
+            <Freq level = "440">-1_-1_-1</Freq>
+            <Freq level = "441">-1_-1_-1</Freq>
+            <!--diwurenge PowerSaveMode yhy-->
+            <Freq level = "442">-1_-1_-1</Freq>
+            <Freq level = "443">-1_-1_-1</Freq>
+            <Freq level = "444">-1_-1_-1</Freq>
+            <Freq level = "445">-1_-1_-1</Freq>
+            <!--diwurenge SavageMode yhy-->
+            <Freq level = "446">-1_-1_-1</Freq>
+            <Freq level = "447">-1_-1_-1</Freq>
+            <Freq level = "448">-1_-1_-1</Freq>
+            <Freq level = "449">-1_-1_-1</Freq>
+            <!--menghuan DefaultMode yhy-->
+            <Freq level = "450">-1_-1_-1</Freq>
+            <Freq level = "451">-1_-1_-1</Freq>
+            <Freq level = "452">-1_-1_-1</Freq>
+            <Freq level = "453">-1_-1_-1</Freq>
+            <!--menghuan PowerSaveMode yhy-->
+            <Freq level = "454">-1_-1_-1</Freq>
+            <Freq level = "455">-1_-1_-1</Freq>
+            <Freq level = "456">-1_-1_-1</Freq>
+            <Freq level = "457">-1_-1_-1</Freq>
+            <!--menghuan SavageMode yhy-->
+            <Freq level = "458">-1_-1_-1</Freq>
+            <Freq level = "459">-1_-1_-1</Freq>
+            <Freq level = "460">-1_-1_-1</Freq>
+            <Freq level = "461">-1_-1_-1</Freq>
+            <!--jipinfeiche DefaultMode yhy-->
+            <Freq level = "462">-1_-1_-1</Freq>
+            <Freq level = "463">-1_-1_-1</Freq>
+            <Freq level = "464">-1_-1_-1</Freq>
+            <Freq level = "465">-1_-1_-1</Freq>
+            <!--jipinfeiche PowerSaveMode yhy-->
+            <Freq level = "466">-1_-1_-1</Freq>
+            <Freq level = "467">-1_-1_-1</Freq>
+            <Freq level = "468">-1_-1_-1</Freq>
+            <Freq level = "469">-1_-1_-1</Freq>
+            <!--jipinfeiche SavageMode yhy-->
+            <Freq level = "470">-1_-1_-1</Freq>
+            <Freq level = "471">-1_-1_-1</Freq>
+            <Freq level = "472">-1_-1_-1</Freq>
+            <Freq level = "473">-1_-1_-1</Freq>
+            <!--yanyun DefaultMode yhy-->
+            <Freq level = "474">-1_-1_-1</Freq>
+            <Freq level = "475">-1_-1_-1</Freq>
+            <Freq level = "476">-1_-1_-1</Freq>
+            <Freq level = "477">-1_-1_-1</Freq>
+            <!--yanyun PowerSaveMode yhy-->
+            <Freq level = "478">-1_-1_-1</Freq>
+            <Freq level = "479">-1_-1_-1</Freq>
+            <Freq level = "480">-1_-1_-1</Freq>
+            <Freq level = "481">-1_-1_-1</Freq>
+            <!--yanyun SavageMode yhy-->
+            <Freq level = "482">-1_-1_-1</Freq>
+            <Freq level = "483">-1_-1_-1</Freq>
+            <Freq level = "484">-1_-1_-1</Freq>
+            <Freq level = "485">-1_-1_-1</Freq>
+            <!--mingrifangzhou DefaultMode yhy-->
+            <Freq level = "486">-1_-1_-1</Freq>
+            <Freq level = "487">-1_-1_-1</Freq>
+            <Freq level = "488">-1_-1_-1</Freq>
+            <Freq level = "489">-1_-1_-1</Freq>
+            <!--mingrifangzhou PowerSaveMode yhy-->
+            <Freq level = "490">-1_-1_-1</Freq>
+            <Freq level = "491">-1_-1_-1</Freq>
+            <Freq level = "492">-1_-1_-1</Freq>
+            <Freq level = "493">-1_-1_-1</Freq>
+            <!--mingrifangzhou SavageMode yhy-->
+            <Freq level = "494">-1_-1_-1</Freq>
+            <Freq level = "495">-1_-1_-1</Freq>
+            <Freq level = "496">-1_-1_-1</Freq>
+            <Freq level = "497">-1_-1_-1</Freq>
+        </Type>
+        <Type name = "MegaCore">
+            <!-- device default yhy -->
+            <Freq level = "0">-1_-1_-1</Freq>
+            <!-- Othergame DefaultMode yhy -->
+            <Freq level = "-323">2246400_1017600_2841600</Freq>
+            <Freq level = "-324">1958400_1017600_-1</Freq>
+            <Freq level = "-325">1958400_1017600_2438400</Freq>
+            <Freq level = "-326">1689600_1017600_-1</Freq>
+            <!-- Othergame PowerSaveMode yhy -->
+            <Freq level = "-327">1689600_1017600_-1</Freq>
+            <Freq level = "-328">1401600_1017600_-1</Freq>
+            <Freq level = "-329">1401600_1017600_-1</Freq>
+            <Freq level = "-330">1209600_1017600_-1</Freq>
+            <!-- Othergame SavageMode yhy -->
+            <Freq level = "-331">4320000_1689600_-1</Freq>
+            <Freq level = "-332">3801600_1401600_-1</Freq>
+            <Freq level = "-333">3513600_1209600_-1</Freq>
+            <Freq level = "-334">3283200_1017600_-1</Freq>
+            <!-- lol DefaultMode yhy -->
+            <Freq level = "11">2246400_1017600_-1</Freq>
+            <Freq level = "12">1958400_1017600_-1</Freq>
+            <Freq level = "13">1958400_1017600_-1</Freq>
+            <Freq level = "1001">1689600_1017600_-1</Freq>
+            <!-- lol PowerSaveMode yhy -->
+            <Freq level = "14">1401600_1017600_-1</Freq>
+            <Freq level = "15">1209600_1017600_-1</Freq>
+            <Freq level = "16">1209600_1017600_-1</Freq>
+            <Freq level = "1002">1209600_1017600_-1</Freq>
+            <!-- lol SavageMode yhy -->
+            <Freq level = "17">4320000_1017600_-1</Freq>
+            <Freq level = "18">3513600_1017600_-1</Freq>
+            <Freq level = "19">3513600_1017600_-1</Freq>
+            <Freq level = "1003">3283200_1017600_-1</Freq>
+            <!-- tmgp DefaultMode yhy-->
+            <Freq level = "20">3072000_1689600_3072000</Freq>
+            <Freq level = "21">2649600_1209600_2649600</Freq>
+            <Freq level = "22">2438400_1209600_2438400</Freq>
+            <!-- tmgp PowerSaveMode yhy-->
+            <Freq level = "23">2438400_1017600_-1</Freq>
+            <Freq level = "24">2246400_1017600_-1</Freq>
+            <Freq level = "25">1958400_1017600_-1</Freq>
+            <!-- tmgp SavageMode yhy-->
+            <Freq level = "26">4320000_3513600_-1</Freq>
+            <Freq level = "27">3513600_3072000_-1</Freq>
+            <Freq level = "28">3072000_2649600_-1</Freq>
+            <!-- cf DefaultMode yhy-->
+            <Freq level = "29">3283200_1689600_-1</Freq>
+            <Freq level = "30">3072000_1689600_-1</Freq>
+            <Freq level = "31">3072000_1689600_-1</Freq>
+            <Freq level = "32">1958400_1689600_-1</Freq>
+            <!-- cf PowerSaveMode yhy-->
+            <Freq level = "33">2438400_1689600_-1</Freq>
+            <Freq level = "34">2438400_1689600_-1</Freq>
+            <Freq level = "35">2246400_1689600_-1</Freq>
+            <Freq level = "36">1958400_1689600_-1</Freq>
+            <!-- cf SavageMode yhy-->
+            <Freq level = "37">4320000_1017600_-1</Freq>
+            <Freq level = "38">3283200_1017600_-1</Freq>
+            <Freq level = "39">3283200_1017600_-1</Freq>
+            <Freq level = "40">3283200_1017600_-1</Freq>
+            <!-- cod DefaultMode yhy-->
+            <Freq level = "41">2438400_1017600_-1</Freq>
+            <Freq level = "42">2438400_1017600_-1</Freq>
+            <Freq level = "43">2246400_1017600_-1</Freq>
+            <Freq level = "44">1689600_1017600_-1</Freq>
+            <!-- cod PowerSaveMode yhy-->
+            <Freq level = "45">2438400_1017600_-1</Freq>
+            <Freq level = "46">2246400_1017600_-1</Freq>
+            <Freq level = "47">2246400_1017600_-1</Freq>
+            <Freq level = "48">1401600_1017600_-1</Freq>
+            <!-- cod SavageMode yhy-->
+            <Freq level = "49">4320000_1017600_-1</Freq>
+            <Freq level = "50">2841600_1017600_-1</Freq>
+            <Freq level = "51">2841600_1017600_-1</Freq>
+            <Freq level = "52">1689600_1017600_-1</Freq>
+            <!-- sgame DefaultMode yhy -->
+            <Freq level = "613">2438400_1017600_-1</Freq>
+            <Freq level = "614">2438400_1017600_-1</Freq>
+            <Freq level = "615">2438400_1017600_-1</Freq>
+            <Freq level = "616">1689600_1017600_-1</Freq>
+            <!-- sgame PowerSaveMode yhy -->
+            <Freq level = "617">1689600_1017600_-1</Freq>
+            <Freq level = "618">1689600_1017600_-1</Freq>
+            <Freq level = "619">1689600_1017600_-1</Freq>
+            <Freq level = "620">1401600_1017600_-1</Freq>
+            <!-- sgame SavageMode yhy -->
+            <Freq level = "621">4320000_1017600_-1</Freq>
+            <Freq level = "622">4320000_1017600_-1</Freq>
+            <Freq level = "623">4320000_1017600_-1</Freq>
+            <Freq level = "624">4320000_1017600_-1</Freq>
+            <!-- mingchao DefaultMode yhy -->
+            <Freq level = "637">2246400_1401600_2246400</Freq>
+            <Freq level = "638">1689600_1209600_1689600</Freq>
+            <Freq level = "639">1689600_1017600_1689600</Freq>
+            <Freq level = "640">1401600_1017600_1401600</Freq>
+            <!-- mingchao PowerSaveMode yhy -->
+            <Freq level = "641">2649600_1401600_2649600</Freq>
+            <Freq level = "642">2438400_1209600_2438400</Freq>
+            <Freq level = "643">2246400_1017600_2246400</Freq>
+            <Freq level = "644">1958400_1017600_1958400</Freq>
+            <!-- mingchao SavageMode yhy -->
+            <Freq level = "645">4320000_1401600_4320000</Freq>
+            <Freq level = "646">4089600_1209600_4089600</Freq>
+            <Freq level = "647">3513600_1209600_3513600</Freq>
+            <Freq level = "648">3072000_1017600_3072000</Freq>
+            <!-- jinchanchan DefaultMode yhy-->
+            <Freq level = "62">2438400_1017600_-1</Freq>
+            <Freq level = "63">2649600_1017600_-1</Freq>
+            <Freq level = "64">2841600_1017600_-1</Freq>
+            <Freq level = "65">2438400_1017600_-1</Freq>
+            <!-- jinchanchan PowerSaveMode yhy-->
+            <Freq level = "66">1209600_1017600_-1</Freq>
+            <Freq level = "67">1209600_1017600_-1</Freq>
+            <Freq level = "68">1209600_1017600_-1</Freq>
+            <Freq level = "69">1209600_1017600_-1</Freq>
+            <!-- jinchanchan SavageMode yhy-->
+            <Freq level = "70">4320000_2246400_-1</Freq>
+            <Freq level = "71">3801600_2246400_-1</Freq>
+            <Freq level = "72">4089600_2246400_-1</Freq>
+            <Freq level = "73">4204800_2246400_-1</Freq>
+            <!-- tmgptyf DefaultMode yhy-->
+            <Freq level = "83">-1_-1_-1</Freq>
+            <Freq level = "84">-1_-1_-1</Freq>
+            <Freq level = "85">-1_-1_-1</Freq>
+            <!-- tmgptyf PowerSaveMode yhy-->
+            <Freq level = "86">-1_-1_-1</Freq>
+            <Freq level = "87">-1_-1_-1</Freq>
+            <Freq level = "88">-1_-1_-1</Freq>
+            <!-- tmgptyf SavageMode yhy-->
+            <Freq level = "89">-1_-1_-1</Freq>
+            <Freq level = "90">-1_-1_-1</Freq>
+            <Freq level = "91">-1_-1_-1</Freq>
+            <!-- pubg DefaultMode yhy-->
+            <Freq level = "92">2649600_1209600_2649600</Freq>
+            <Freq level = "93">2438400_1209600_2438400</Freq>
+            <Freq level = "94">2246400_1209600_2246400</Freq>
+            <Freq level = "95">2246400_1209600_2246400</Freq>
+            <!-- pubg PowerSaveMode yhy-->
+            <Freq level = "96">2438400_1017600_-1</Freq>
+            <Freq level = "97">2246400_1017600_-1</Freq>
+            <Freq level = "98">1958400_1017600_-1</Freq>
+            <Freq level = "99">1958400_1017600_-1</Freq>
+            <!-- pubg SavageMode yhy-->
+            <Freq level = "100">4320000_3513600_-1</Freq>
+            <Freq level = "101">3513600_3072000_-1</Freq>
+            <Freq level = "102">3072000_2649600_-1</Freq>
+            <Freq level = "103">3072000_2649600_-1</Freq>
+            <!-- qqcar DefaultMode yhy-->
+            <Freq level = "290">1689600_1017600_-1</Freq>
+            <Freq level = "291">1689600_1017600_-1</Freq>
+            <Freq level = "292">1689600_1017600_-1</Freq>
+            <Freq level = "293">1401600_1017600_-1</Freq>
+            <!-- qqcar PowerSaveMode yhy-->
+            <Freq level = "294">1401600_1017600_-1</Freq>
+            <Freq level = "295">1401600_1017600_-1</Freq>
+            <Freq level = "296">1401600_1017600_-1</Freq>
+            <Freq level = "297">1209600_1017600_-1</Freq>
+            <!-- qqcar SavageMode yhy-->
+            <Freq level = "298">4320000_1017600_-1</Freq>
+            <Freq level = "299">3283200_1017600_-1</Freq>
+            <Freq level = "300">3283200_1017600_-1</Freq>
+            <Freq level = "301">3072000_1017600_-1</Freq>
+            <!-- anqu DefaultMode yhy -->
+            <Freq level = "649">2246400_1017600_-1</Freq>
+            <Freq level = "650">2246400_1017600_-1</Freq>
+            <Freq level = "651">1958400_1017600_-1</Freq>
+            <Freq level = "652">1689600_1017600_-1</Freq>
+            <!-- anqu PowerSaveMode yhy -->
+            <Freq level = "653">2246400_1017600_-1</Freq>
+            <Freq level = "654">1958400_1017600_-1</Freq>
+            <Freq level = "655">1958400_1017600_-1</Freq>
+            <Freq level = "656">1958400_1017600_-1</Freq>
+            <!-- anqu SavageMode yhy -->
+            <Freq level = "657">4320000_2438400_-1</Freq>
+            <Freq level = "658">2841600_2438400_-1</Freq>
+            <Freq level = "659">2649600_2438400_-1</Freq>
+            <Freq level = "660">2649600_2246400_-1</Freq>
+            <!-- huoying DefaultMode yhy-->
+            <Freq level = "260">2438400_1209600_-1</Freq>
+            <Freq level = "261">2246400_1209600_-1</Freq>
+            <Freq level = "262">1958400_1209600_-1</Freq>
+            <Freq level = "263">1689600_1209600_-1</Freq>
+            <!-- huoying PowerSaveMode yhy-->
+            <Freq level = "264">1958400_1017600_-1</Freq>
+            <Freq level = "265">1958400_1017600_-1</Freq>
+            <Freq level = "266">1958400_1017600_-1</Freq>
+            <Freq level = "267">1958400_1017600_-1</Freq>
+            <!-- huoying SavageMode yhy-->
+            <Freq level = "268">4320000_1401600_-1</Freq>
+            <Freq level = "269">2649600_1401600_-1</Freq>
+            <Freq level = "270">2438400_1401600_-1</Freq>
+            <Freq level = "271">2246400_1401600_-1</Freq>
+            <!-- nishuihan DefaultMode yhy-->
+            <Freq level = "500">2246400_1017600_-1</Freq>
+            <Freq level = "501">1958400_1017600_-1</Freq>
+            <Freq level = "502">1958400_1017600_-1</Freq>
+            <Freq level = "503">1401600_1017600_-1</Freq>
+            <!-- nishuihan PowerSaveMode yhy-->
+            <Freq level = "504">1401600_1017600_-1</Freq>
+            <Freq level = "505">1209600_1017600_-1</Freq>
+            <Freq level = "506">1209600_1017600_-1</Freq>
+            <Freq level = "507">1209600_1017600_-1</Freq>
+            <!-- nishuihan SavageMode yhy-->
+            <Freq level = "508">4320000_1958400_-1</Freq>
+            <Freq level = "509">4089600_1958400_-1</Freq>
+            <Freq level = "510">4089600_1958400_-1</Freq>
+            <Freq level = "511">3801600_1958400_-1</Freq>
+            <!-- Universal DefaultMode yhy>
+            <Freq level = "151">-1_-1_-1</Freq>
+            <Freq level = "152">-1_-1_-1</Freq>
+            <Freq level = "153">-1_-1_-1</Freq>
+            <Freq level = "154">-1_-1_-1</Freq>
+            < Universal PowerSaveMode yhy>
+            <Freq level = "155">-1_-1_-1</Freq>
+            <Freq level = "156">-1_-1_-1</Freq>
+            <Freq level = "157">-1_-1_-1</Freq>
+            <Freq level = "158">-1_-1_-1</Freq>
+            < Universal SavageMode yhy>
+            <Freq level = "159">-1_-1_-1</Freq>
+            <Freq level = "160">-1_-1_-1</Freq>
+            <Freq level = "161">-1_-1_-1</Freq>
+            <Freq level = "162">-1_-1_-1</Freq-->
+            <!-- huanta DefaultMode yhy-->
+            <Freq level = "709">2841600_1401600_-1</Freq>
+            <Freq level = "710">2649600_1209600_-1</Freq>
+            <Freq level = "711">2438400_1017600_-1</Freq>
+            <Freq level = "712">2438400_1017600_-1</Freq>
+            <!-- huanta PowerSaveMode yhy-->
+            <Freq level = "713">1958400_1017600_-1</Freq>
+            <Freq level = "714">1958400_1017600_-1</Freq>
+            <Freq level = "715">1958400_1017600_-1</Freq>
+            <Freq level = "716">1689600_1017600_-1</Freq>
+            <!-- huanta SavageMode yhy-->
+            <Freq level = "717">4320000_1689600_-1</Freq>
+            <Freq level = "718">3801600_1401600_-1</Freq>
+            <Freq level = "719">3513600_1209600_-1</Freq>
+            <Freq level = "720">3283200_1017600_-1</Freq>
+            <!-- paopaocar DefaultMode yhy-->
+            <Freq level = "175">-1_-1_-1</Freq>
+            <Freq level = "176">-1_-1_-1</Freq>
+            <Freq level = "177">-1_-1_-1</Freq>
+            <Freq level = "178">-1_-1_-1</Freq>
+            <!-- paopaocar PowerSaveMode yhy-->
+            <Freq level = "179">-1_-1_-1</Freq>
+            <Freq level = "180">-1_-1_-1</Freq>
+            <Freq level = "181">-1_-1_-1</Freq>
+            <Freq level = "182">-1_-1_-1</Freq>
+            <!-- paopaocar SavageMode yhy-->
+            <Freq level = "183">-1_-1_-1</Freq>
+            <Freq level = "184">-1_-1_-1</Freq>
+            <Freq level = "185">-1_-1_-1</Freq>
+            <Freq level = "186">-1_-1_-1</Freq>
+            <!-- yuanshen DefaultMode yhy-->
+            <Freq level = "187">2246400_1017600_2841600</Freq>
+            <Freq level = "188">1958400_1017600_-1</Freq>
+            <Freq level = "189">1958400_1017600_2438400</Freq>
+            <Freq level = "190">1689600_1017600_-1</Freq>
+            <!-- yuanshen PowerSaveMode yhy-->
+            <Freq level = "191">1689600_1017600_-1</Freq>
+            <Freq level = "192">1401600_1017600_-1</Freq>
+            <Freq level = "193">1401600_1017600_-1</Freq>
+            <Freq level = "194">1209600_1017600_-1</Freq>
+            <!-- yuanshen SavageMode yhy-->
+            <Freq level = "195">4320000_1689600_-1</Freq>
+            <Freq level = "196">3801600_1401600_-1</Freq>
+            <Freq level = "197">3513600_1209600_-1</Freq>
+            <Freq level = "198">3283200_1017600_-1</Freq>
+            <!-- myworld DefaultMode yhy-->
+            <Freq level = "199">1958400_1401600_-1</Freq>
+            <Freq level = "200">1958400_1401600_-1</Freq>
+            <Freq level = "201">1958400_1401600_-1</Freq>
+            <Freq level = "202">1958400_1401600_-1</Freq>
+            <!-- myworld PowerSaveMode yhy-->
+            <Freq level = "203">1958400_1209600_-1</Freq>
+            <Freq level = "204">1958400_1209600_-1</Freq>
+            <Freq level = "205">1958400_1209600_-1</Freq>
+            <Freq level = "206">1958400_1209600_-1</Freq>
+            <!-- myworld SavageMode yhy-->
+            <Freq level = "207">4320000_2246400_-1</Freq>
+            <Freq level = "208">4320000_2246400_-1</Freq>
+            <Freq level = "209">4089600_1958400_-1</Freq>
+            <Freq level = "210">3801600_1958400_-1</Freq>
+            <!-- miniworld DefaultMode yhy-->
+            <Freq level = "211">-1_-1_-1</Freq>
+            <Freq level = "212">-1_-1_-1</Freq>
+            <Freq level = "213">-1_-1_-1</Freq>
+            <Freq level = "214">-1_-1_-1</Freq>
+            <!-- miniworld PowerSaveMode yhy-->
+            <Freq level = "215">-1_-1_-1</Freq>
+            <Freq level = "216">-1_-1_-1</Freq>
+            <Freq level = "217">-1_-1_-1</Freq>
+            <Freq level = "218">-1_-1_-1</Freq>
+            <!-- miniworld SavageMode yhy-->
+            <Freq level = "219">-1_-1_-1</Freq>
+            <Freq level = "220">-1_-1_-1</Freq>
+            <Freq level = "221">-1_-1_-1</Freq>
+            <Freq level = "222">-1_-1_-1</Freq>
+            <!-- ZZZ DefaultMode yhy -->
+            <Freq level = "359">2438400_1017600_-1</Freq>
+            <Freq level = "360">2246400_1017600_-1</Freq>
+            <Freq level = "361">1958400_1017600_-1</Freq>
+            <Freq level = "362">1689600_1017600_-1</Freq>
+            <!-- ZZZ PowerSaveMode yhy -->
+            <Freq level = "363">1958400_1017600_-1</Freq>
+            <Freq level = "364">1958400_1017600_-1</Freq>
+            <Freq level = "365">1689600_1017600_-1</Freq>
+            <Freq level = "366">1689600_1017600_-1</Freq>
+            <!-- ZZZ SavageMode yhy -->
+            <Freq level = "367">4320000_1017600_-1</Freq>
+            <Freq level = "368">3072000_1017600_-1</Freq>
+            <Freq level = "369">3072000_1017600_-1</Freq>
+            <Freq level = "370">2841600_1017600_-1</Freq>
+            <!-- party DefaultMode yhy -->
+            <Freq level = "601">1689600_1017600_-1</Freq>
+            <Freq level = "602">1689600_1017600_-1</Freq>
+            <Freq level = "603">1401600_1017600_-1</Freq>
+            <Freq level = "604">1209600_1017600_-1</Freq>
+            <!-- party PowerSaveMode yhy -->
+            <Freq level = "605">1401600_1017600_-1</Freq>
+            <Freq level = "606">1401600_1017600_-1</Freq>
+            <Freq level = "607">1209600_1017600_-1</Freq>
+            <Freq level = "608">1209600_1017600_-1</Freq>
+            <!-- party SavageMode yhy -->
+            <Freq level = "609">4320000_1017600_-1</Freq>
+            <Freq level = "610">4320000_1017600_-1</Freq>
+            <Freq level = "611">4089600_1017600_-1</Freq>
+            <Freq level = "612">3801600_1017600_-1</Freq>
+            <!-- dnf DefaultMode yhy -->
+            <Freq level = "625">1958400_1017600_-1</Freq>
+            <Freq level = "626">1689600_1017600_-1</Freq>
+            <Freq level = "627">1401600_1017600_-1</Freq>
+            <!-- dnf PowerSaveMode yhy -->
+            <Freq level = "629">1017600_1017600_-1</Freq>
+            <Freq level = "630">1017600_1017600_-1</Freq>
+            <Freq level = "631">1017600_1017600_-1</Freq>
+            <!-- dnf SavageMode yhy -->
+            <Freq level = "633">4320000_2246400_-1</Freq>
+            <Freq level = "634">3801600_2246400_-1</Freq>
+            <Freq level = "635">3072000_1017600_-1</Freq>
+            <!-- yuanmeng DefaultMode yhy -->
+            <Freq level = "402">2246400_1017600_-1</Freq>
+            <Freq level = "403">2246400_1017600_-1</Freq>
+            <Freq level = "404">1958400_1017600_-1</Freq>
+            <Freq level = "405">1689600_1017600_-1</Freq>
+            <!-- yuanmeng PowerSaveMode yhy -->
+            <Freq level = "406">1958400_1017600_-1</Freq>
+            <Freq level = "407">1958400_1017600_-1</Freq>
+            <Freq level = "408">1689600_1017600_-1</Freq>
+            <Freq level = "409">1401600_1017600_-1</Freq>
+            <!-- yuanmeng SavageMode yhy -->
+            <Freq level = "410">4320000_1017600_-1</Freq>
+            <Freq level = "411">3513600_1017600_-1</Freq>
+            <Freq level = "412">3072000_1017600_-1</Freq>
+            <Freq level = "413">2649600_1017600_-1</Freq>
+            <!-- subway DefaultMode yhy -->
+            <Freq level = "901">-1_-1_-1</Freq>
+            <Freq level = "902">-1_-1_-1</Freq>
+            <Freq level = "903">-1_-1_-1</Freq>
+            <Freq level = "904">-1_-1_-1</Freq>
+            <!-- subway PowerSaveMode yhy -->
+            <Freq level = "905">-1_-1_-1</Freq>
+            <Freq level = "906">-1_-1_-1</Freq>
+            <Freq level = "907">-1_-1_-1</Freq>
+            <Freq level = "908">-1_-1_-1</Freq>
+            <!-- subway SavageMode yhy -->
+            <Freq level = "909">-1_-1_-1</Freq>
+            <Freq level = "910">-1_-1_-1</Freq>
+            <Freq level = "911">-1_-1_-1</Freq>
+            <Freq level = "912">-1_-1_-1</Freq>
+            <!-- netease DefaultMode yhy -->
+            <Freq level = "275">2438400_1017600_-1</Freq>
+            <Freq level = "276">2246400_1017600_-1</Freq>
+            <Freq level = "277">1996800_1017600_-1</Freq>
+            <Freq level = "278">1958400_1017600_-1</Freq>
+            <!-- netease PowerSaveMode yhy -->
+            <Freq level = "279">2246400_1017600_-1</Freq>
+            <Freq level = "280">1958400_1017600_-1</Freq>
+            <Freq level = "281">1689600_1017600_-1</Freq>
+            <Freq level = "282">1689600_1017600_-1</Freq>
+            <!-- netease SavageMode yhy -->
+            <Freq level = "283">4320000_1958400_-1</Freq>
+            <Freq level = "284">3513600_1689600_-1</Freq>
+            <Freq level = "285">3072000_1401600_-1</Freq>
+            <Freq level = "286">2649600_1209600_-1</Freq>
+            <!-- benghuai DefaultMode yhy -->
+            <Freq level = "512">1689600_1017600_-1</Freq>
+            <Freq level = "513">1401600_1017600_-1</Freq>
+            <Freq level = "514">1401600_1017600_-1</Freq>
+            <Freq level = "515">1209600_1017600_-1</Freq>
+            <!-- benghuai PowerSaveMode yhy -->
+            <Freq level = "516">1958400_1017600_-1</Freq>
+            <Freq level = "517">1689600_1017600_-1</Freq>
+            <Freq level = "518">1401600_1017600_-1</Freq>
+            <Freq level = "519">1209600_1017600_-1</Freq>
+            <!-- benghuai SavageMode yhy -->
+            <Freq level = "520">4320000_2438400_-1</Freq>
+            <Freq level = "521">3072000_2438400_-1</Freq>
+            <Freq level = "522">3072000_2246400_-1</Freq>
+            <Freq level = "523">2841600_1958400_-1</Freq>
+            <!-- pvz2 DefaultMode yhy -->
+            <Freq level = "661">-1_-1_-1</Freq>
+            <Freq level = "662">-1_-1_-1</Freq>
+            <Freq level = "663">-1_-1_-1</Freq>
+            <Freq level = "664">-1_-1_-1</Freq>
+            <!-- pvz2 PowerSaveMode yhy -->
+            <Freq level = "665">-1_-1_-1</Freq>
+            <Freq level = "666">-1_-1_-1</Freq>
+            <Freq level = "667">-1_-1_-1</Freq>
+            <Freq level = "668">-1_-1_-1</Freq>
+            <!-- pvz2 SavageMode yhy -->
+            <Freq level = "669">-1_-1_-1</Freq>
+            <Freq level = "670">-1_-1_-1</Freq>
+            <Freq level = "671">-1_-1_-1</Freq>
+            <Freq level = "672">-1_-1_-1</Freq>
+            <!-- yhtj DefaultMode yhy-->
+            <Freq level = "311">1958400_1017600_-1</Freq>
+            <Freq level = "312">1689600_1017600_-1</Freq>
+            <Freq level = "313">1689600_1017600_-1</Freq>
+            <Freq level = "314">1401600_1017600_-1</Freq>
+            <!-- yhtj PowerSaveMode yhy-->
+            <Freq level = "315">1401600_1017600_-1</Freq>
+            <Freq level = "316">1401600_1017600_-1</Freq>
+            <Freq level = "317">1401600_1017600_-1</Freq>
+            <Freq level = "318">1401600_1017600_-1</Freq>
+            <!-- yhtj SavageMode yhy-->
+            <Freq level = "319">4320000_1017600_-1</Freq>
+            <Freq level = "320">3072000_1017600_-1</Freq>
+            <Freq level = "321">2841600_1017600_-1</Freq>
+            <Freq level = "322">2649600_1017600_-1</Freq>
+            <!-- xiangchang DefaultMode yhy -->
+            <Freq level = "673">1689600_1017600_-1</Freq>
+            <Freq level = "674">1689600_1017600_-1</Freq>
+            <Freq level = "675">1401600_1017600_-1</Freq>
+            <Freq level = "676">1401600_1017600_-1</Freq>
+            <!-- xiangchang PowerSaveMode yhy -->
+            <Freq level = "677">1689600_1017600_-1</Freq>
+            <Freq level = "678">1689600_1017600_-1</Freq>
+            <Freq level = "679">1689600_1017600_-1</Freq>
+            <Freq level = "680">1401600_1017600_-1</Freq>
+            <!-- xiangchang SavageMode yhy -->
+            <Freq level = "681">4320000_1958400_-1</Freq>
+            <Freq level = "682">3072000_1958400_-1</Freq>
+            <Freq level = "683">3072000_1958400_-1</Freq>
+            <Freq level = "684">2841600_1958400_-1</Freq>
+            <!-- huangyeluandou DefaultMode yhy -->
+            <Freq level = "685">-1_-1_-1</Freq>
+            <Freq level = "686">-1_-1_-1</Freq>
+            <Freq level = "687">-1_-1_-1</Freq>
+            <Freq level = "688">-1_-1_-1</Freq>
+            <!-- huangyeluandou PowerSaveMode yhy -->
+            <Freq level = "689">-1_-1_-1</Freq>
+            <Freq level = "690">-1_-1_-1</Freq>
+            <Freq level = "691">-1_-1_-1</Freq>
+            <Freq level = "692">-1_-1_-1</Freq>
+            <!-- huangyeluandou SavageMode yhy -->
+            <Freq level = "693">-1_-1_-1</Freq>
+            <Freq level = "694">-1_-1_-1</Freq>
+            <Freq level = "695">-1_-1_-1</Freq>
+            <Freq level = "696">-1_-1_-1</Freq>
+            <!-- gaonengyingxiong DefaultMode yhy-->
+            <Freq level = "536">1209600_1017600_-1</Freq>
+            <Freq level = "537">1209600_1017600_-1</Freq>
+            <Freq level = "538">1209600_1017600_-1</Freq>
+            <Freq level = "539">1209600_1017600_-1</Freq>
+            <!-- gaonengyingxiong PowerSaveMode yhy-->
+            <Freq level = "540">1017600_1017600_-1</Freq>
+            <Freq level = "541">1017600_1017600_-1</Freq>
+            <Freq level = "542">1017600_1017600_-1</Freq>
+            <Freq level = "543">1017600_1017600_-1</Freq>
+            <!-- gaonengyingxiong SavageMode yhy-->
+            <Freq level = "544">4320000_1401600_-1</Freq>
+            <Freq level = "545">3801600_1401600_-1</Freq>
+            <Freq level = "546">3283200_1209600_-1</Freq>
+            <Freq level = "547">2841600_1209600_-1</Freq>
+            <!-- Phigros DefaultMode yhy-->
+            <Freq level = "3000">-1_-1_-1</Freq>
+            <Freq level = "3001">-1_-1_-1</Freq>
+            <Freq level = "3002">-1_-1_-1</Freq>
+            <Freq level = "3003">-1_-1_-1</Freq>
+            <!-- Phigros PowerSaveMode yhy-->
+            <Freq level = "3004">-1_-1_-1</Freq>
+            <Freq level = "3005">-1_-1_-1</Freq>
+            <Freq level = "3006">-1_-1_-1</Freq>
+            <Freq level = "3007">-1_-1_-1</Freq>
+            <!-- Phigros SavageMode yhy-->
+            <Freq level = "3008">-1_-1_-1</Freq>
+            <Freq level = "3009">-1_-1_-1</Freq>
+            <Freq level = "3010">-1_-1_-1</Freq>
+            <Freq level = "3011">-1_-1_-1</Freq>
+            <!-- tianyu DefaultMode yhy-->
+            <Freq level = "524">-1_-1_-1</Freq>
+            <Freq level = "525">-1_-1_-1</Freq>
+            <Freq level = "526">-1_-1_-1</Freq>
+            <Freq level = "527">-1_-1_-1</Freq>
+            <!-- tianyu PowerSaveMode yhy-->
+            <Freq level = "528">-1_-1_-1</Freq>
+            <Freq level = "529">-1_-1_-1</Freq>
+            <Freq level = "530">-1_-1_-1</Freq>
+            <Freq level = "531">-1_-1_-1</Freq>
+            <!-- tianyu SavageMode yhy-->
+            <Freq level = "532">-1_-1_-1</Freq>
+            <Freq level = "533">-1_-1_-1</Freq>
+            <Freq level = "534">-1_-1_-1</Freq>
+            <Freq level = "535">-1_-1_-1</Freq>
+            <!-- sanjiao DefaultMode yhy-->
+            <Freq level = "548">1689600_1017600_-1</Freq>
+            <Freq level = "549">1401600_1017600_-1</Freq>
+            <Freq level = "550">1401600_1017600_-1</Freq>
+            <Freq level = "551">1401600_1017600_-1</Freq>
+            <!-- sanjiao PowerSaveMode yhy-->
+            <Freq level = "552">1958400_1017600_-1</Freq>
+            <Freq level = "553">1958400_1017600_-1</Freq>
+            <Freq level = "554">1958400_1017600_-1</Freq>
+            <Freq level = "555">1689600_1017600_-1</Freq>
+            <!-- sanjiao SavageMode yhy-->
+            <Freq level = "556">4320000_2649600_-1</Freq>
+            <Freq level = "557">4089600_2246400_-1</Freq>
+            <Freq level = "558">3072000_1209600_-1</Freq>
+            <Freq level = "559">2841600_1017600_-1</Freq>
+            <!-- quanmingxing DefaultMode yhy-->
+            <Freq level = "560">2246400_1017600_-1</Freq>
+            <Freq level = "561">1958400_1017600_-1</Freq>
+            <Freq level = "562">1689600_1017600_-1</Freq>
+            <Freq level = "563">1401600_1017600_-1</Freq>
+            <!-- quanmingxing PowerSaveMode yhy-->
+            <Freq level = "564">1209600_1017600_-1</Freq>
+            <Freq level = "565">1209600_1017600_-1</Freq>
+            <Freq level = "566">1209600_1017600_-1</Freq>
+            <Freq level = "567">1017600_1017600_-1</Freq>
+            <!--quanmingxing SavageMode yhy-->
+            <Freq level = "568">4320000_1958400_-1</Freq>
+            <Freq level = "569">3513600_1689600_-1</Freq>
+            <Freq level = "570">2649600_1689600_-1</Freq>
+            <Freq level = "571">2246400_1689600_-1</Freq>
+            <!--guangyu DefaultMode yhy-->
+            <Freq level = "572">1689600_1017600_-1</Freq>
+            <Freq level = "573">1401600_1017600_-1</Freq>
+            <Freq level = "574">1401600_1017600_-1</Freq>
+            <Freq level = "575">1209600_1017600_-1</Freq>
+            <!--guangyu PowerSaveMode yhy-->
+            <Freq level = "576">1401600_1017600_-1</Freq>
+            <Freq level = "577">1209600_1017600_-1</Freq>
+            <Freq level = "578">1209600_1017600_-1</Freq>
+            <Freq level = "579">1209600_1017600_-1</Freq>
+            <!--guangyu SavageMode yhy-->
+            <Freq level = "580">4320000_2649600_-1</Freq>
+            <Freq level = "581">3801600_2649600_-1</Freq>
+            <Freq level = "582">3513600_2649600_-1</Freq>
+            <Freq level = "583">3283200_2438400_-1</Freq>
+            <!--yinyangshi DefaultMode yhy-->
+            <Freq level = "584">1401600_1017600_-1</Freq>
+            <Freq level = "585">1401600_1017600_-1</Freq>
+            <Freq level = "586">1401600_1017600_-1</Freq>
+            <Freq level = "587">1209600_1017600_-1</Freq>
+            <!--yinyangshi PowerSaveMode yhy-->
+            <Freq level = "588">1401600_1017600_-1</Freq>
+            <Freq level = "589">1209600_1017600_-1</Freq>
+            <Freq level = "590">1209600_1017600_-1</Freq>
+            <Freq level = "591">1209600_1017600_-1</Freq>
+            <!--yinyangshi SavageMode yhy-->
+            <Freq level = "592">4320000_1017600_-1</Freq>
+            <Freq level = "593">4089600_1017600_-1</Freq>
+            <Freq level = "594">3283200_1017600_-1</Freq>
+            <Freq level = "595">2438400_1017600_-1</Freq>
+            <!--benghuaisan DefaultMode yhy-->
+            <Freq level = "414">2438400_1017600_-1</Freq>
+            <Freq level = "415">2246400_1017600_-1</Freq>
+            <Freq level = "416">2246400_1017600_-1</Freq>
+            <Freq level = "417">1958400_1017600_-1</Freq>
+            <!--benghuaisan PowerSaveMode yhy-->
+            <Freq level = "418">2246400_1017600_-1</Freq>
+            <Freq level = "419">1958400_1017600_-1</Freq>
+            <Freq level = "420">1958400_1017600_-1</Freq>
+            <Freq level = "421">1689600_1017600_-1</Freq>
+            <!--benghuaisan SavageMode yhy-->
+            <Freq level = "422">4320000_1689600_-1</Freq>
+            <Freq level = "423">3072000_1401600_-1</Freq>
+            <Freq level = "424">2841600_1209600_-1</Freq>
+            <Freq level = "425">2841600_1017600_-1</Freq>
+            <!--lushi DefaultMode yhy-->
+            <Freq level = "426">2246400_1401600_-1</Freq>
+            <Freq level = "427">1958400_1401600_-1</Freq>
+            <Freq level = "428">1958400_1209600_-1</Freq>
+            <Freq level = "429">1689600_1017600_-1</Freq>
+            <!--lushi PowerSaveMode yhy-->
+            <Freq level = "430">3072000_1401600_-1</Freq>
+            <Freq level = "431">2649600_1401600_-1</Freq>
+            <Freq level = "432">2649600_1209600_-1</Freq>
+            <Freq level = "433">2246400_1017600_-1</Freq>
+            <!--lushi SavageMode yhy-->
+            <Freq level = "434">2438400_1401600_-1</Freq>
+            <Freq level = "435">2246400_1401600_-1</Freq>
+            <Freq level = "436">2246400_1209600_-1</Freq>
+            <Freq level = "437">1958400_1017600_-1</Freq>
+            <!--diwurenge DefaultMode yhy-->
+            <Freq level = "438">2649600_1401600_-1</Freq>
+            <Freq level = "439">2438400_1401600_-1</Freq>
+            <Freq level = "440">2438400_1401600_-1</Freq>
+            <Freq level = "441">2246400_1401600_-1</Freq>
+            <!--diwurenge PowerSaveMode yhy-->
+            <Freq level = "442">1958400_1017600_-1</Freq>
+            <Freq level = "443">1689600_1017600_-1</Freq>
+            <Freq level = "444">1401600_1017600_-1</Freq>
+            <Freq level = "445">1209600_1017600_-1</Freq>
+            <!--diwurenge SavageMode yhy-->
+            <Freq level = "446">4320000_2841600_-1</Freq>
+            <Freq level = "447">2841600_2649600_-1</Freq>
+            <Freq level = "448">2841600_2649600_-1</Freq>
+            <Freq level = "449">2841600_2649600_-1</Freq>
+            <!--menghuan DefaultMode yhy-->
+            <Freq level = "450">1689600_1017600_-1</Freq>
+            <Freq level = "451">1401600_1017600_-1</Freq>
+            <Freq level = "452">1401600_1017600_-1</Freq>
+            <Freq level = "453">1209600_1017600_-1</Freq>
+            <!--menghuan PowerSaveMode yhy-->
+            <Freq level = "454">2246400_1017600_-1</Freq>
+            <Freq level = "455">1958400_1017600_-1</Freq>
+            <Freq level = "456">1958400_1017600_-1</Freq>
+            <Freq level = "457">1958400_1017600_-1</Freq>
+            <!--menghuan SavageMode yhy-->
+            <Freq level = "458">4320000_1689600_-1</Freq>
+            <Freq level = "459">2841600_1689600_-1</Freq>
+            <Freq level = "460">2841600_1689600_-1</Freq>
+            <Freq level = "461">2649600_1401600_-1</Freq>
+            <!--jipinfeiche DefaultMode yhy-->
+            <Freq level = "462">1401600_1017600_-1</Freq>
+            <Freq level = "463">1209600_1017600_-1</Freq>
+            <Freq level = "464">1209600_1017600_-1</Freq>
+            <Freq level = "465">1017600_1017600_-1</Freq>
+            <!--jipinfeiche PowerSaveMode yhy-->
+            <Freq level = "466">1401600_1017600_-1</Freq>
+            <Freq level = "467">1209600_1017600_-1</Freq>
+            <Freq level = "468">1209600_1017600_-1</Freq>
+            <Freq level = "469">1017600_1017600_-1</Freq>
+            <!--jipinfeiche SavageMode yhy-->
+            <Freq level = "470">4320000_1017600_-1</Freq>
+            <Freq level = "471">3072000_1017600_-1</Freq>
+            <Freq level = "472">3072000_1017600_-1</Freq>
+            <Freq level = "473">2841600_1017600_-1</Freq>
+            <!--yanyun DefaultMode yhy-->
+            <Freq level = "474">2246400_1017600_-1</Freq>
+            <Freq level = "475">1958400_1017600_-1</Freq>
+            <Freq level = "476">1958400_1017600_-1</Freq>
+            <Freq level = "477">1689600_1017600_-1</Freq>
+            <!--yanyun PowerSaveMode yhy-->
+            <Freq level = "478">1958400_1017600_-1</Freq>
+            <Freq level = "479">1958400_1017600_-1</Freq>
+            <Freq level = "480">1958400_1017600_-1</Freq>
+            <Freq level = "481">1689600_1017600_-1</Freq>
+            <!--yanyun SavageMode yhy-->
+            <Freq level = "482">4320000_1689600_-1</Freq>
+            <Freq level = "483">3072000_1689600_-1</Freq>
+            <Freq level = "484">3072000_1689600_-1</Freq>
+            <Freq level = "485">2841600_1401600_-1</Freq>
+            <!--mingrifangzhou DefaultMode yhy-->
+            <Freq level = "486">1958400_1017600_-1</Freq>
+            <Freq level = "487">1958400_1017600_-1</Freq>
+            <Freq level = "488">1785600_1017600_-1</Freq>
+            <Freq level = "489">1785600_1017600_-1</Freq>
+            <!--mingrifangzhou PowerSaveMode yhy-->
+            <Freq level = "490">1209600_1017600_-1</Freq>
+            <Freq level = "491">1209600_1017600_-1</Freq>
+            <Freq level = "492">1209600_1017600_-1</Freq>
+            <Freq level = "493">1209600_1017600_-1</Freq>
+            <!--mingrifangzhou SavageMode yhy-->
+            <Freq level = "494">4320000_1689600_-1</Freq>
+            <Freq level = "495">4204800_1689600_-1</Freq>
+            <Freq level = "496">4089600_1689600_-1</Freq>
+            <Freq level = "497">3801600_1689600_-1</Freq>
+        </Type>
+        <Type name = "GPU">
+            <!-- device default yhy -->
+            <Freq level = "0">-1_-1_-1</Freq>
+            <!-- Othergame DefaultMode yhy -->
+            <Freq level = "-323">3_6_-1</Freq>
+            <Freq level = "-324">3_7_-1</Freq>
+            <Freq level = "-325">4_7_-1</Freq>
+            <Freq level = "-326">4_7_-1</Freq>
+            <!-- Othergame PowerSaveMode yhy -->
+            <Freq level = "-327">7_11_-1</Freq>
+            <Freq level = "-328">7_11_-1</Freq>
+            <Freq level = "-329">7_11_-1</Freq>
+            <Freq level = "-330">7_11_-1</Freq>
+            <!-- Othergame SavageMode yhy -->
+            <Freq level = "-331">0_4_-1</Freq>
+            <Freq level = "-332">1_4_-1</Freq>
+            <Freq level = "-333">1_4_-1</Freq>
+            <Freq level = "-334">1_4_-1</Freq>
+            <!-- lol DefaultMode yhy-->
+            <Freq level = "11">4_12_4</Freq>
+            <Freq level = "12">4_12_4</Freq>
+            <Freq level = "13">4_12_4</Freq>
+            <Freq level = "1001">7_13_6</Freq>
+            <!-- lol PowerSaveMode yhy -->
+            <Freq level = "14">5_8_5</Freq>
+            <Freq level = "15">5_8_5</Freq>
+            <Freq level = "16">5_8_5</Freq>
+            <Freq level = "1002">9_12_8</Freq>
+            <!-- lol SavageMode yhy -->
+            <Freq level = "17">2_9_-1</Freq>
+            <Freq level = "18">2_9_-1</Freq>
+            <Freq level = "19">2_9_-1</Freq>
+            <Freq level = "1003">6_9_-1</Freq>
+            <!-- tmgp DefaultMode yhy-->
+            <Freq level = "20">5_13_-1</Freq>
+            <Freq level = "21">6_13_-1</Freq>
+            <Freq level = "22">7_13_-1</Freq>
+            <!-- tmgp PowerSaveMode yhy-->
+            <Freq level = "23">6_11_-1</Freq>
+            <Freq level = "24">7_11_-1</Freq>
+            <Freq level = "25">8_12_-1</Freq>
+            <!-- tmgp SavageMode yhy-->
+            <Freq level = "26">3_8_-1</Freq>
+            <Freq level = "27">4_8_-1</Freq>
+            <Freq level = "28">5_9_-1</Freq>
+            <!-- cf DefaultMode yhy-->
+            <Freq level = "29">5_11_-1</Freq>
+            <Freq level = "30">6_11_-1</Freq>
+            <Freq level = "31">7_11_-1</Freq>
+            <Freq level = "32">8_11_-1</Freq>
+            <!-- cf PowerSaveMode yhy-->
+            <Freq level = "33">6_11_-1</Freq>
+            <Freq level = "34">6_11_-1</Freq>
+            <Freq level = "35">6_11_-1</Freq>
+            <Freq level = "36">8_11_-1</Freq>
+            <!-- cf SavageMode yhy-->
+            <Freq level = "37">4_11_-1</Freq>
+            <Freq level = "38">4_12_-1</Freq>
+            <Freq level = "39">4_13_-1</Freq>
+            <Freq level = "40">7_13_-1</Freq>
+            <!-- cod DefaultMode yhy-->
+            <Freq level = "41">4_11_-1</Freq>
+            <Freq level = "42">5_12_-1</Freq>
+            <Freq level = "43">5_12_-1</Freq>
+            <Freq level = "44">6_12_-1</Freq>
+            <!-- cod PowerSaveMode yhy-->
+            <Freq level = "45">7_12_-1</Freq>
+            <Freq level = "46">7_12_-1</Freq>
+            <Freq level = "47">7_12_-1</Freq>
+            <Freq level = "48">8_12_-1</Freq>
+            <!-- cod SavageMode yhy-->
+            <Freq level = "49">4_9_-1</Freq>
+            <Freq level = "50">4_9_-1</Freq>
+            <Freq level = "51">4_10_-1</Freq>
+            <Freq level = "52">5_11_-1</Freq>
+            <!-- sgame DefaultMode yhy -->
+            <Freq level = "613">9_10_-1</Freq>
+            <Freq level = "614">9_10_-1</Freq>
+            <Freq level = "615">9_10_-1</Freq>
+            <Freq level = "616">9_10_-1</Freq>
+            <!-- sgame PowerSaveMode yhy -->
+            <Freq level = "617">6_11_-1</Freq>
+            <Freq level = "618">6_11_-1</Freq>
+            <Freq level = "619">6_11_-1</Freq>
+            <Freq level = "620">8_11_-1</Freq>
+            <!-- sgame SavageMode yhy -->
+            <Freq level = "621">2_9_-1</Freq>
+            <Freq level = "622">2_9_-1</Freq>
+            <Freq level = "623">2_9_-1</Freq>
+            <Freq level = "624">6_9_-1</Freq>
+            <!-- mingchao DefaultMode yhy -->
+            <Freq level = "637">7_11_-1</Freq>
+            <Freq level = "638">7_11_-1</Freq>
+            <Freq level = "639">8_12_-1</Freq>
+            <Freq level = "640">9_12_-1</Freq>
+            <!-- mingchao PowerSaveMode yhy -->
+            <Freq level = "641">8_12_-1</Freq>
+            <Freq level = "642">8_12_-1</Freq>
+            <Freq level = "643">9_12_-1</Freq>
+            <Freq level = "644">10_13_-1</Freq>
+            <!-- mingchao SavageMode yhy -->
+            <Freq level = "645">2_6_-1</Freq>
+            <Freq level = "646">2_6_-1</Freq>
+            <Freq level = "647">3_7_-1</Freq>
+            <Freq level = "648">4_8_-1</Freq>
+            <!-- jinchanchan DefaultMode yhy-->
+            <Freq level = "62">1_8_-1</Freq>
+            <Freq level = "63">1_8_-1</Freq>
+            <Freq level = "64">1_8_-1</Freq>
+            <Freq level = "65">1_8_-1</Freq>
+            <!-- jinchanchan PowerSaveMode yhy-->
+            <Freq level = "66">12_13_-1</Freq>
+            <Freq level = "67">12_13_-1</Freq>
+            <Freq level = "68">12_13_-1</Freq>
+            <Freq level = "69">12_13_-1</Freq>
+            <!-- jinchanchan SavageMode yhy-->
+            <Freq level = "70">0_4_-1</Freq>
+            <Freq level = "71">0_4_-1</Freq>
+            <Freq level = "72">0_4_-1</Freq>
+            <Freq level = "73">0_3_-1</Freq>
+            <!-- tmgptyf DefaultMode yhy-->
+            <Freq level = "83">-1_-1_-1</Freq>
+            <Freq level = "84">-1_-1_-1</Freq>
+            <Freq level = "85">-1_-1_-1</Freq>
+            <!-- tmgptyf PowerSaveMode yhy-->
+            <Freq level = "86">-1_-1_-1</Freq>
+            <Freq level = "87">-1_-1_-1</Freq>
+            <Freq level = "88">-1_-1_-1</Freq>
+            <!-- tmgptyf SavageMode yhy-->
+            <Freq level = "89">-1_-1_-1</Freq>
+            <Freq level = "90">-1_-1_-1</Freq>
+            <Freq level = "91">-1_-1_-1</Freq>
+            <!-- pubg DefaultMode yhy-->
+            <Freq level = "92">5_11_-1</Freq>
+            <Freq level = "93">6_11_-1</Freq>
+            <Freq level = "94">7_11_-1</Freq>
+            <Freq level = "95">7_11_-1</Freq>
+            <!-- pubg PowerSaveMode yhy-->
+            <Freq level = "96">6_11_-1</Freq>
+            <Freq level = "97">7_11_-1</Freq>
+            <Freq level = "98">8_12_-1</Freq>
+            <Freq level = "99">8_12_-1</Freq>
+            <!-- pubg SavageMode yhy-->
+            <Freq level = "100">3_8_-1</Freq>
+            <Freq level = "101">4_8_-1</Freq>
+            <Freq level = "102">5_9_-1</Freq>
+            <Freq level = "103">5_9_-1</Freq>
+            <!-- qqcar DefaultMode yhy-->
+            <Freq level = "290">5_13_-1</Freq>
+            <Freq level = "291">5_13_-1</Freq>
+            <Freq level = "292">5_13_-1</Freq>
+            <Freq level = "293">6_13_-1</Freq>
+            <!-- qqcar PowerSaveMode yhy-->
+            <Freq level = "294">6_13_-1</Freq>
+            <Freq level = "295">6_13_-1</Freq>
+            <Freq level = "296">6_13_-1</Freq>
+            <Freq level = "297">8_13_-1</Freq>
+            <!-- qqcar SavageMode yhy-->
+            <Freq level = "298">2_9_-1</Freq>
+            <Freq level = "299">2_9_-1</Freq>
+            <Freq level = "300">2_9_-1</Freq>
+            <Freq level = "301">6_9_-1</Freq>
+            <!-- anqu DefaultMode yhy -->
+            <Freq level = "649">6_11_-1</Freq>
+            <Freq level = "650">6_12_-1</Freq>
+            <Freq level = "651">6_12_-1</Freq>
+            <Freq level = "652">6_12_-1</Freq>
+            <!-- anqu PowerSaveMode yhy -->
+            <Freq level = "653">9_11_-1</Freq>
+            <Freq level = "654">9_12_-1</Freq>
+            <Freq level = "655">9_12_-1</Freq>
+            <Freq level = "656">10_12_-1</Freq>
+            <!-- anqu SavageMode yhy -->
+            <Freq level = "657">3_9_-1</Freq>
+            <Freq level = "658">3_9_-1</Freq>
+            <Freq level = "659">4_9_-1</Freq>
+            <Freq level = "660">4_9_-1</Freq>
+            <!-- huoying DefaultMode yhy-->
+            <Freq level = "260">2_7_-1</Freq>
+            <Freq level = "261">2_7_-1</Freq>
+            <Freq level = "262">2_7_-1</Freq>
+            <Freq level = "263">2_7_-1</Freq>
+            <!-- huoying PowerSaveMode yhy-->
+            <Freq level = "264">7_11_-1</Freq>
+            <Freq level = "265">7_11_-1</Freq>
+            <Freq level = "266">7_11_-1</Freq>
+            <Freq level = "267">7_11_-1</Freq>
+            <!-- huoying SavageMode yhy-->
+            <Freq level = "268">2_7_-1</Freq>
+            <Freq level = "269">2_7_-1</Freq>
+            <Freq level = "270">2_7_-1</Freq>
+            <Freq level = "271">2_7_-1</Freq>
+            <!-- nishuihan DefaultMode yhy-->
+            <Freq level = "500">3_7_-1</Freq>
+            <Freq level = "501">4_7_-1</Freq>
+            <Freq level = "502">4_8_-1</Freq>
+            <Freq level = "503">5_8_-1</Freq>
+            <!-- nishuihan PowerSaveMode yhy-->
+            <Freq level = "504">6_10_-1</Freq>
+            <Freq level = "505">6_10_-1</Freq>
+            <Freq level = "506">7_11_-1</Freq>
+            <Freq level = "507">7_11_-1</Freq>
+            <!-- nishuihan SavageMode yhy-->
+            <Freq level = "508">1_4_-1</Freq>
+            <Freq level = "509">1_4_-1</Freq>
+            <Freq level = "510">1_5_-1</Freq>
+            <Freq level = "511">4_5_-1</Freq>
+            <!-- Universal DefaultMode yhy>
+            <Freq level = "151">-1_-1_-1</Freq>
+            <Freq level = "152">-1_-1_-1</Freq>
+            <Freq level = "153">-1_-1_-1</Freq>
+            <Freq level = "154">-1_-1_-1</Freq>
+            < Universal PowerSaveMode yhy>
+            <Freq level = "155">-1_-1_-1</Freq>
+            <Freq level = "156">-1_-1_-1</Freq>
+            <Freq level = "157">-1_-1_-1</Freq>
+            <Freq level = "158">-1_-1_-1</Freq>
+            < Universal SavageMode yhy>
+            <Freq level = "159">-1_-1_-1</Freq>
+            <Freq level = "160">-1_-1_-1</Freq>
+            <Freq level = "161">-1_-1_-1</Freq>
+            <Freq level = "162">-1_-1_-1</Freq-->
+            <!-- huanta DefaultMode yhy-->
+            <Freq level = "709">3_6_-1</Freq>
+            <Freq level = "710">4_7_-1</Freq>
+            <Freq level = "711">4_7_-1</Freq>
+            <Freq level = "712">5_7_-1</Freq>
+            <!-- huanta PowerSaveMode yhy-->
+            <Freq level = "713">7_11_-1</Freq>
+            <Freq level = "714">7_11_-1</Freq>
+            <Freq level = "715">7_11_-1</Freq>
+            <Freq level = "716">7_11_-1</Freq>
+            <!-- huanta SavageMode yhy-->
+            <Freq level = "717">0_4_-1</Freq>
+            <Freq level = "718">1_4_-1</Freq>
+            <Freq level = "719">1_4_-1</Freq>
+            <Freq level = "720">1_4_-1</Freq>
+            <!-- paopaocar DefaultMode yhy-->
+            <Freq level = "175">-1_-1_-1</Freq>
+            <Freq level = "176">-1_-1_-1</Freq>
+            <Freq level = "177">-1_-1_-1</Freq>
+            <Freq level = "178">-1_-1_-1</Freq>
+            <!-- paopaocar PowerSaveMode yhy-->
+            <Freq level = "179">-1_-1_-1</Freq>
+            <Freq level = "180">-1_-1_-1</Freq>
+            <Freq level = "181">-1_-1_-1</Freq>
+            <Freq level = "182">-1_-1_-1</Freq>
+            <!-- paopaocar SavageMode yhy-->
+            <Freq level = "183">-1_-1_-1</Freq>
+            <Freq level = "184">-1_-1_-1</Freq>
+            <Freq level = "185">-1_-1_-1</Freq>
+            <Freq level = "186">-1_-1_-1</Freq>
+            <!-- yuanshen DefaultMode yhy-->
+            <Freq level = "187">3_6_-1</Freq>
+            <Freq level = "188">3_7_-1</Freq>
+            <Freq level = "189">4_7_-1</Freq>
+            <Freq level = "190">4_7_-1</Freq>
+            <!-- yuanshen PowerSaveMode yhy-->
+            <Freq level = "191">7_11_-1</Freq>
+            <Freq level = "192">7_11_-1</Freq>
+            <Freq level = "193">7_11_-1</Freq>
+            <Freq level = "194">7_11_-1</Freq>
+            <!-- yuanshen SavageMode yhy-->
+            <Freq level = "195">0_4_-1</Freq>
+            <Freq level = "196">1_4_-1</Freq>
+            <Freq level = "197">1_4_-1</Freq>
+            <Freq level = "198">1_4_-1</Freq>
+            <!-- myworld DefaultMode yhy-->
+            <Freq level = "199">5_9_-1</Freq>
+            <Freq level = "200">5_9_-1</Freq>
+            <Freq level = "201">5_9_-1</Freq>
+            <Freq level = "202">5_9_-1</Freq>
+            <!-- myworld PowerSaveMode yhy-->
+            <Freq level = "203">5_11_-1</Freq>
+            <Freq level = "204">5_11_-1</Freq>
+            <Freq level = "205">5_11_-1</Freq>
+            <Freq level = "206">5_11_-1</Freq>
+            <!-- myworld SavageMode yhy-->
+            <Freq level = "207">2_6_-1</Freq>
+            <Freq level = "208">2_6_-1</Freq>
+            <Freq level = "209">2_6_-1</Freq>
+            <Freq level = "210">2_6_-1</Freq>
+            <!-- miniworld DefaultMode yhy-->
+            <Freq level = "211">-1_-1_-1</Freq>
+            <Freq level = "212">-1_-1_-1</Freq>
+            <Freq level = "213">-1_-1_-1</Freq>
+            <Freq level = "214">-1_-1_-1</Freq>
+            <!-- miniworld PowerSaveMode yhy-->
+            <Freq level = "215">-1_-1_-1</Freq>
+            <Freq level = "216">-1_-1_-1</Freq>
+            <Freq level = "217">-1_-1_-1</Freq>
+            <Freq level = "218">-1_-1_-1</Freq>
+            <!-- miniworld SavageMode yhy-->
+            <Freq level = "219">-1_-1_-1</Freq>
+            <Freq level = "220">-1_-1_-1</Freq>
+            <Freq level = "221">-1_-1_-1</Freq>
+            <Freq level = "222">-1_-1_-1</Freq>
+            <!-- ZZZ DefaultMode yhy -->
+            <Freq level = "359">3_7_-1</Freq>
+            <Freq level = "360">4_7_-1</Freq>
+            <Freq level = "361">4_8_-1</Freq>
+            <Freq level = "362">5_8_-1</Freq>
+            <!-- ZZZ PowerSaveMode yhy -->
+            <Freq level = "363">6_10_-1</Freq>
+            <Freq level = "364">6_10_-1</Freq>
+            <Freq level = "365">7_11_-1</Freq>
+            <Freq level = "366">7_11_-1</Freq>
+            <!-- ZZZ SavageMode yhy -->
+            <Freq level = "367">0_3_-1</Freq>
+            <Freq level = "368">0_3_-1</Freq>
+            <Freq level = "369">0_4_-1</Freq>
+            <Freq level = "370">0_5_-1</Freq>
+            <!-- party DefaultMode yhy -->
+            <Freq level = "601">5_10_-1</Freq>
+            <Freq level = "602">5_10_-1</Freq>
+            <Freq level = "603">5_10_-1</Freq>
+            <Freq level = "604">6_10_-1</Freq>
+            <!-- party PowerSaveMode yhy -->
+            <Freq level = "605">6_11_-1</Freq>
+            <Freq level = "606">6_11_-1</Freq>
+            <Freq level = "607">6_11_-1</Freq>
+            <Freq level = "608">8_11_-1</Freq>
+            <!-- party SavageMode yhy -->
+            <Freq level = "609">2_9_-1</Freq>
+            <Freq level = "610">2_9_-1</Freq>
+            <Freq level = "611">2_9_-1</Freq>
+            <Freq level = "612">6_9_-1</Freq>
+            <!-- dnf DefaultMode yhy -->
+            <Freq level = "625">7_13_-1</Freq>
+            <Freq level = "626">8_13_-1</Freq>
+            <Freq level = "627">9_13_-1</Freq>
+            <!-- dnf PowerSaveMode yhy -->
+            <Freq level = "629">13_13_-1</Freq>
+            <Freq level = "630">13_13_-1</Freq>
+            <Freq level = "631">13_13_-1</Freq>
+            <!-- dnf SavageMode yhy -->
+            <Freq level = "633">0_6_-1</Freq>
+            <Freq level = "634">0_6_-1</Freq>
+            <Freq level = "635">0_11_-1</Freq>
+            <!-- yuanmeng DefaultMode yhy -->
+            <Freq level = "402">5_10_-1</Freq>
+            <Freq level = "403">5_10_-1</Freq>
+            <Freq level = "404">5_10_-1</Freq>
+            <Freq level = "405">6_10_-1</Freq>
+            <!-- yuanmeng PowerSaveMode yhy -->
+            <Freq level = "406">6_11_-1</Freq>
+            <Freq level = "407">6_11_-1</Freq>
+            <Freq level = "408">6_11_-1</Freq>
+            <Freq level = "409">8_11_-1</Freq>
+            <!-- yuanmeng SavageMode yhy -->
+            <Freq level = "410">2_9_-1</Freq>
+            <Freq level = "411">2_9_-1</Freq>
+            <Freq level = "412">2_9_-1</Freq>
+            <Freq level = "413">6_10_-1</Freq>
+            <!-- subway DefaultMode yhy -->
+            <Freq level = "901">-1_-1_-1</Freq>
+            <Freq level = "902">-1_-1_-1</Freq>
+            <Freq level = "903">-1_-1_-1</Freq>
+            <Freq level = "904">-1_-1_-1</Freq>
+            <!-- subway PowerSaveMode yhy -->
+            <Freq level = "905">-1_-1_-1</Freq>
+            <Freq level = "906">-1_-1_-1</Freq>
+            <Freq level = "907">-1_-1_-1</Freq>
+            <Freq level = "908">-1_-1_-1</Freq>
+            <!-- subway SavageMode yhy -->
+            <Freq level = "909">-1_-1_-1</Freq>
+            <Freq level = "910">-1_-1_-1</Freq>
+            <Freq level = "911">-1_-1_-1</Freq>
+            <Freq level = "912">-1_-1_-1</Freq>
+            <!-- netease DefaultMode yhy -->
+            <Freq level = "275">7_11_-1</Freq>
+            <Freq level = "276">7_11_-1</Freq>
+            <Freq level = "277">8_11_-1</Freq>
+            <Freq level = "278">9_11_-1</Freq>
+            <!-- netease PowerSaveMode yhy -->
+            <Freq level = "279">8_12_-1</Freq>
+            <Freq level = "280">8_12_-1</Freq>
+            <Freq level = "281">9_12_-1</Freq>
+            <Freq level = "282">9_12_-1</Freq>
+            <!-- netease SavageMode yhy -->
+            <Freq level = "283">0_9_-1</Freq>
+            <Freq level = "284">2_9_-1</Freq>
+            <Freq level = "285">4_9_-1</Freq>
+            <Freq level = "286">6_9_-1</Freq>
+            <!-- benghuai DefaultMode yhy -->
+            <Freq level = "512">6_8_-1</Freq>
+            <Freq level = "513">6_8_-1</Freq>
+            <Freq level = "514">7_9_-1</Freq>
+            <Freq level = "515">7_9_-1</Freq>
+            <!-- benghuai PowerSaveMode yhy -->
+            <Freq level = "516">5_7_-1</Freq>
+            <Freq level = "517">5_7_-1</Freq>
+            <Freq level = "518">6_8_-1</Freq>
+            <Freq level = "519">6_8_-1</Freq>
+            <!-- benghuai SavageMode yhy -->
+            <Freq level = "520">3_5_-1</Freq>
+            <Freq level = "521">3_5_-1</Freq>
+            <Freq level = "522">3_5_-1</Freq>
+            <Freq level = "523">3_6_-1</Freq>
+            <!-- pvz2 DefaultMode yhy -->
+            <Freq level = "661">-1_-1_-1</Freq>
+            <Freq level = "662">-1_-1_-1</Freq>
+            <Freq level = "663">-1_-1_-1</Freq>
+            <Freq level = "664">-1_-1_-1</Freq>
+            <!-- pvz2 PowerSaveMode yhy -->
+            <Freq level = "665">-1_-1_-1</Freq>
+            <Freq level = "666">-1_-1_-1</Freq>
+            <Freq level = "667">-1_-1_-1</Freq>
+            <Freq level = "668">-1_-1_-1</Freq>
+            <!-- pvz2 SavageMode yhy -->
+            <Freq level = "669">-1_-1_-1</Freq>
+            <Freq level = "670">-1_-1_-1</Freq>
+            <Freq level = "671">-1_-1_-1</Freq>
+            <Freq level = "672">-1_-1_-1</Freq>
+            <!-- yhtj DefaultMode yhy-->
+            <Freq level = "311">6_12_-1</Freq>
+            <Freq level = "312">6_12_-1</Freq>
+            <Freq level = "313">7_12_-1</Freq>
+            <Freq level = "314">8_12_-1</Freq>
+            <!-- yhtj PowerSaveMode yhy-->
+            <Freq level = "315">5_12_-1</Freq>
+            <Freq level = "316">5_12_-1</Freq>
+            <Freq level = "317">5_12_-1</Freq>
+            <Freq level = "318">6_13_-1</Freq>
+            <!-- yhtj SavageMode yhy-->
+            <Freq level = "319">4_11_-1</Freq>
+            <Freq level = "320">4_11_-1</Freq>
+            <Freq level = "321">5_11_-1</Freq>
+            <Freq level = "322">6_11_-1</Freq>
+            <!-- xiangchang DefaultMode yhy -->
+            <Freq level = "673">6_10_-1</Freq>
+            <Freq level = "674">6_10_-1</Freq>
+            <Freq level = "675">6_10_-1</Freq>
+            <Freq level = "676">8_12_-1</Freq>
+            <!-- xiangchang PowerSaveMode yhy -->
+            <Freq level = "677">6_12_-1</Freq>
+            <Freq level = "678">6_12_-1</Freq>
+            <Freq level = "679">6_12_-1</Freq>
+            <Freq level = "680">9_12_-1</Freq>
+            <!-- xiangchang SavageMode yhy -->
+            <Freq level = "681">5_7_-1</Freq>
+            <Freq level = "682">5_7_-1</Freq>
+            <Freq level = "683">5_7_-1</Freq>
+            <Freq level = "684">9_11_-1</Freq>
+            <!-- huangyeluandou DefaultMode yhy -->
+            <Freq level = "685">-1_-1_-1</Freq>
+            <Freq level = "686">-1_-1_-1</Freq>
+            <Freq level = "687">-1_-1_-1</Freq>
+            <Freq level = "688">-1_-1_-1</Freq>
+            <!-- huangyeluandou PowerSaveMode yhy -->
+            <Freq level = "689">-1_-1_-1</Freq>
+            <Freq level = "690">-1_-1_-1</Freq>
+            <Freq level = "691">-1_-1_-1</Freq>
+            <Freq level = "692">-1_-1_-1</Freq>
+            <!-- huangyeluandou SavageMode yhy -->
+            <Freq level = "693">-1_-1_-1</Freq>
+            <Freq level = "694">-1_-1_-1</Freq>
+            <Freq level = "695">-1_-1_-1</Freq>
+            <Freq level = "696">-1_-1_-1</Freq>
+            <!-- gaonengyingxiong DefaultMode yhy-->
+            <Freq level = "536">8_13_-1</Freq>
+            <Freq level = "537">9_13_-1</Freq>
+            <Freq level = "538">9_13_-1</Freq>
+            <Freq level = "539">10_13_-1</Freq>
+            <!-- gaonengyingxiong PowerSaveMode yhy-->
+            <Freq level = "540">10_13_-1</Freq>
+            <Freq level = "541">10_13_-1</Freq>
+            <Freq level = "542">10_13_-1</Freq>
+            <Freq level = "543">10_13_-1</Freq>
+            <!-- gaonengyingxiong SavageMode yhy-->
+            <Freq level = "544">0_8_-1</Freq>
+            <Freq level = "545">5_8_-1</Freq>
+            <Freq level = "546">5_8_-1</Freq>
+            <Freq level = "547">6_9_-1</Freq>
+            <!-- Phigros DefaultMode yhy-->
+            <Freq level = "3000">-1_-1_-1</Freq>
+            <Freq level = "3001">-1_-1_-1</Freq>
+            <Freq level = "3002">-1_-1_-1</Freq>
+            <Freq level = "3003">-1_-1_-1</Freq>
+            <!-- Phigros PowerSaveMode yhy-->
+            <Freq level = "3004">-1_-1_-1</Freq>
+            <Freq level = "3005">-1_-1_-1</Freq>
+            <Freq level = "3006">-1_-1_-1</Freq>
+            <Freq level = "3007">-1_-1_-1</Freq>
+            <!-- Phigros SavageMode yhy-->
+            <Freq level = "3008">-1_-1_-1</Freq>
+            <Freq level = "3009">-1_-1_-1</Freq>
+            <Freq level = "3010">-1_-1_-1</Freq>
+            <Freq level = "3011">-1_-1_-1</Freq>
+            <!-- tianyu DefaultMode yhy-->
+            <Freq level = "524">-1_-1_-1</Freq>
+            <Freq level = "525">-1_-1_-1</Freq>
+            <Freq level = "526">-1_-1_-1</Freq>
+            <Freq level = "527">-1_-1_-1</Freq>
+            <!-- tianyu PowerSaveMode yhy-->
+            <Freq level = "528">-1_-1_-1</Freq>
+            <Freq level = "529">-1_-1_-1</Freq>
+            <Freq level = "530">-1_-1_-1</Freq>
+            <Freq level = "531">-1_-1_-1</Freq>
+            <!-- tianyu SavageMode yhy-->
+            <Freq level = "532">-1_-1_-1</Freq>
+            <Freq level = "533">-1_-1_-1</Freq>
+            <Freq level = "534">-1_-1_-1</Freq>
+            <Freq level = "535">-1_-1_-1</Freq>
+            <!-- sanjiao DefaultMode yhy-->
+            <Freq level = "548">7_12_-1</Freq>
+            <Freq level = "549">7_12_-1</Freq>
+            <Freq level = "550">7_13_-1</Freq>
+            <Freq level = "551">8_13_-1</Freq>
+            <!-- sanjiao PowerSaveMode yhy-->
+            <Freq level = "552">9_12_-1</Freq>
+            <Freq level = "553">9_12_-1</Freq>
+            <Freq level = "554">9_12_-1</Freq>
+            <Freq level = "555">10_12_-1</Freq>
+            <!-- sanjiao SavageMode yhy-->
+            <Freq level = "556">4_9_-1</Freq>
+            <Freq level = "557">4_10_-1</Freq>
+            <Freq level = "558">4_10_-1</Freq>
+            <Freq level = "559">5_11_-1</Freq>
+            <!-- quanmingxing DefaultMode yhy-->
+            <Freq level = "560">8_13_-1</Freq>
+            <Freq level = "561">9_13_-1</Freq>
+            <Freq level = "562">10_13_-1</Freq>
+            <Freq level = "563">11_13_-1</Freq>
+            <!-- quanmingxing PowerSaveMode yhy-->
+            <Freq level = "564">12_13_-1</Freq>
+            <Freq level = "565">12_13_-1</Freq>
+            <Freq level = "566">12_13_-1</Freq>
+            <Freq level = "567">12_13_-1</Freq>
+            <!--quanmingxing SavageMode yhy-->
+            <Freq level = "568">3_10_-1</Freq>
+            <Freq level = "569">4_10_-1</Freq>
+            <Freq level = "570">5_10_-1</Freq>
+            <Freq level = "571">6_10_-1</Freq>
+            <!--guangyu DefaultMode yhy-->
+            <Freq level = "572">10_11_-1</Freq>
+            <Freq level = "573">10_12_-1</Freq>
+            <Freq level = "574">10_12_-1</Freq>
+            <Freq level = "575">10_12_-1</Freq>
+            <!--guangyu PowerSaveMode yhy-->
+            <Freq level = "576">9_12_-1</Freq>
+            <Freq level = "577">9_12_-1</Freq>
+            <Freq level = "578">10_13_-1</Freq>
+            <Freq level = "579">10_13_-1</Freq>
+            <!--guangyu SavageMode yhy-->
+            <Freq level = "580">3_7_-1</Freq>
+            <Freq level = "581">4_7_-1</Freq>
+            <Freq level = "582">4_8_-1</Freq>
+            <Freq level = "583">5_8_-1</Freq>
+            <!--yinyangshi DefaultMode yhy-->
+            <Freq level = "584">10_13_-1</Freq>
+            <Freq level = "585">10_13_-1</Freq>
+            <Freq level = "586">11_13_-1</Freq>
+            <Freq level = "587">11_13_-1</Freq>
+            <!--yinyangshi PowerSaveMode yhy-->
+            <Freq level = "588">11_13_-1</Freq>
+            <Freq level = "589">11_13_-1</Freq>
+            <Freq level = "590">11_13_-1</Freq>
+            <Freq level = "591">12_13_-1</Freq>
+            <!--yinyangshi SavageMode yhy-->
+            <Freq level = "592">0_12_-1</Freq>
+            <Freq level = "593">2_12_-1</Freq>
+            <Freq level = "594">4_12_-1</Freq>
+            <Freq level = "595">6_12_-1</Freq>
+            <!--benghuaisan DefaultMode yhy-->
+            <Freq level = "414">6_12_-1</Freq>
+            <Freq level = "415">6_12_-1</Freq>
+            <Freq level = "416">6_13_-1</Freq>
+            <Freq level = "417">6_13_-1</Freq>
+            <!--benghuaisan PowerSaveMode yhy-->
+            <Freq level = "418">7_13_-1</Freq>
+            <Freq level = "419">7_13_-1</Freq>
+            <Freq level = "420">7_13_-1</Freq>
+            <Freq level = "421">7_13_-1</Freq>
+            <!--benghuaisan SavageMode yhy-->
+            <Freq level = "422">2_10_-1</Freq>
+            <Freq level = "423">2_10_-1</Freq>
+            <Freq level = "424">3_10_-1</Freq>
+            <Freq level = "425">3_10_-1</Freq>
+            <!--lushi DefaultMode yhy-->
+            <Freq level = "426">3_7_-1</Freq>
+            <Freq level = "427">4_7_-1</Freq>
+            <Freq level = "428">5_7_-1</Freq>
+            <Freq level = "429">6_7_-1</Freq>
+            <!--lushi PowerSaveMode yhy-->
+            <Freq level = "430">8_11_-1</Freq>
+            <Freq level = "431">8_11_-1</Freq>
+            <Freq level = "432">9_12_-1</Freq>
+            <Freq level = "433">10_13_-1</Freq>
+            <!--lushi SavageMode yhy-->
+            <Freq level = "434">0_5_-1</Freq>
+            <Freq level = "435">1_5_-1</Freq>
+            <Freq level = "436">2_5_-1</Freq>
+            <Freq level = "437">3_5_-1</Freq>
+            <!--diwurenge DefaultMode yhy-->
+            <Freq level = "438">8_10_-1</Freq>
+            <Freq level = "439">8_10_-1</Freq>
+            <Freq level = "440">8_10_-1</Freq>
+            <Freq level = "441">8_10_-1</Freq>
+            <!--diwurenge PowerSaveMode yhy-->
+            <Freq level = "442">7_12_-1</Freq>
+            <Freq level = "443">7_12_-1</Freq>
+            <Freq level = "444">7_12_-1</Freq>
+            <Freq level = "445">8_12_-1</Freq>
+            <!--diwurenge SavageMode yhy-->
+            <Freq level = "446">4_9_-1</Freq>
+            <Freq level = "447">4_9_-1</Freq>
+            <Freq level = "448">4_10_-1</Freq>
+            <Freq level = "449">5_11_-1</Freq>
+            <!--menghuan DefaultMode yhy-->
+            <Freq level = "450">10_11_-1</Freq>
+            <Freq level = "451">10_12_-1</Freq>
+            <Freq level = "452">10_12_-1</Freq>
+            <Freq level = "453">10_12_-1</Freq>
+            <!--menghuan PowerSaveMode yhy-->
+            <Freq level = "454">9_11_-1</Freq>
+            <Freq level = "455">9_12_-1</Freq>
+            <Freq level = "456">9_12_-1</Freq>
+            <Freq level = "457">10_12_-1</Freq>
+            <!--menghuan SavageMode yhy-->
+            <Freq level = "458">4_9_-1</Freq>
+            <Freq level = "459">4_9_-1</Freq>
+            <Freq level = "460">5_9_-1</Freq>
+            <Freq level = "461">5_9_-1</Freq>
+            <!--jipinfeiche DefaultMode yhy-->
+            <Freq level = "462">5_13_-1</Freq>
+            <Freq level = "463">5_13_-1</Freq>
+            <Freq level = "464">5_13_-1</Freq>
+            <Freq level = "465">6_13_-1</Freq>
+            <!--jipinfeiche PowerSaveMode yhy-->
+            <Freq level = "466">6_11_-1</Freq>
+            <Freq level = "467">6_11_-1</Freq>
+            <Freq level = "468">6_11_-1</Freq>
+            <Freq level = "469">8_11_-1</Freq>
+            <!--jipinfeiche SavageMode yhy-->
+            <Freq level = "470">2_9_-1</Freq>
+            <Freq level = "471">2_9_-1</Freq>
+            <Freq level = "472">2_9_-1</Freq>
+            <Freq level = "473">6_9_-1</Freq>
+            <!--yanyun DefaultMode yhy-->
+            <Freq level = "474">5_11_5</Freq>
+            <Freq level = "475">5_11_5</Freq>
+            <Freq level = "476">5_11_5</Freq>
+            <Freq level = "477">7_12_7</Freq>
+            <!--yanyun PowerSaveMode yhy-->
+            <Freq level = "478">8_12_8</Freq>
+            <Freq level = "479">8_12_8</Freq>
+            <Freq level = "480">8_12_8</Freq>
+            <Freq level = "481">8_12_8</Freq>
+            <!--yanyun SavageMode yhy-->
+            <Freq level = "482">0_5_-1</Freq>
+            <Freq level = "483">0_5_-1</Freq>
+            <Freq level = "484">0_5_-1</Freq>
+            <Freq level = "485">1_6_-1</Freq>
+            <!--mingrifangzhou DefaultMode yhy-->
+            <Freq level = "486">10_12_-1</Freq>
+            <Freq level = "487">10_12_-1</Freq>
+            <Freq level = "488">10_12_-1</Freq>
+            <Freq level = "489">10_12_-1</Freq>
+            <!--mingrifangzhou PowerSaveMode yhy-->
+            <Freq level = "490">10_12_-1</Freq>
+            <Freq level = "491">10_12_-1</Freq>
+            <Freq level = "492">10_12_-1</Freq>
+            <Freq level = "493">10_12_-1</Freq>
+            <!--mingrifangzhou SavageMode yhy-->
+            <Freq level = "494">0_6_-1</Freq>
+            <Freq level = "495">0_6_-1</Freq>
+            <Freq level = "496">0_6_-1</Freq>
+            <Freq level = "497">0_6_-1</Freq>
+        </Type>
+    </GameLimitConfig>
+
+    <ThermalConfigMode>4</ThermalConfigMode> <!--1 for perflock, 2 for mpctl former devices, 3 for thermal engine, 4 for HIDL-->
+    <ThermalPerfLockCode>0x03000000</ThermalPerfLockCode><!-- if ThermalConfigMode == 1, ensure this is initialized-->
+
+    <RefreshRateDefault>120</RefreshRateDefault>
+
+    <LowRefreshRate>60</LowRefreshRate>
+
+    <HighRefreshRate>120</HighRefreshRate>
+
+    <InnerRefreshRateEnabled>True</InnerRefreshRateEnabled>
+
+    <RefreshRateSettingsDefault>120</RefreshRateSettingsDefault>
+
+    <LowRefreshApps>
+    </LowRefreshApps>
+
+    <TargetGameApps>
+    </TargetGameApps>
+
+    <AppConfig>
+        <BindCoreItem name = "Yuanshen">
+            <pCommValue>Yuanshen,toStch</pCommValue>
+            <tCommValue>Worker Thread</tCommValue>
+            <delayMillis>5</delayMillis>
+            <mask>f8</mask>
+            <loopFrameCount>0</loopFrameCount>
+        </BindCoreItem>
+        <BindCoreItem name = "LuDaShi">
+            <pCommValue>shi.benchmark2</pCommValue>
+            <tCommValue>benchmark2,Render Thread</tCommValue>
+            <delayMillis>300</delayMillis>
+            <mask>07</mask>
+            <loopFrameCount>0</loopFrameCount>
+        </BindCoreItem>
+        <BindCoreItem name = "pubg">
+            <pCommValue>MainThread-UE4,tmgp.pubg</pCommValue>
+            <tCommValue>MainThread-UE4,TaskGraphNP,PoolThread,FAsyncLoading,RenderThread</tCommValue>
+            <delayMillis>8000</delayMillis>
+            <mask>f8</mask>
+            <loopFrameCount>0</loopFrameCount>
+        </BindCoreItem>
+        <BindCoreItem name = "UnityMain">
+            <pCommValue>UnityMain</pCommValue>
+            <tCommValue>Worker Thread,Job Worker</tCommValue>
+            <delayMillis>8000</delayMillis>
+            <mask>f8</mask>
+            <loopFrameCount>0</loopFrameCount>
+        </BindCoreItem>
+        <BindCoreItem name = "HuYa">
+            <pCommValue>duawan kiwi</pCommValue>
+            <tCommValue>[HY] HYMedia,KT RxComputa</tCommValue>
+            <delayMillis>10000</delayMillis>
+            <mask>07</mask>
+            <loopFrameCount>1000</loopFrameCount>
+        </BindCoreItem>
+        <BindCoreItem name = "DouYin">
+            <pCommValue>ugc.aweme</pCommValue>
+            <tCommValue>pop view thread,Render Thread</tCommValue>
+            <delayMillis>10000</delayMillis>
+            <mask>07</mask>
+            <loopFrameCount>1000</loopFrameCount>
+        </BindCoreItem>
+        <BindCoreItem name = "JkChess">
+            <pCommValue>jkchess</pCommValue>
+            <tCommValue>Job Worker, UnityMain</tCommValue>
+            <delayMillis>5</delayMillis>
+            <mask>f8</mask>
+            <loopFrameCount>0</loopFrameCount>
+        </BindCoreItem>
+        <BindCoreItem name = "tmgp">
+            <pCommValue>MainThread-UE4,tmgp.pubg</pCommValue>
+            <tCommValue>Thread-10,Thread-11</tCommValue>
+            <delayMillis>8000</delayMillis>
+            <mask>c0</mask>
+            <loopFrameCount>0</loopFrameCount>
+        </BindCoreItem>
+    </AppConfig>
+</PerformanceConfig>
