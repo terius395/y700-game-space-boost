@@ -1,0 +1,25 @@
+Y700 Perf Tuner
+Copyright (c) 2026 Terius. All rights reserved.
+
+This source code is published for viewing only. No license is granted to copy,
+modify, merge, publish, distribute, sublicense or sell it, in whole or in part,
+except as stated below.
+
+Permitted:
+  - Installing and using the official releases of this module on your own
+    devices, for personal, non-commercial use.
+  - Viewing and forking this repository on GitHub, as allowed by the GitHub
+    Terms of Service.
+
+Not permitted without prior written permission from the author:
+  - Redistributing the module or its source, modified or unmodified.
+  - Publishing it, or a derivative of it, under another name or author.
+  - Removing or changing the author name or this notice.
+  - Selling it or using it in any commercial product or service.
+
+The files in stock/ are Lenovo's configuration files, taken from the device.
+They belong to Lenovo and are not covered by this notice.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY ARISING FROM THE USE OF THE SOFTWARE, INCLUDING DAMAGE TO DEVICES.

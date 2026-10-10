@@ -73,4 +73,8 @@ npm run gen      # sinh thử cấu hình từ config/tuning.json và in thay đ
 Version module nằm trong `module/module.prop`. `stock/` là file của Lenovo lấy từ máy, chỉ dùng
 cá nhân.
 
-Tác giả: Terius.
+## Bản quyền
+
+© 2026 Terius. All rights reserved. Được cài và dùng bản phát hành chính thức cho mục đích cá nhân.
+Không được phát hành lại, đổi tên tác giả hay bán khi chưa có sự đồng ý của tác giả. Chi tiết trong
+[LICENSE](LICENSE).
